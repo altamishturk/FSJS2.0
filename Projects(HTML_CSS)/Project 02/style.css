@@ -1,0 +1,126 @@
+/* You can not modify anything in the HTML */
+/* You can only modify the CSS file */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+section[aria-label="navbar"] {
+    background-color: rgb(38, 17, 17);
+}
+
+.navbar {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    height: 45px;
+    align-items: center;
+}
+
+.navbar div:first-child {
+    display: flex;
+}
+
+.grow-list {
+    flex: 1;
+}
+
+.grow-list ul {
+    display: flex;
+    list-style-type: none;
+    align-items: center;
+}
+
+.logo {
+    width: 80px;
+}
+
+.line {
+    height: 20px;
+    width: 1px;
+    background-color: white;
+    margin: 0 20px;
+}
+
+.list-item {
+    color: white;
+    font-size: 10px;
+    margin-right: 20px;
+}
+
+.list-item:first-child{
+    position: relative;
+}
+
+.list-item:first-child::after{
+    content: ">";
+    position: absolute;
+    right: -8px;
+    top: 10%;
+    color: white;
+    transform: rotate(90deg);
+}
+
+.button-small {
+    background-color: rgb(212, 1, 212);
+    color: white;
+    padding: 5px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+/* hero start  */
+section[aria-label="hero"]{
+    background-image: url("./assets/bg.png");
+    min-height: calc(100vh - 45px);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    display: flex;
+    justify-content: center;
+    align-items:  center;
+    position: relative;
+}
+
+section[aria-label="hero"]::after{
+    content: '';
+    background-color: rgba(0, 0, 0, 0.6);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.hero {
+    max-width: 500px;
+    text-align: center;
+    z-index: 10;
+}
+
+.hero-heading {
+    font-size: 40px;
+    color: white;
+}
+
+.hero-description {
+    color: white;
+}
+
+.button-large {
+    background-color: rgb(212, 1, 212);
+    color: white;
+    padding: 12px 30px;
+    border-radius: 5px;
+    border: none;
+    margin-top: 30px;
+    font-weight: 500;
+    cursor: pointer;
+}

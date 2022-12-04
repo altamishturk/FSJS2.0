@@ -1,0 +1,203 @@
+/* You can not modify anything from the HTML file */
+/* You can only modify the CSS file */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+section[aria-label="navbar"]{
+    box-shadow: 0 .5px 4px 0 rgba(0,0,0,0.16);
+}
+
+.navbar-container {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    height: 60px;
+    align-items: center;
+}
+
+div img {
+    width: 80px;
+}
+
+.list {
+    display: flex;
+    list-style-type: none;
+    gap: 25px;
+}
+
+.list-item {
+    position: relative;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.list-item:first-child::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 15%;
+    width: 70%;
+    height: 1px;
+    font-weight: bold;
+    background: black;
+}
+
+.button-group {
+    display: flex;
+}
+
+.search-icon {
+    display: flex;
+    align-items: center;
+}
+
+.search-icon svg{
+    width: 30px !important;
+    height: 15px !important;
+}
+
+.nav-button {
+    padding: 2px 20px;
+}
+
+
+.hero-container {
+    width: 90%;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    height: calc(100vh - 60px);
+}
+
+
+.square {
+    position: absolute;
+    width: 150px;
+    bottom: 20%;
+    left: 15%;
+}
+
+
+.square img {
+    width: 100%;
+}
+
+.star {
+    position: absolute;
+    width: 20px;
+    bottom: 23%;
+    left: 42%;
+}
+
+.star img {
+    width: 100%;
+}
+
+.globe {
+    position: absolute;
+    width: 35px;
+    left: 52%;
+    top: 10%;
+}
+
+.globe img {
+    width: 100%;
+}
+
+.globe + div {
+    width: 35%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.globe + div img {
+    width: 200px;
+    z-index: 10;
+}
+
+.hero-container-right {
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+
+.hero-heading {
+    font-size: 35px;
+    position: relative;
+}
+
+.hero-heading::after {
+    content: url(./assets/start.png);
+    position: absolute;
+    bottom: 85%;
+    right: -3%;
+    transform: scale(.5);
+}
+
+
+.hero-description {
+    font-size: 10px;
+    max-width: 70%;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.hero-description + div {
+    margin-top: 25px;
+}
+
+.hero-description + div .button-join,
+.hero-description + div .button-email {
+    padding: 2px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.hero-description + div .button-join {
+    background-color: black;
+    color: white;
+} 
+
+.hero-description + div + div {
+    margin-bottom: 30px;
+}
+
+.hero-description + div + div .contact-heading{
+    margin-top: 100px;
+    text-align: center;
+    font-weight: 400;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.icons img {
+    width: 100%;
+}
+
+.icons span {
+    width: 20px;
+    cursor: pointer;
+}
+
+.icons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+
