@@ -1,4 +1,4 @@
-# grid practice
+# CSZ grid practice
 
 This was a grid chalange i have completed after we have learned grid.
 
