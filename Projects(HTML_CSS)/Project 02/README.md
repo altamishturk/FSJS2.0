@@ -1,6 +1,6 @@
 # Project 2
 
-In this project i have used only css to style given html to output.png
+In this project i have used only css to style given html to achive same style as you can see below.
 
 
 ## Expected Output
