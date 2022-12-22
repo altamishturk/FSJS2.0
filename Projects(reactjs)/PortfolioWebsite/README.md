@@ -1,4 +1,4 @@
-# Converted a bootstrap template to react
+# Converted a bootstrap template to React.js
 
 ## Technologies Used
 
