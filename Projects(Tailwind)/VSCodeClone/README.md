@@ -1,4 +1,4 @@
-# VS Code home page UI Clone Using Tailwind CSS
+# VS Code home page UI Clone Using Tailwind CSS.
 
 
 ## Technologies Used
