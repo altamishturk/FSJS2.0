@@ -1,4 +1,4 @@
-# CSS grid practice
+# CSS Grid Practice
 
 This was a grid chalange i have completed after we have learned grid.
 
