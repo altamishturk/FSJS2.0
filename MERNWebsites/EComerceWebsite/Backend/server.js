@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 
@@ -20,6 +21,9 @@ connection.on('error', (error) => {
 
 
 
+app.use(express.json());
+
+
 
 // Set up routes
 app.get('/', (req, res) => {
@@ -28,12 +32,23 @@ app.get('/', (req, res) => {
 
 
 
-
+// import routes
 const userRoutes = require('./routes/user');
 const authRoutes = require('./routes/auth');
+const productRoutes = require('./routes/product');
+const orderRoutes = require('./routes/order');
+const categoryRoutes = require('./routes/category');
+const reviewRoutes = require('./routes/review');
+const cartRoutes = require('./routes/cart');
 
-app.use('/users', userRoutes);
-app.use('/auth', authRoutes);
+// Define routes
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/products', productRoutes);
+app.use('/api/v1/orders', orderRoutes);
+app.use('/api/v1/categories', categoryRoutes);
+app.use('/api/v1/reviews', reviewRoutes);
+app.use('/api/v1/carts', cartRoutes);
 
 
 // Start the server

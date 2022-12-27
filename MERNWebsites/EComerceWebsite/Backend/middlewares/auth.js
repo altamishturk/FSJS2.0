@@ -1,25 +1,34 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/user');
+const User = require("../Models/user");
 
 
-const isLoggedIn = (req, res, next)=>{
+const isLoggedIn = async (req, res, next)=>{
     try {
         const token = req.headers.authorization.split(' ')[1];
+        // console.log(token);
+        
         const decodedToken = jwt.verify(token, process.env.JWT_KEY);
-        const userId = decodedToken.userId;
-        User.findById(userId)
-          .then((user) => {
-            if (!user) {
-              throw new Error();
-            }
-            req.user = user;
-            next();
+
+        const currentTime = Math.floor(Date.now() / 1000);
+        // console.log(currentTime,decodedToken.exp);
+        if(decodedToken.exp < currentTime){
+          return res.send({
+            success: false,
+            message: "Sesion Explred Login again"
           })
-          .catch((error) => {
-            res.status(401).json({
-              message: 'Auth failed',
-            });
-          });
+        }
+  
+
+        const user = await User.findById(decodedToken._doc._id);
+
+        if (!user) {
+          return res.send({
+            success: false,
+            message: "Please Login"
+          })
+        }
+        
+        next();
       } catch (error) {
         res.status(401).json({
           message: 'Auth failed',
@@ -30,17 +39,17 @@ const isLoggedIn = (req, res, next)=>{
 
 const isAdmin = (req, res, next)=>{
     
-    User.findById(req.user._id)
-      .then((user) => {
-        if (user.isAdmin) {
-          next();
-        } else {
-          res.status(401).json({ message: 'Unauthorized' });
-        }
-      })
-      .catch((error) => {
-        res.status(500).json({ message: 'Something went wrong' });
-      });
+    // User.findById(req.user._id)
+    //   .then((user) => {
+    //     if (user.isAdmin) {
+    //       next();
+    //     } else {
+    //       res.status(401).json({ message: 'Unauthorized' });
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     res.status(500).json({ message: 'Something went wrong' });
+    //   });
 }
 
 
