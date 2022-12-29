@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ProductReview from "../../components/ProductReview";
 
 const Product4 = () => {
     const [rotate, setRotate] = useState(false);
@@ -15,6 +16,7 @@ const Product4 = () => {
     };
 
     return (
+        <>
         <div className="2xl:container 2xl:mx-auto lg:py-16 lg:px-20 md:py-12 md:px-6 py-9 px-4 ">
             <div className="flex justify-center items-center lg:flex-row flex-col gap-8">
                 {/* <!-- Description Div --> */}
@@ -158,6 +160,8 @@ const Product4 = () => {
                 </div>
             </div>
         </div>
+        <ProductReview/>
+        </>
     );
 };
 
