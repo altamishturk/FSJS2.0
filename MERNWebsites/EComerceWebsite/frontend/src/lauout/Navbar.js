@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Cart from "../components/Cart"
+
 
 export default function Navbar() {
     const [searchInput, setSearchInput] = useState(true);
@@ -61,26 +63,7 @@ export default function Navbar() {
                                 </svg>
                             </h1>
                             <ul className="hidden w-8/12 md:flex items-center justify-center space-x-8">
-                                <li>
-                                    <a href="/" className="dark:text-white text-base text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-800 hover:underline">
-                                        Home
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/" className="dark:text-white text-base text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-800 hover:underline">
-                                        Furniture
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/" className="dark:text-white text-base text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-800 hover:underline">
-                                        Lookbook
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/" className="dark:text-white text-base text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-800 hover:underline">
-                                        Support
-                                    </a>
-                                </li>
+                              <MenuLinks/>
                             </ul>
                             <div className="md:w-2/12 justify-end flex items-center space-x-4 xl:space-x-8">
                                 <div className="hidden lg:flex items-center">
@@ -235,4 +218,50 @@ export default function Navbar() {
          <Cart show={showCart} setShow={setShowCart}/>
         </>
     );
+}
+
+
+
+
+
+function MenuLinks (){
+
+    const menuItems = [
+        {
+            text: "Home",
+            to: "/"
+        },
+        {
+            text: "Products",
+            to: "/products"
+        },
+        {
+            text: "About",
+            to: "/abount"
+        },
+        {
+            text: "Contact",
+            to: "/contact"
+        },
+        {
+            text: "Dashboard",
+            to: "/admin/dashboard"
+        },
+    ]
+
+    return (
+        <>
+            {
+                menuItems.map((item)=>{
+                    
+                    return <li key={item.text}>
+                        <Link 
+                        to={item.to}
+                        className="dark:text-white text-base text-gray-800 focus:outline-none  focus:ring-gray-800 hover:underline"
+                        >{item.text}</Link>
+                    </li>
+                })
+            } 
+        </>
+    )
 }
