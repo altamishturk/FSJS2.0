@@ -7,8 +7,9 @@ import ContactUs from "./pages/ContactUs/ContactUs.js";
 import Checkout from "./pages/Checkout/Checkout";
 import ProductDetail from "./pages/ProductDetail/ProductDetail";
 import Products from "./pages/Products/Products";
-import Admin from "./pages/admin/Admin";
+import SideBar from "./pages/admin/SideBar";
 import { Route, BrowserRouter, Routes } from "react-router-dom";
+
 
 function App() {
   return (
@@ -22,10 +23,11 @@ function App() {
             <Route excet path="/products" element={<><Navbar/><Products /><Footer /></>} />
             <Route excet path="/product/detail" element={<><Navbar/><ProductDetail /><Footer /></>} />
             <Route excet path="/product/checkout" element={<><Navbar/><Checkout /><Footer /></>} />
-            <Route excet path="/admin/dashboard" element={<Admin />} />
+            <Route excet path="/admin/dashboard" element={<SideBar />} />
           </Routes>
         </BrowserRouter>
-        
+    
+
       </div>
     </>
   );
