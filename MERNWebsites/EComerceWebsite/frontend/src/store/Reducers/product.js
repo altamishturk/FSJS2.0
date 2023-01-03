@@ -1,16 +1,12 @@
+import {GET_ALL_PRODUCTS} from "../../Constants/actions";
 
-const init = {
-    products: []
-}
 
-function product(state=init,action){
+
+function product(state=null,action){
 
     switch (action.type) {
-        case "GET_PRODUCTS":
-            return {
-                ...state,
-                products: action.payload
-            }    
+        case GET_ALL_PRODUCTS:
+            return action.payload    
         default:
             return state;
     }

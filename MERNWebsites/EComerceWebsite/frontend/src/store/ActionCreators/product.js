@@ -1,12 +1,20 @@
-
+import {domainName} from "../../Constants/constants.js";
+import fatchRequest from "../../utils/fatchRequest";
+import {GET_ALL_PRODUCTS} from "../../Constants/actions";
 
 
 export const getAll = () => async (dispatch) =>{
 
-    const res = await fetch("http://localhost:4000/api/v1/products")
-    const json = await res.json()
-    dispatch({type:"GET_PRODUCTS",payload:json})
-    console.log(json);
+    try {
+        
+        const res = await fatchRequest(`${domainName}/products`,"GET")
+        
+        dispatch({type:GET_ALL_PRODUCTS,payload:res})
+    } catch (error) {
+        
+    }
+
+    // console.log(res);
 }
 
 

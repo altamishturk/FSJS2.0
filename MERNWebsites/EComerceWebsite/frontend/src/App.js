@@ -7,21 +7,29 @@ import ContactUs from "./pages/ContactUs/ContactUs.js";
 import Checkout from "./pages/Checkout/Checkout";
 import ProductDetail from "./pages/ProductDetail/ProductDetail";
 import Products from "./pages/Products/Products";
-import { Route, BrowserRouter, Routes } from "react-router-dom";
+import { Route, BrowserRouter, Routes} from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoutes";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import Admin from "./pages/admin/Admin";
-import {getAll} from "./store/ActionCreators/product";
+import CreateProduct from "./pages/admin/CreateProduct";
+import StaticesCards from "./pages/admin/StaticesCards";
+import ProductsList from "./pages/admin/ProductsList";
+import UsersList from "./pages/admin/UsersList";
+import OrdersList from "./pages/admin/OrdersList";
+import {useEffect} from "react";
 import {useDispatch} from "react-redux";
-import {useEffect} from "react"
+import {getAll} from "./store/ActionCreators/product";
+
 
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAll())
-  }, []);
+    console.log("aa")
+    dispatch(getAll());
+  }, [dispatch]);
+  
   return (
     <>
       <div className="app">
@@ -38,8 +46,14 @@ function App() {
              {/* ptivate routes  */}
             <Route excet path="/" element={<><PrivateRoute/></>} >
               {/* admin routes  */}
-              <Route excet path="/admin/*" element={<Admin />}/>  
-            </Route>   
+              <Route path="/admin/dashboard" element={<Admin />}>
+                <Route path="" element={<StaticesCards/>}/>
+                <Route path="products" element={<ProductsList/>}/>
+                <Route path="products/add" element={<CreateProduct/>}/>
+                <Route path="users" element={<UsersList/>}/>
+                <Route path="orders" element={<OrdersList/>}/>
+              </Route>   
+            </Route>
 
           </Routes>
         </BrowserRouter>
@@ -49,5 +63,6 @@ function App() {
     </>
   );
 }
+
 
 export default App;

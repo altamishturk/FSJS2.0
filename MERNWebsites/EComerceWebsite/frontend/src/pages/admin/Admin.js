@@ -1,11 +1,8 @@
 import React,{useState} from 'react';
 import SideBar from './SideBar';
 import {CgMenuGridR} from "react-icons/cg";
-import StaticesCards from './StaticesCards';
-import UsersList from './UsersList';
-import Profile from './Profile';
-import CreateProduct from './CreateProduct';
-import ProductList from './ProductsList';
+import {Outlet} from "react-router-dom";
+
 
 function Admin() {
   const [showSideBar, setshowSideBar] = useState(false);  
@@ -54,11 +51,7 @@ function Admin() {
         </div>
 
         <div className="px-6 pt-6 2xl:container bg-brandbg1 min-h-[93vh]">
-            <StaticesCards/>
-            <ProductList/>
-            <CreateProduct/>
-            <Profile/>
-            <UsersList/>
+            <Outlet/>
         </div>
     </div>
     </>
