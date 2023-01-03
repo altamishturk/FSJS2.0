@@ -247,6 +247,14 @@ function MenuLinks (){
             text: "Dashboard",
             to: "/admin/dashboard"
         },
+        {
+            text: "Login",
+            to: "/login"
+        },
+        {
+            text: "SignUp",
+            to: "/signup"
+        },
     ]
 
     return (

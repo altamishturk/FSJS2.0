@@ -1,7 +1,13 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
+const cors = require('cors');
 
+
+const corsOption = {
+  origin: ['http://localhost:3000'],
+};
+app.use(cors(corsOption));
 
 const mongoose = require('mongoose');
 
@@ -52,5 +58,5 @@ app.use('/api/v1/carts', cartRoutes);
 
 
 // Start the server
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 app.listen(port, () => console.log(`Server listening on port ${port}`));
