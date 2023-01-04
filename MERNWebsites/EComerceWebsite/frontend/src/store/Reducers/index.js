@@ -1,9 +1,11 @@
 import productReducer from "./product";
+import userReducer from "./user";
 
 
 
 const rootReducer = {
-    products: productReducer
+    products: productReducer,
+    users: userReducer
 };
 
 

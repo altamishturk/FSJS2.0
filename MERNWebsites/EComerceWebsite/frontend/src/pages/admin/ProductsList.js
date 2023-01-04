@@ -1,6 +1,5 @@
-import "react-tooltip/dist/react-tooltip.css";
 import React,{useState} from 'react';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {MdOutlinePostAdd} from "react-icons/md";
 import { Tooltip as ReactTooltip } from 'react-tooltip';
 import {AiOutlineEye} from "react-icons/ai";
@@ -8,18 +7,35 @@ import {RiDeleteBin7Line} from "react-icons/ri";
 import {CiEdit} from "react-icons/ci";
 import {BiUserCircle} from "react-icons/bi";
 import { Link } from "react-router-dom";
+import useConfirmAlert from "../../hooks/useConfirmAlert";
+import {deleteProduct} from "../../store/ActionCreators/product";
+import Button from "../../components/Button";
 
 function ProductList() {
+    const dispatch = useDispatch();
+    const alert = useConfirmAlert();
     const products = useSelector(state=> state.products);
     const [tableHeaders] = useState(["Name","Price","Description","Quantity","Category","Actions"]);
-// console.log(products);
+
+
+    const handleDelete = (_id)=>{
+        alert(()=>{
+            dispatch(deleteProduct(_id))
+        });
+    }
+
+
   return (
     <>
             <div className="w-full bg-white shadow-lg rounded-sm border border-gray-200 mt-10">
                 <header className="px-5 py-4 border-b border-gray-100 flex justify-between">
                     <h2 className="font-semibold text-gray-800">Products</h2>
                     <Link to="/admin/dashboard/products/add">
-                      <MdOutlinePostAdd size={28} id="add-product" className="hover:cursor-pointer"/>
+                       <Button
+                        icon={<MdOutlinePostAdd/>}
+                        id="add-product"
+                        color="brandbg2"
+                       />
                     </Link>
                 </header>
                 <div className="p-3">
@@ -38,7 +54,7 @@ function ProductList() {
                             </thead>
                             <tbody className="text-sm divide-y divide-gray-100">
                               {
-                               products && products.map(product=><Product key={product._id} product={product}/>)
+                               products && products.map((product,i)=><Product key={i} product={product} handleDelete={handleDelete}/>)
                               }
                             </tbody>
                         </table>
@@ -62,7 +78,10 @@ export default ProductList;
 
 
 
-function Product({product}){
+function Product({product,handleDelete}){
+
+
+    
 
     return (
         <>
@@ -91,21 +110,32 @@ function Product({product}){
             </td>
             <td className="py-3 px-6 text-left">
                 <div className="flex item-center justify-start">
-                    <div  id="view-product" className="hover:cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                          <AiOutlineEye size={20}/>
+                    <div  id="view-product" className="hover:cursor-pointer w-7 h-7 mr-2 transform hover:text-purple-500 hover:scale-110">
+                       <Button
+                        icon={<AiOutlineEye/>}
+                        color="brandbg2"
+                       />
                     </div>
-                    <div id="edit-product" className="hover:cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                        <CiEdit size={20}/>
-                    </div>
-                    <div id="delete-product" className="hover:cursor-pointer w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                        <RiDeleteBin7Line size={20}/>
+                    <Link to={`/admin/dashboard/products/update/${product._id}`}>
+                        <div id="edit-product" className="hover:cursor-pointer w-7 h-7 mr-2 transform hover:text-purple-500 hover:scale-110">
+                            <Button
+                            icon={<CiEdit/>}
+                            color="brandbg2"
+                            />
+                        </div>
+                    </Link>
+                    <div onClick={()=>handleDelete(product._id)} id="delete-product" className="hover:cursor-pointer w-7 h-7 mr-2 transform hover:text-purple-500 hover:scale-110">
+                           <Button
+                            icon={<RiDeleteBin7Line/>}
+                            color="red-500"
+                            />
                     </div>
                 </div>
                 <ReactTooltip
-                anchorId="view-product"
-                place="top"
-                variant="info"
-                content="View Product"
+                    anchorId="view-product"
+                    place="top"
+                    variant="info"
+                    content="View Product"
                 />
                 <ReactTooltip
                     anchorId="edit-product"
@@ -120,7 +150,6 @@ function Product({product}){
                     content="Delete Product"
                 />
             </td>
-           
         </tr>  
         </>
     )

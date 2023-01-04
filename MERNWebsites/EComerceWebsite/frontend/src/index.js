@@ -6,6 +6,11 @@ import reportWebVitals from './reportWebVitals';
 import {ThemeProvider} from "@material-tailwind/react";
 import {Provider} from "react-redux";
 import store from "./store/store";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+import "react-tooltip/dist/react-tooltip.css";
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -13,6 +18,7 @@ root.render(
     <Provider store={store}>
       <ThemeProvider>
         <App />
+        <ToastContainer/>
       </ThemeProvider>
     </Provider>
 </React.StrictMode>

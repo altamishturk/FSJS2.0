@@ -13,7 +13,7 @@ function Admin() {
 
     <div className={`ml-auto mb-6 lg:w-[${showSideBar?'75%':'100%'}] xl:w-[${showSideBar?'80%':'100%'}] 2xl:w-[${showSideBar?'85%':'100%'}]`}>
         <div className="sticky z-10 top-0 h-16 border-b bg-white lg:py-2.5">
-            <div className="px-6 flex items-center justify-between space-x-4 2xl:container">
+            <div className="px-6 flex items-center justify-between space-x-4 mx-auto 2xl:container">
                 <h5 hidden className="text-2xl text-gray-600 font-medium lg:block"> <CgMenuGridR onClick={()=>setshowSideBar(!showSideBar)} className='hover:cursor-pointer'/></h5>
                 <button className="w-12 h-16 -mr-2 border-r lg:hidden">
                    <CgMenuGridR size={28} onClick={()=>setshowSideBar(!showSideBar)} className='hover:cursor-pointer'/>
@@ -50,7 +50,7 @@ function Admin() {
             </div>
         </div>
 
-        <div className="px-6 pt-6 2xl:container bg-brandbg1 min-h-[93vh]">
+        <div onClick={()=>setshowSideBar(false)} className="px-6 pt-6 mx-auto 2xl:container bg-brandbg1 min-h-[93vh]">
             <Outlet/>
         </div>
     </div>

@@ -1,0 +1,21 @@
+import {UPDATE_USER,GET_ALL_USERS} from "../../Constants/actions";
+
+
+
+function user(state=null,action){
+
+    switch (action.type) {
+        case GET_ALL_USERS:
+            return action.payload
+
+        case UPDATE_USER:
+            return state.map(product => product._id === action.payload._id? {...product,...action.payload}:product)    
+    
+        default:
+            return state;
+    }
+
+}
+
+
+export default user;

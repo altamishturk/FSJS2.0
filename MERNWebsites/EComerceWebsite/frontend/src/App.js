@@ -19,15 +19,15 @@ import UsersList from "./pages/admin/UsersList";
 import OrdersList from "./pages/admin/OrdersList";
 import {useEffect} from "react";
 import {useDispatch} from "react-redux";
-import {getAll} from "./store/ActionCreators/product";
+import {getAllProducts} from "./store/ActionCreators/product";
 
 
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("aa")
-    dispatch(getAll());
+    // console.log("aa")
+    dispatch(getAllProducts());
   }, [dispatch]);
   
   return (
@@ -50,6 +50,7 @@ function App() {
                 <Route path="" element={<StaticesCards/>}/>
                 <Route path="products" element={<ProductsList/>}/>
                 <Route path="products/add" element={<CreateProduct/>}/>
+                <Route path="products/update/:_id" element={<CreateProduct/>}/>
                 <Route path="users" element={<UsersList/>}/>
                 <Route path="orders" element={<OrdersList/>}/>
               </Route>   
