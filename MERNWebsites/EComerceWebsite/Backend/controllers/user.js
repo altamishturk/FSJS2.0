@@ -1,4 +1,5 @@
 const User = require("../Models/user");
+const sendToken = require('../utils/sendToken');
 
 // Get all users
 exports.getAllUsers = async (req, res) => {
@@ -22,13 +23,23 @@ exports.getUser = async (req, res) => {
   }
 }
 
+// Get a logged in user
+exports.getLoggedInUser = async (req, res) => {
+  try {
+    res.json(req.user);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Error getting user' });
+  }
+}
+
 // Create a new user
 exports.createUser = async (req, res) => {
   try {
     const user = new User(req.body);
     await user.save();
-    res.json(user);
-
+    req.user = user;
+    sendToken(req,res);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Error creating user' });

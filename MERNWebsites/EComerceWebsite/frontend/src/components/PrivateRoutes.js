@@ -1,13 +1,13 @@
 import {Navigate, Outlet} from 'react-router-dom';
-import checkAuthentication from "../utils/Authorization"
+import {useSelector} from "react-redux";
 
 function PrivateRoute() {
-  const isAuthenticated = checkAuthentication();
+  const loggedInUser = useSelector(state => state.loggedInUser);
 
   return (
     <>
        {
-        isAuthenticated?<Outlet/>: <Navigate to="/login"/>
+        loggedInUser?.role === "admin" ?<Outlet/>: <Navigate to="/login"/>
        }
     </>
   )

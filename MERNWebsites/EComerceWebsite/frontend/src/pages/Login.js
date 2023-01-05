@@ -1,7 +1,26 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React,{useState} from 'react';
+import { Link } from 'react-router-dom';
+import {useDispatch} from "react-redux";
+import {loginUser} from "../store/ActionCreators/auth";
 
 function Login() {
+    const dispatch = useDispatch();
+    const [user, setUser] = useState({email:"",password:""});
+    
+    const handleChange = (e)=>{
+        setUser(prev=>{
+            return {
+                ...prev,
+                [e.target.name]: e.target.value
+            }
+        })
+    }
+
+    const handleSubmit = (e)=>{
+        e.preventDefault();
+        dispatch(loginUser(user));
+    }
+
   return (
     <>
         <div className="mx-auto container py-16 xl:px-20 lg:px-12 sm:px-6 px-4">
@@ -41,7 +60,7 @@ function Login() {
                         <div className="space-y-4">
                             <div className="space-y-2">
                                 <label htmlFor="email" className="block text-sm">Email address</label>
-                                <input type="email" name="email" id="email" placeholder="leroy@jenkins.com" className="w-full px-3 py-2 border rounded-md border-brandbg2 bg-brandbg1 text-brandtext1 focus:border-brandbg2" />
+                                <input value={user.email} onChange={handleChange} type="email" name="email" id="email" placeholder="leroy@jenkins.com" className="w-full px-3 py-2 border rounded-md border-brandbg2 bg-brandbg1 text-brandtext1 focus:border-brandbg2" />
                             </div>
                             <div className="space-y-2">
                                 <div className="flex justify-between">
@@ -50,10 +69,10 @@ function Login() {
                                     Forgot password?
                                     </Link>
                                 </div>
-                                <input type="password" name="password" id="password" placeholder="*****" className="w-full px-3 py-2 border rounded-md border-brandbg2 bg-brandbg1 text-brandtext1 focus:border-brandbg2" />
+                                <input value={user.password} onChange={handleChange} type="password" name="password" id="password" placeholder="*****" className="w-full px-3 py-2 border rounded-md border-brandbg2 bg-brandbg1 text-brandtext1 focus:border-brandbg2" />
                             </div>
                         </div>
-                        <button type="button" className="w-full px-8 py-3 font-semibold rounded-md bg-brandbg2 text-gray-100">Sign in</button>
+                        <button onClick={handleSubmit} type="button" className="w-full px-8 py-3 font-semibold rounded-md bg-brandbg2 text-gray-100">Sign in</button>
                     </form>
             </div>
         </div>

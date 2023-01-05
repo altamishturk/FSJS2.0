@@ -9,8 +9,8 @@ import ProductDetail from "./pages/ProductDetail/ProductDetail";
 import Products from "./pages/Products/Products";
 import { Route, BrowserRouter, Routes} from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoutes";
-import Login from "./components/Login";
-import SignUp from "./components/SignUp";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
 import Admin from "./pages/admin/Admin";
 import CreateProduct from "./pages/admin/CreateProduct";
 import StaticesCards from "./pages/admin/StaticesCards";
@@ -20,14 +20,15 @@ import OrdersList from "./pages/admin/OrdersList";
 import {useEffect} from "react";
 import {useDispatch} from "react-redux";
 import {getAllProducts} from "./store/ActionCreators/product";
+import {getLoggedInUser} from "./store/ActionCreators/user";
 
 
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // console.log("aa")
     dispatch(getAllProducts());
+    dispatch(getLoggedInUser());
   }, [dispatch]);
   
   return (

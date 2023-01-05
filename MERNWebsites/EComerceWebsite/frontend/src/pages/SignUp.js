@@ -1,7 +1,30 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React,{useState} from 'react';
+import { Link } from 'react-router-dom';
+import {useDispatch} from "react-redux";
+import {createUser} from "../store/ActionCreators/user";
 
 function SignUp() {
+    const dispatch = useDispatch();
+    const [user, setUser] = useState({firstName: "",lastName:"",email: "",password: ""});
+
+    const handleChnange = (e)=>{
+        setUser(prev =>{
+            return {
+                ...prev,
+                [e.target.name]: e.target.value
+            }
+        })
+    }
+
+    const handleSubmit = (e) =>{
+        e.preventDefault();
+        const temp = {
+            ...user,
+            name: `${user.firstName} ${user.lastName}`
+        }
+        dispatch(createUser(temp));
+    }
+
   return (
     <div className="mx-auto container py-16 xl:px-20 lg:px-12 sm:px-6 px-4">
             <div className="w-full max-w-md mx-auto my-10 p-4 rounded-md shadow sm:p-8 bg-gray-100 text-gray-900">
@@ -16,21 +39,21 @@ function SignUp() {
                         <div className="space-y-4">
                             <div className="space-y-2">
                                 <label htmlFor="firstName" className="block text-sm">First Name</label>
-                                <input type="text" name="firstName" id="firstName" placeholder="Raj..." className="w-full px-3 py-2 border rounded-md border-brandbg2 bg-brandbg1 text-brandtext1 focus:border-brandbg2" />
+                                <input value={user.firstName} onChange={handleChnange} type="text" name="firstName" id="firstName" placeholder="Raj..." className="w-full px-3 py-2 border rounded-md border-brandbg2 bg-brandbg1 text-brandtext1 focus:border-brandbg2" />
                             </div>
                             <div className="space-y-2">
                                 <label htmlFor="lastName" className="block text-sm">Last Name</label>
-                                <input type="text" name="lastName" id="lastName" placeholder="Singh..." className="w-full px-3 py-2 border rounded-md border-brandbg2 bg-brandbg1 text-brandtext1 focus:border-brandbg2" />
+                                <input value={user.lastName} onChange={handleChnange} type="text" name="lastName" id="lastName" placeholder="Singh..." className="w-full px-3 py-2 border rounded-md border-brandbg2 bg-brandbg1 text-brandtext1 focus:border-brandbg2" />
                             </div>
                             <div className="space-y-2">
                                 <label htmlFor="email" className="block text-sm">Email address</label>
-                                <input type="email" name="email" id="email" placeholder="leroy@jenkins.com" className="w-full px-3 py-2 border rounded-md border-brandbg2 bg-brandbg1 text-brandtext1 focus:border-brandbg2" />
+                                <input value={user.email} onChange={handleChnange} type="email" name="email" id="email" placeholder="leroy@jenkins.com" className="w-full px-3 py-2 border rounded-md border-brandbg2 bg-brandbg1 text-brandtext1 focus:border-brandbg2" />
                             </div>
                             <div className="space-y-2">
                                 <div className="flex justify-between">
                                     <label htmlFor="password" className="text-sm">Password</label>
                                 </div>
-                                <input type="password" name="password" id="password" placeholder="*****" className="w-full px-3 py-2 border rounded-md border-brandbg2 bg-brandbg1 text-brandtext1 focus:border-brandbg2" />
+                                <input value={user.password} onChange={handleChnange} type="password" name="password" id="password" placeholder="*****" className="w-full px-3 py-2 border rounded-md border-brandbg2 bg-brandbg1 text-brandtext1 focus:border-brandbg2" />
                             </div>
                             <div className="space-y-2">
                                 <div className="flex justify-between">
@@ -39,7 +62,7 @@ function SignUp() {
                                 <input type="file" name="profileImg" id="profileImg" className="w-full px-3 py-2 border rounded-md border-brandbg2 bg-brandbg1 text-brandtext1 focus:border-brandbg2" />
                             </div>
                         </div>
-                        <button type="button" className="w-full px-8 py-3 font-semibold rounded-md bg-brandbg2 text-gray-100">Sign Up</button>
+                        <button onClick={handleSubmit} type="button" className="w-full px-8 py-3 font-semibold rounded-md bg-brandbg2 text-gray-100">Sign Up</button>
                     </form>
                 </div>
         </div>

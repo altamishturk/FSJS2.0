@@ -1,11 +1,13 @@
 import productReducer from "./product";
-import userReducer from "./user";
+import usersReducer from "./user";
+import authReducer from "./auth";
 
 
 
 const rootReducer = {
     products: productReducer,
-    users: userReducer
+    users: usersReducer,
+    loggedInUser: authReducer
 };
 
 

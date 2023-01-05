@@ -10,3 +10,6 @@ export const DELETE_PRODUCT = "DELETE_PRODUCT";
 // users 
 export const GET_ALL_USERS = "GET_ALL_USERS";
 export const UPDATE_USER = "UPDATE_USER";
+export const LOGIN_USER = "LOGIN_USER";
+export const LOGOUT_USER = "LOGOUT_USER";
+

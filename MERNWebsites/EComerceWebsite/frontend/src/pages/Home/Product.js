@@ -1,5 +1,6 @@
 import React from "react";
-export default function Product() {
+import { currency } from "../../Constants/constants";
+export default function Product({product}) {
     return (
         <div className="flex flex-col justify-center items-start p-2 bg-white">
                         <div className="relative">
@@ -20,10 +21,10 @@ export default function Product() {
                             </button>
                             <div className="flex justify-between mt-4">
                                 <div>
-                                    <p className="text-lg font-medium leading-none text-gray-800">Sony Headphones</p>
+                                    <p className="text-lg font-medium leading-none text-gray-800">{product.name}</p>
                                 </div>
                                 <div>
-                                    <p className="text-lg leading-none text-right text-gray-600">$765</p>
+                                    <p className="text-lg leading-none text-right text-gray-600">{product.price} <span className="text-sm">{currency}</span></p>
                                 </div>
                             </div>
                         </div>

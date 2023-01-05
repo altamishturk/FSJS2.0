@@ -22,11 +22,13 @@ function sendToken(req,res) {
         secure: true
       });
 
+    req.user.password = undefined;  
 
     res.status(200).json({
         success: true,
         message: "Login Success!",
-        token
+        token,
+        user: req.user
     })
 }
 

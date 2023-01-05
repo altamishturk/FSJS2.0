@@ -7,6 +7,9 @@ const {isLoggedIn} = require("../middlewares/auth");
 // Get all users
 router.get('/', userController.getAllUsers);
 
+// Get all users
+router.get('/loggedIn', isLoggedIn,userController.getLoggedInUser);
+
 // Get a single user
 router.get('/:userId', userController.getUser);
 

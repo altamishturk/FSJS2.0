@@ -12,3 +12,4 @@ else{
 
 
 export const domainName = `${root}/${version}`;
+export const currency = "INR";

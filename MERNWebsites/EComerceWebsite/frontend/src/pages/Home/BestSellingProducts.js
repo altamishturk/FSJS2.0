@@ -1,8 +1,12 @@
 import React from 'react';
-import Product from '../../components/Product';
+import Product from './Product';
 // import ProductQuickView from "../../components/ProductQuickView";
+import {useSelector} from "react-redux";
 
 function BestSellingProducts() {
+    const products = useSelector(state => state.products);
+    const BestSellingProducts = products?.slice(0,8);
+
   return (
     <div className="pb-16">
             
@@ -18,14 +22,11 @@ function BestSellingProducts() {
             </div>
             <div className="-mt-16 sm:-mt-48 lg:-mt-32 xl:-mt-40 2xl:container 2xl:mx-auto flex justify-center items-center space-y-4 px-4 md:px-6 2xl:px-0 mb-16">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 justify-items-between gap-x-6 gap-y-5">
-                    <Product/>
-                   <Product/>
-                   <Product/>
-                   <Product/>
-                   <Product/>
-                   <Product/>
-                   <Product/>
-                   <Product/>
+                   {
+                    BestSellingProducts && BestSellingProducts.map((p,i) =>{
+                        return <Product key={i} product={p}/>
+                    })
+                   }
                 </div>
             </div>
         </div>

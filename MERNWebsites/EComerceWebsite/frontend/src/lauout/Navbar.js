@@ -1,13 +1,56 @@
-import React, { useState } from "react";
+import React, {useState } from "react";
 import { Link } from "react-router-dom";
-import Cart from "../components/Cart"
+import Cart from "../components/Cart";
+import {useSelector,useDispatch} from "react-redux";
+import {logoutUser} from "../store/ActionCreators/auth";
+
+
 
 
 export default function Navbar() {
+    const dispatch = useDispatch();
     const [searchInput, setSearchInput] = useState(true);
     const [mdOptionsToggle, setMdOptionsToggle] = useState(true);
     const [showMenu, setShowMenu] = useState(false);
     const [showCart, setShowCart] = useState(false);
+    const loggedInUser = useSelector(state=>state.loggedInUser);
+    const menuItems = [{
+        text: "Home",
+        to: "/"
+    },
+    {
+        text: "Products",
+        to: "/products"
+    },
+    {
+        text: "About",
+        to: "/abount"
+    },
+    {
+        text: "Contact",
+        to: "/contact"
+    },
+    {
+        text: "Dashboard",
+        to: "/admin/dashboard"
+    },
+    {
+        text: "Login",
+        to: "/login"
+    },
+    {
+        text: "SignUp",
+        to: "/signup"
+    },
+    {
+        text: "Logout",
+        to: "/login"
+    }
+    ]
+
+    const handleLogOut = () => {
+        dispatch(logoutUser());
+    }
 
     return (
         <>
@@ -63,7 +106,21 @@ export default function Navbar() {
                                 </svg>
                             </h1>
                             <ul className="hidden w-8/12 md:flex items-center justify-center space-x-8">
-                              <MenuLinks/>
+                            {
+                                menuItems.map((item)=>{
+                                    if(item.text === "Logout" && loggedInUser){
+                                        return <li key={item.text} onClick={handleLogOut} className="hover:cursor-pointer">
+                                                    {item.text}
+                                                </li>
+                                    }
+                                    return <li key={item.text} className={`${loggedInUser && (item.text === "Login" || item.text === "SignUp")  ? "hidden":item.text === "Logout"?"hidden":""}`}>
+                                        <Link 
+                                        to={item.to}
+                                        className="dark:text-white text-base text-gray-800 focus:outline-none  focus:ring-gray-800 hover:underline"
+                                        >{item.text}</Link>
+                                    </li>
+                                })
+                            } 
                             </ul>
                             <div className="md:w-2/12 justify-end flex items-center space-x-4 xl:space-x-8">
                                 <div className="hidden lg:flex items-center">
@@ -224,52 +281,3 @@ export default function Navbar() {
 
 
 
-function MenuLinks (){
-
-    const menuItems = [
-        {
-            text: "Home",
-            to: "/"
-        },
-        {
-            text: "Products",
-            to: "/products"
-        },
-        {
-            text: "About",
-            to: "/abount"
-        },
-        {
-            text: "Contact",
-            to: "/contact"
-        },
-        {
-            text: "Dashboard",
-            to: "/admin/dashboard"
-        },
-        {
-            text: "Login",
-            to: "/login"
-        },
-        {
-            text: "SignUp",
-            to: "/signup"
-        },
-    ]
-
-    return (
-        <>
-            {
-                menuItems.map((item)=>{
-                    
-                    return <li key={item.text}>
-                        <Link 
-                        to={item.to}
-                        className="dark:text-white text-base text-gray-800 focus:outline-none  focus:ring-gray-800 hover:underline"
-                        >{item.text}</Link>
-                    </li>
-                })
-            } 
-        </>
-    )
-}

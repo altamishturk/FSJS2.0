@@ -2,7 +2,7 @@ import {UPDATE_USER,GET_ALL_USERS} from "../../Constants/actions";
 
 
 
-function user(state=null,action){
+export function users(state=null,action){
 
     switch (action.type) {
         case GET_ALL_USERS:
@@ -18,4 +18,8 @@ function user(state=null,action){
 }
 
 
-export default user;
+export default users;
+
+
+
+

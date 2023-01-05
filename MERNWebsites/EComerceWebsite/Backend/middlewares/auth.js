@@ -5,6 +5,7 @@ const User = require("../Models/user");
 const isLoggedIn = async (req, res, next)=>{
     try {
         const token = req.headers.authorization.split(' ')[1];
+        
         // console.log(token);
         
         const decodedToken = jwt.verify(token, process.env.JWT_KEY);
@@ -21,12 +22,15 @@ const isLoggedIn = async (req, res, next)=>{
 
         const user = await User.findById(decodedToken._doc._id);
 
+        
         if (!user) {
           return res.send({
             success: false,
             message: "Please Login"
           })
         }
+        
+        req.user = user;
         
         next();
       } catch (error) {
