@@ -21,7 +21,8 @@ function CreateProduct() {
         _id: ""
     });
     const products = useSelector(state => state.products);
- 
+    const [imageUrls, setImageUrls] = useState(null);
+    
     useEffect(() => {
         const _id = params._id;
         const p = products?.find(p => p._id === _id);
@@ -36,19 +37,21 @@ function CreateProduct() {
 
     const handleChange = (e) =>{
 
-        // if(e.target.name === "images"){
-        //     // console.log(e.target.files);
-        //     const file = e.target.files;
-        //     setImages(file);
-
-        //     const reader = new FileReader();
-        //     reader.onload = () => {
-        //         console.log(reader.result);
-        //         setImageUrl(reader.result);
-        //     };
-        //     reader.readAsDataURL(file);
-        //     return;
-        // }
+        if(e.target.name === "images"){
+            const files = e.target.files;
+            for (let i = 0; i < files.length; i++) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    setImageUrls(prev => {
+                        if(!prev){
+                            return [reader.result];
+                        }
+                        return [...prev,reader.result];
+                    });
+                };
+                reader.readAsDataURL(files[i]);
+            }
+        }
         
         setProduct(prev =>{
             return {
@@ -61,11 +64,16 @@ function CreateProduct() {
 
     const handleSubmit = async(e)=>{
         e.preventDefault();
+        let temp = {
+            ...product,
+            images: imageUrls
+        }
+      
         if(params._id){
-            dispatch(updateProduct(product));
+            dispatch(updateProduct(temp));
         }
         else {
-            dispatch(createProduct(product));
+            dispatch(createProduct(temp));
         }
     }
 

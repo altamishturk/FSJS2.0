@@ -2,11 +2,19 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDNARY_CLOUD_NAME,
+  api_key: process.env.CLOUDNARY_API_KEY,
+  api_secret: process.env.CLOUDNARY_API_SECRET
+});
 
 
 const corsOption = {
   origin: ['http://localhost:3000'],
 };
+
 app.use(cors());
 
 const mongoose = require('mongoose');
@@ -27,7 +35,8 @@ connection.on('error', (error) => {
 
 
 
-app.use(express.json());
+app.use(express.json({limit: "1mb"}));
+app.use(express.urlencoded({ extended: true }));
 
 
 

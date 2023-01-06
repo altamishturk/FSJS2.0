@@ -33,6 +33,10 @@ const userSchema = new mongoose.Schema({
       ref: 'Order',
     },
   ],
+  profilePic: {
+    url: String,
+    publicId: String
+  }
 });
 
 

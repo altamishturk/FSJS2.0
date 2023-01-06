@@ -71,8 +71,7 @@ function User({user,handleDelete}){
                                 <td className="p-2 whitespace-nowrap">
                                     <div className="flex items-center">
                                         <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3 flex items-center">
-                                            <BiUserCircle size={28}/>
-                                            {/* <img className="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg" width="40" height="40" alt="Alex Shatov"/> */}
+                                            {user.profilePic? <img className="rounded-full w-10 h-10" src={user.profilePic.url} width="40" height="40" alt="Alex Shatov"/>:<BiUserCircle size={28}/>}
                                         </div>
                                         <div className="font-medium text-gray-800">{user.name}</div>
                                     </div>

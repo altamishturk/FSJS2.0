@@ -6,6 +6,8 @@ import {createUser} from "../store/ActionCreators/user";
 function SignUp() {
     const dispatch = useDispatch();
     const [user, setUser] = useState({firstName: "",lastName:"",email: "",password: ""});
+    const [image, setImage] = useState("");
+    const [imageUrl, setImageUrl] = useState(null);
 
     const handleChnange = (e)=>{
         setUser(prev =>{
@@ -16,12 +18,25 @@ function SignUp() {
         })
     }
 
+    const handleImageChange = (e)=>{
+                const file = e.target.files[0];
+                setImage(e.target.value);
+    
+                const reader = new FileReader();
+                reader.onload = () => {
+                    setImageUrl(reader.result);
+                };
+                reader.readAsDataURL(file);
+    }
+
     const handleSubmit = (e) =>{
         e.preventDefault();
         const temp = {
             ...user,
-            name: `${user.firstName} ${user.lastName}`
+            name: `${user.firstName} ${user.lastName}`,
+            profilePic: imageUrl
         }
+        // console.log(temp);
         dispatch(createUser(temp));
     }
 
@@ -59,7 +74,7 @@ function SignUp() {
                                 <div className="flex justify-between">
                                     <label htmlFor="profileImg" className="text-sm">Profile Photo</label>
                                 </div>
-                                <input type="file" name="profileImg" id="profileImg" className="w-full px-3 py-2 border rounded-md border-brandbg2 bg-brandbg1 text-brandtext1 focus:border-brandbg2" />
+                                <input value={image} onChange={handleImageChange} type="file" name="profileImg" id="profileImg" className="w-full px-3 py-2 border rounded-md border-brandbg2 bg-brandbg1 text-brandtext1 focus:border-brandbg2" />
                             </div>
                         </div>
                         <button onClick={handleSubmit} type="button" className="w-full px-8 py-3 font-semibold rounded-md bg-brandbg2 text-gray-100">Sign Up</button>

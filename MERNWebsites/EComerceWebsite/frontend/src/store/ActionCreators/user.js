@@ -8,7 +8,7 @@ export const createUser = (user) => async (dispatch) =>{
 
     try {
         const res = await fatchRequest(`${domainName}/users`,"POST",user);
-        if(res.errors){
+        if(!res.email){
             toast.error(res.message);
             return;
         }
@@ -28,7 +28,7 @@ export const updateUser = (user) => async (dispatch) =>{
 
     try {
         const res = await fatchRequest(`${domainName}/users/${user._id}`,"PUT",user)
-        if(res.errors){
+        if(!res.email){
             toast.error(res.message);
             return;
         }
@@ -45,7 +45,7 @@ export const getLoggedInUser = () => async (dispatch) =>{
 
     try {
         const res = await fatchRequest(`${domainName}/users/loggedIn`,"GET")
-        console.log(res);
+        // console.log(res);
         if(!res.email){
             toast.error(res.message);
             return;

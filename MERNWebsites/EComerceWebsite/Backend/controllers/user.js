@@ -1,5 +1,6 @@
 const User = require("../Models/user");
 const sendToken = require('../utils/sendToken');
+const cloudinary = require("cloudinary").v2;
 
 // Get all users
 exports.getAllUsers = async (req, res) => {
@@ -37,9 +38,16 @@ exports.getLoggedInUser = async (req, res) => {
 exports.createUser = async (req, res) => {
   try {
     const user = new User(req.body);
+    
+    // Use the Cloudinary uploader to upload the image
+    const img = await cloudinary.uploader.upload(req.body.profilePic,{folder:"e-comerce-website-(completed)"});
+  
+    user.profilePic = {url: img.url,publicId: img.public_id}
+
     await user.save();
     req.user = user;
     sendToken(req,res);
+    // throw new Error("error")
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Error creating user' });

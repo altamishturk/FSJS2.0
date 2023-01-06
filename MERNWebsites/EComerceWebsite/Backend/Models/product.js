@@ -12,9 +12,12 @@ const productSchema = new mongoose.Schema({
   description: {
     type: String,
   },
-  imageUrl: {
-    type: String,
-  },
+  images: [
+    {
+      url: String,
+      publicId: String
+    }
+  ],
   quantity: {
     type: Number,
     required: true,
