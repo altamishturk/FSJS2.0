@@ -23,12 +23,14 @@ import {getAllProducts} from "./store/ActionCreators/product";
 import {getLoggedInUser} from "./store/ActionCreators/user";
 
 
+
 function App() {
   const dispatch = useDispatch();
+  
 
   useEffect(() => {
-    dispatch(getAllProducts());
     dispatch(getLoggedInUser());
+    dispatch(getAllProducts());
   }, [dispatch]);
   
   return (

@@ -66,6 +66,11 @@ app.use('/api/v1/reviews', reviewRoutes);
 app.use('/api/v1/carts', cartRoutes);
 
 
+// error handler middleware
+const errorHandler = require('./middlewares/error'); 
+app.use(errorHandler);
+
+
 // Start the server
 const port = process.env.PORT || 4000;
 app.listen(port, () => console.log(`Server listening on port ${port}`));

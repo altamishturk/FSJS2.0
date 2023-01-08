@@ -1,42 +1,50 @@
 const User = require("../Models/user");
 const sendToken = require('../utils/sendToken');
 const cloudinary = require("cloudinary").v2;
+const bigPromice = require("../middlewares/bigPromice");
 
 // Get all users
-exports.getAllUsers = async (req, res) => {
-  try {
+exports.getAllUsers = bigPromice(async (req, res) => {
+
     const users = await User.find();
-    res.json(users);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: 'Error getting users' });
-  }
-}
+
+
+    res.status(200).json({
+        success: true,
+        message: "__",
+        users
+      })
+
+});
 
 // Get a single user
-exports.getUser = async (req, res) => {
-  try {
+exports.getUser = bigPromice(async (req, res) => {
+
     const user = await User.findById(req.params.userId);
-    res.json(user);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: 'Error getting user' });
-  }
-}
+ 
+
+    res.status(200).json({
+        success: true,
+        message: "__",
+        user
+      })
+
+});
 
 // Get a logged in user
-exports.getLoggedInUser = async (req, res) => {
-  try {
-    res.json(req.user);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: 'Error getting user' });
-  }
-}
+exports.getLoggedInUser = bigPromice(async (req, res) => {
+
+    res.status(200).json({
+        success: true,
+        message: "__",
+        user: req.user
+      })
+
+});
 
 // Create a new user
-exports.createUser = async (req, res) => {
-  try {
+exports.createUser = bigPromice(async (req, res) => {
+
     const user = new User(req.body);
     
     // Use the Cloudinary uploader to upload the image
@@ -45,36 +53,38 @@ exports.createUser = async (req, res) => {
     user.profilePic = {url: img.url,publicId: img.public_id}
 
     await user.save();
+
     req.user = user;
+
     sendToken(req,res);
-    // throw new Error("error")
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: 'Error creating user' });
-  }
-}
+
+});
 
 // Update an existing user
-exports.updateUser = async (req, res) => {
-  try {
+exports.updateUser = bigPromice(async (req, res) => {
+
     const user = await User.findByIdAndUpdate(req.params.userId, req.body, { new: true });
-    res.json(user);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: 'Error updating user' });
-  }
-}
+
+    res.status(200).json({
+        success: true,
+        message: "__",
+        user
+      })
+
+});
 
 // Delete a user
-exports.deleteUser = async (req, res) => {
-  try {
-    await User.findByIdAndDelete(req.params.userId);
-    res.json({ message: 'User deleted' });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: 'Error deleting user' });
-  }
-}
+exports.deleteUser = bigPromice(async (req, res) => {
+
+    const user = await User.findByIdAndDelete(req.params.userId);
+   
+    res.status(200).json({
+        success: true,
+        message: "__",
+        user
+      })
+ 
+});
 
 
 

@@ -2,19 +2,19 @@ import fatchRequest from "../../utils/fatchRequest";
 import {GET_ALL_USERS,LOGIN_USER,UPDATE_USER} from "../../Constants/actions";
 import {toast} from "react-toastify";
 import {domainName} from "../../Constants/constants.js";
+import {getCart} from "./cart"
 
 
 export const createUser = (user) => async (dispatch) =>{
 
     try {
         const res = await fatchRequest(`${domainName}/users`,"POST",user);
-        if(!res.email){
+        if(res.success){
+            dispatch({type:LOGIN_USER,payload:res.user});
             toast.error(res.message);
-            return;
         }
-        else{
+        else {
             toast.success("Account Created And Login Success!");
-            dispatch({type:LOGIN_USER,payload:res.user})
         }
     } catch (error) {
         
@@ -28,11 +28,12 @@ export const updateUser = (user) => async (dispatch) =>{
 
     try {
         const res = await fatchRequest(`${domainName}/users/${user._id}`,"PUT",user)
-        if(!res.email){
-            toast.error(res.message);
-            return;
+        if(res.success){
+            dispatch({type:UPDATE_USER,payload:res})
         }
-        dispatch({type:UPDATE_USER,payload:res})
+        else{
+            toast.error(res.message);
+        }
     } catch (error) {
         
     }
@@ -46,12 +47,12 @@ export const getLoggedInUser = () => async (dispatch) =>{
     try {
         const res = await fatchRequest(`${domainName}/users/loggedIn`,"GET")
         // console.log(res);
-        if(!res.email){
-            toast.error(res.message);
-            return;
+        if(res.success){
+            dispatch({type:LOGIN_USER,payload:res.user})
+            dispatch(getCart(res.user._id));
         }
-        else{
-            dispatch({type:LOGIN_USER,payload:res})
+        else {
+            toast.error(res.message);
         }
     } catch (error) {
         
@@ -65,19 +66,15 @@ export const getAllUsers = () => async (dispatch) =>{
 
     try {
         const res = await fatchRequest(`${domainName}/users`,"GET")
-        if(res.errors){
-            toast.error(res.message);
-            return;
+        if(res.success){
+            dispatch({type:GET_ALL_USERS,payload:res})
         }
         else{
-            // console.log(res);
-            dispatch({type:GET_ALL_USERS,payload:res})
+            toast.error(res.message);
         }
     } catch (error) {
         
     }
-
-    // console.log(res);
 }
 
 

@@ -1,84 +1,85 @@
 const Order = require('../Models/order');
 const Product = require("../Models/product");
+const bigPromice = require("../middlewares/bigPromice");
 
 // Get all orders
-exports.getAll = (request, response) => {
-  Order.find({}, (err, orders) => {
-    if (err) {
-      response.send(err);
-    } else {
-      response.json(orders);
-    }
-  });
-};
+exports.getAll = bigPromice(async(req, res) => {
+
+  const orders = await Order.find();
+
+  res.status(200).json({
+    success: true,
+    message: "___",
+    orders
+  })
+ 
+  
+});
 
 // Get a single order
-exports.getById = (request, response) => {
-  Order.findById(request.params.orderId, (err, order) => {
-    if (err) {
-      response.send(err);
-    } else {
-      response.json(order);
-    }
-  });
-};
+exports.getById = bigPromice(async(req, res) => {
+
+  const order = await Order.findById(req.params.orderId);
+
+  res.status(200).json({
+    success: true,
+    message: "___",
+    order
+  })
+ 
+});
 
 // Create a new order
-exports.create = async (req, res) => {
+exports.create = bigPromice(async (req, res) => {
 
-  try {
-    const newOrder = new Order(req.body);
+    const order = new Order(req.body);
 
-    const orderedProductsIds = newOrder.products.map(p => p.product);
+    const orderedProductsIds = order.products.map(p => p.product);
     const orderedProduct = await Product.find({_id:{$in: orderedProductsIds}});
 
     let totalPrice = 0;
     orderedProduct.forEach( pro =>{
-      const temp = newOrder.products.find(p => p.product.toString() === pro._id.toString());
+      const temp = order.products.find(p => p.product.toString() === pro._id.toString());
       totalPrice += temp.quantity*pro.price;
     })
 
-    newOrder.totalPrice = totalPrice;
+    order.totalPrice = totalPrice;
     
-    await newOrder.save();
+    await order.save();
 
-    // 201 - Created
+    // 200 - Created
     res.status(201).json({
       success: true,
       message: "Order created successfully",
-      newOrder
+      order
     })
     
-  } 
-  catch (error) {
-    // 422 - Unprocessable Entity
-    res.status(422).json({
-      success: false,
-      message: "Error while creating an order",
-      error
-    })
-  }
-};
+  
+});
 
 // Update an existing order
-exports.update = (request, response) => {
-  Order.findByIdAndUpdate(request.params.orderId, request.body, { new: true }, (err, order) => {
-    if (err) {
-      response.send(err);
-    } else {
-      response.json(order);
-    }
-  });
-};
+exports.update = bigPromice(async(req, res) => {
+
+  const order = await Order.findByIdAndUpdate(req.params.orderId, req.body, { new: true });
+
+  res.status(200).json({
+    success: true,
+    message: "__",
+    order
+  })
+
+});
 
 
 // Delete an order
-exports.deleteOrder = async (req, res) => {
-    try {
-      await Order.findByIdAndDelete(req.params.orderId);
-      res.json({ message: 'order deleted' });
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ message: 'Error deleting order' });
-    }
-  }
+exports.deleteOrder = bigPromice(async (req, res) => {
+
+      const order = await Order.findByIdAndDelete(req.params.orderId);
+      
+      res.status(200).json({
+        success: true,
+        message: "__",
+        order
+      })
+  
+})

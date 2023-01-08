@@ -1,13 +1,47 @@
 import React from "react";
 import { currency } from "../../Constants/constants";
-export default function Product({product}) {
-    return (
-        <div className="flex flex-col justify-center items-start p-2 bg-white">
-                        <div className="relative">
-                            <img className="lg:block hidden" src="https://i.ibb.co/znBmcWV/Rectangle-37-1.png" alt="headphones" />
-                            <img className="lg:hidden" src="https://i.ibb.co/hBXHm0W/Rectangle-37-1.png" alt="headphones" />
+import { Tooltip as ReactTooltip } from 'react-tooltip';
+import {useSelector,useDispatch} from "react-redux";
+import {addCartItem, createCart} from "../../store/ActionCreators/cart";
+import {useNavigate} from "react-router-dom";
+import { toast } from "react-toastify";
 
-                            <button className="top-4 right-4 absolute p-3.5 text-gray-600 hover:text-gray-500 flex justify-center items-center bg-white rounded-full">
+export default function Product({product}) {
+    const navigator = useNavigate();
+    const cart = useSelector(state=>state.cart);
+    const loggedInUser = useSelector(state=>state.loggedInUser);
+    const dispatch = useDispatch();
+
+
+
+    const handleAddToCart = (_id)=>{
+        if(!loggedInUser){
+            return navigator("/login");
+        }
+
+        const isThere = cart.products.find(p => p.product === _id);
+        
+        if(isThere){
+            toast.info("Item Already in the cart")
+            return; 
+        }
+
+        if(cart) {
+            dispatch(addCartItem(cart._id,{product: _id,quantity: 1}));
+        }
+        else {
+            dispatch(createCart({user: loggedInUser._id,products:[{product: _id,quantity: 1}]}));
+        }
+    }
+
+    return (
+        <>
+        <div  className="flex flex-col justify-center items-start p-2 bg-white ">
+                        <div className="relative">
+                            <img id={`view-product-detail-${product._id}`} className="lg:block hidden hover:cursor-pointer" src="https://i.ibb.co/znBmcWV/Rectangle-37-1.png" alt="headphones" />
+                            <img id={`view-product-detail-${product._id}`} className="lg:hidden hover:cursor-pointer" src="https://i.ibb.co/hBXHm0W/Rectangle-37-1.png" alt="headphones" />
+
+                            <button onClick={()=>handleAddToCart(product._id)} id={`add-to-cart-${product._id}`} className="top-4 right-4 absolute p-3.5 text-gray-600 hover:text-gray-500 flex justify-center items-center bg-white rounded-full">
                                 <svg className="fill-stroke" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path
                                         d="M6.25 6.875V5.625C6.25 4.63044 6.64509 3.67661 7.34835 2.97335C8.05161 2.27009 9.00544 1.875 10 1.875V1.875C10.9946 1.875 11.9484 2.27009 12.6517 2.97335C13.3549 3.67661 13.75 4.63044 13.75 5.625V6.875M3.125 6.875C2.95924 6.875 2.80027 6.94085 2.68306 7.05806C2.56585 7.17527 2.5 7.33424 2.5 7.5V15.9375C2.5 17.1187 3.50625 18.125 4.6875 18.125H15.3125C16.4937 18.125 17.5 17.1676 17.5 15.9863V7.5C17.5 7.33424 17.4342 7.17527 17.3169 7.05806C17.1997 6.94085 17.0408 6.875 16.875 6.875H3.125Z"
@@ -28,6 +62,20 @@ export default function Product({product}) {
                                 </div>
                             </div>
                         </div>
-                    </div>
+        </div>
+
+            <ReactTooltip
+                anchorId={`add-to-cart-${product._id}`}
+                place="top"
+                variant="info"
+                content="Add To Cart"
+            />
+            <ReactTooltip
+                anchorId={`view-product-detail-${product._id}`}
+                place="top"
+                variant="info"
+                content="View Detail"
+            />
+        </>
     );
 }

@@ -1,57 +1,69 @@
 const Category = require('../Models/category');
+const bigPromice = require("../middlewares/bigPromice");
 
 // Get all categories
-exports.getAll = (request, response) => {
-  Category.find({}, (err, categories) => {
-    if (err) {
-      response.send(err);
-    } else {
-      response.json(categories);
-    }
-  });
-};
+exports.getAll = bigPromice(async (req, res) => {
+
+  const category = await Category.find();
+
+  res.status(200).json({
+    success: true,
+    message: "___",
+    category
+  })
+  
+});
 
 // Get a single category
-exports.getById = (request, response) => {
-  Category.findById(request.params.categoryId, (err, category) => {
-    if (err) {
-      response.send(err);
-    } else {
-      response.json(category);
-    }
-  });
-};
+exports.getById = bigPromice(async(req, res) => {
+
+  const category = await Category.findById(req.params.categoryId)
+
+  res.status(200).json({
+    success: true,
+    message: "___",
+    category
+  })
+
+});
 
 // Create a new category
-exports.create = (request, response) => {
-  const newCategory = new Category(request.body);
-  newCategory.save((err, category) => {
-    if (err) {
-      response.send(err);
-    } else {
-      response.json(category);
-    }
-  });
-};
+exports.create = bigPromice(async(req, res) => {
+  const category = new Category(req.body);
+  
+  await category.save();
+
+  res.status(201).json({
+    success: true,
+    message: "___",
+    category
+  })
+
+});
 
 // Update an existing category
-exports.update = (request, response) => {
-  Category.findByIdAndUpdate(request.params.categoryId, request.body, { new: true }, (err, category) => {
-    if (err) {
-      response.send(err);
-    } else {
-      response.json(category);
-    }
-  });
-};
+exports.update = bigPromice(async(req, res) => {
+
+  const category = await Category.findByIdAndUpdate(req.params.categoryId, req.body, { new: true })
+
+  res.status(200).json({
+    success: true,
+    message: "___",
+    category
+  })
+
+ 
+});
 
 // Delete a category
-exports.deleteCategory = (request, response) => {
-  Category.findByIdAndRemove(request.params.categoryId, (err, category) => {
-    if (err) {
-      response.send(err);
-    } else {
-      response.json({ message: 'Category deleted' });
-    }
-  });
-};
+exports.deleteCategory = bigPromice(async(req, res) => {
+
+  const category = await Category.findByIdAndRemove(req.params.categoryId);
+
+  res.status(200).json({
+    success: true,
+    message: "___",
+    category
+  })
+ 
+});

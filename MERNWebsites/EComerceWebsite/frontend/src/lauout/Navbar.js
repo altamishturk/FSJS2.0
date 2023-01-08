@@ -24,7 +24,7 @@ export default function Navbar() {
     },
     {
         text: "About",
-        to: "/abount"
+        to: "/about"
     },
     {
         text: "Contact",

@@ -90,7 +90,7 @@ function Product({product,handleDelete}){
             <td className="p-2 whitespace-nowrap">
                                     <div className="flex items-center">
                                         <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3 flex items-center">
-                                            {product.images[0]? <img className="rounded-full" src={product.images[0].url} width="40" height="40" alt="Alex Shatov"/>:<BiUserCircle size={28}/>}
+                                            {product?.images?.length>0? <img className="rounded-full" src={product.images[0]?.url} width="40" height="40" alt="Alex Shatov"/>:<BiUserCircle size={28}/>}
                                         </div>
                                         <div className="font-medium text-gray-800">{product.name}</div>
                                     </div>

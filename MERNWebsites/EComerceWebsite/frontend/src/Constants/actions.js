@@ -13,3 +13,10 @@ export const UPDATE_USER = "UPDATE_USER";
 export const LOGIN_USER = "LOGIN_USER";
 export const LOGOUT_USER = "LOGOUT_USER";
 
+// users 
+export const GET_CART = "GET_CART";
+export const CREATE_CART = "CREATE_CART";
+export const ADD_CART_ITEM = "ADD_CART_ITEM";
+export const REMOVE_CART_ITEM = "REMOVE_CART_ITEM";
+
+

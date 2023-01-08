@@ -2,6 +2,7 @@ import React,{useState,useEffect} from 'react';
 import {createProduct,updateProduct} from "../../store/ActionCreators/product";
 import {useDispatch, useSelector} from "react-redux";
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 
 
@@ -29,7 +30,7 @@ function CreateProduct() {
 
         if(p){
             setProduct(prev => {
-                return {...prev,...p}
+                return {...prev,...p,images: ""}
             });
         }
     }, [params,products]);
@@ -40,6 +41,10 @@ function CreateProduct() {
         if(e.target.name === "images"){
             const files = e.target.files;
             for (let i = 0; i < files.length; i++) {
+                const size = files[i].size;
+                if(size > 250000){
+                    toast.error("File Size Should not be grater the 250kb")
+                }
                 const reader = new FileReader();
                 reader.onload = () => {
                     setImageUrls(prev => {

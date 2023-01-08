@@ -6,20 +6,20 @@ import {domainName} from "../../Constants/constants.js";
 
 
 
+
 export const loginUser = (user) => async (dispatch) =>{
 
     try {
         const res = await fatchRequest(`${domainName}/auth/login`,"POST",user)
         
         // console.log(res);
-        if(res.errors){
-            toast.error(res.message);
-            return;
-        }
-        else {
+        if(res.success){
             toast.success("Login Success!");
             setToken(res.token);
-            dispatch({type:LOGIN_USER,payload:res.user})
+            dispatch({type:LOGIN_USER,payload: res.user})
+        }
+        else {
+            toast.error(res.message);
         }
     } catch (error) {
         
@@ -34,18 +34,16 @@ export const logoutUser = () => async (dispatch) =>{
 
     try {
         const res = await fatchRequest(`${domainName}/auth/logout`,"POST",{})
-        if(res.errors){
-            toast.error(res.message);
-            return;
+        if(res.success){
+            setToken(undefined);
+            toast.success("Logout Success!");
+            dispatch({type:LOGOUT_USER,payload:null});
         }
         else{
-            setToken(undefined);
-            toast.success("Logout Success!")
-            dispatch({type:LOGOUT_USER,payload:null})
+            toast.error(res.message);
         }
     } catch (error) {
         
     }
 
-    // console.log(res);
 }
