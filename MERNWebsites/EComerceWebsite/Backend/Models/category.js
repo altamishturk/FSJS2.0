@@ -11,7 +11,7 @@ const categorySchema = new mongoose.Schema({
       ref: 'Product',
     },
   ],
-});
+},{timestamps: true});
 
 const Category = mongoose.model('Category', categorySchema);
 

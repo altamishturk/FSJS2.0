@@ -3,6 +3,48 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const cloudinary = require('cloudinary').v2;
+// const axois = require("axios");
+// const fs = require("fs");
+
+// (async ()=>{
+//   const {data} = await axois.get('https://dummyjson.com/products');
+ 
+//   const myData = [];
+
+//   data.products.forEach(element => {
+//     let obj = {};
+
+//     for (const key in element) {
+//         if(key !== "id" && key !== "thumbnail"&&key !== "rating"&& key !== "rating"){
+//           if(key === "title"){
+//             obj.name = element[key]
+//           }
+//           else if(key === "stock"){
+//             obj.quantity = element[key]
+//           }
+//           else if(key === "images"){
+//             const imgarr = element[key].map(im => {return {url: im, publicId: ""}})
+//             obj.images = imgarr
+//           }
+//           else{
+//             obj[key] = element[key];
+//           }
+//         }
+//     }
+
+//     myData.push(obj);
+
+//   });
+//   const jsonData = JSON.stringify(myData);
+                
+//   //  fs.writeFile('data.json', jsonData, (err) => {
+//   //      if (err) {
+//   //        console.error(err);
+//   //        return;
+//   //      }
+//   //      console.log('Data written to file');
+//   //  });
+// })();
 
 cloudinary.config({
   cloud_name: process.env.CLOUDNARY_CLOUD_NAME,

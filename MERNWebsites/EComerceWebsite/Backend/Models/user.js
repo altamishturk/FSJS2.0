@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema({
     url: String,
     publicId: String
   }
-});
+},{timestamps:true});
 
 
 userSchema.pre('save', function(next) {

@@ -26,7 +26,14 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-});
+  brand: {
+    type: String
+  },
+  discountPercentage: {
+    type: Number,
+    default: 0
+  }
+},{timestamps:true});
 
 const Product = mongoose.model('Product', productSchema);
 

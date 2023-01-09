@@ -15,11 +15,23 @@ const reviewSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  text: {
+  comment: {
     type: String,
     required: true,
   },
-});
+  images: [
+    {
+      url: {
+        type: String,
+        required: true
+      },
+      publicId: {
+        type: String,
+        required: true
+      }
+    }
+  ]
+},{timestamps:true});
 
 const Review = mongoose.model('Review', reviewSchema);
 
