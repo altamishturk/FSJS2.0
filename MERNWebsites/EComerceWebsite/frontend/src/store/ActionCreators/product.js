@@ -4,6 +4,13 @@ import {ADD_PRODUCT, DELETE_PRODUCT, GET_ALL_PRODUCTS, UPDATE_PRODUCT} from "../
 import {toast} from "react-toastify";
 
 
+export const getOneProduct = async (productId) =>{
+
+    const res = await fatchRequest(`${domainName}/products/${productId}`,"GET")
+
+    return res;
+}
+
 export const getAllProducts = () => async (dispatch) =>{
 
     try {
@@ -22,7 +29,6 @@ export const getAllProducts = () => async (dispatch) =>{
 
     // console.log(res);
 }
-
 
 export const createProduct = (product) => async (dispatch) =>{
 

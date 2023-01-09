@@ -44,7 +44,7 @@ function App() {
             <Route excet path="/about" element={<><Navbar/><AboutUs /><Footer /></>} />
             <Route excet path="/contact" element={<><Navbar/><ContactUs /><Footer /></>} />
             <Route excet path="/products" element={<><Navbar/><Products /><Footer /></>} />
-            <Route excet path="/product/detail" element={<><Navbar/><ProductDetail /><Footer /></>} />
+            <Route excet path="/product/:productId" element={<><Navbar/><ProductDetail/><Footer /></>} />
             <Route excet path="/product/checkout" element={<><Navbar/><Checkout /><Footer /></>} />
              {/* ptivate routes  */}
             <Route excet path="/" element={<><PrivateRoute/></>} >

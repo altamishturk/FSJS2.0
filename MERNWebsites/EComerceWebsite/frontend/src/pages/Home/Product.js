@@ -11,6 +11,7 @@ export default function Product({product}) {
     const cart = useSelector(state=>state.cart);
     const loggedInUser = useSelector(state=>state.loggedInUser);
     const dispatch = useDispatch();
+    
 
 
 
@@ -34,13 +35,18 @@ export default function Product({product}) {
         }
     }
 
+   
+
     return (
         <>
         <div  className="flex flex-col justify-center items-start p-2 bg-white ">
                         <div className="relative">
-                            <img id={`view-product-detail-${product._id}`} className="lg:block hidden hover:cursor-pointer" src="https://i.ibb.co/znBmcWV/Rectangle-37-1.png" alt="headphones" />
-                            <img id={`view-product-detail-${product._id}`} className="lg:hidden hover:cursor-pointer" src="https://i.ibb.co/hBXHm0W/Rectangle-37-1.png" alt="headphones" />
-
+                            {
+                                product.images && (
+                                    <img id={`view-product-detail-${product._id}`} onClick={()=>navigator(`/product/${product._id}`)} className="lg:block hidden hover:cursor-pointer w-[300px] h-[300px]" src={product.images[0]?.url} alt="headphones" />
+                                )
+                            }
+                   
                             <button onClick={()=>handleAddToCart(product._id)} id={`add-to-cart-${product._id}`} className="top-4 right-4 absolute p-3.5 text-gray-600 hover:text-gray-500 flex justify-center items-center bg-white rounded-full">
                                 <svg className="fill-stroke" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path
