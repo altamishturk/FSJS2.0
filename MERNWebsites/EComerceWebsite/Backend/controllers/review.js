@@ -31,7 +31,7 @@ exports.getById = bigPromice(async(req, res) => {
 // Get a single review
 exports.getReviewsByProductId = bigPromice(async(req, res) => {
 
-  const reviews = await Review.find({product: req.params.productId}).populate({path: "user",select: "name createdAt"});
+  const reviews = await Review.find({product: req.params.productId}).populate({path: "user",select: "name profilePic"});
 
   res.status(200).json({
     success: true,

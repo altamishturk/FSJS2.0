@@ -17,6 +17,7 @@ import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
 import Product from "./Product";
+import {useSelector} from "react-redux";
 
 const sortOptions = [
   { name: 'Most Popular', href: '#', current: true },
@@ -75,7 +76,8 @@ function classNames(...classes) {
 }
 
 export default function Example() {
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const products = useSelector(state => state.products);
 
   return (
     <div className="bg-white">
@@ -306,10 +308,11 @@ export default function Example() {
 
               {/* Product grid */}
               <div className="lg:col-span-3">
-                {/* Replace with your content */}
-                {/* <div className="h-96 rounded-lg border-4 border-dashed border-gray-200 lg:h-full" /> */}
-                <Product/>
-                {/* /End replace */}
+                <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                {
+                  products && products.map((product,i) => <Product key={i} product={product} />)
+                }
+                </div>  
               </div>
             </div>
           </section>

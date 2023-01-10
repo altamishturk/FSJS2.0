@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect,useMemo } from "react";
 import ProductReview from "../../components/ProductReview";
 import {useParams} from "react-router-dom";
 import {currency} from "../../Constants/constants";
@@ -15,8 +15,8 @@ import ReviewForm from "./ReviewForm";
 import Modal from "../../components/Modal";
 import { creatteReview, getReviewsByProductId } from "../../store/ActionCreators/review";
 
-let rating = 1.1;
-let isFloat = (rating%Math.trunc(rating))!==0;
+
+
 
 const Product4 = () => {
     const [count, setCount] = useState(0);
@@ -29,6 +29,8 @@ const Product4 = () => {
     const [ratingModal, setRatingModal] = useState(false);
     const [reviewData, setReviewData] = useState({rating: 0,comment: "",images: []});
     const [reviews, setReviews] = useState(null);
+    const [agrageRatings, setAvrageRatings] = useState(0);
+    const isFloat = useMemo(()=>(agrageRatings%Math.trunc(agrageRatings))!==0)
     
 
     const addCount = () => {
@@ -47,14 +49,14 @@ const Product4 = () => {
             return navigator("/login");
         }
 
-        const isThere = cart.products.find(p => p.product === _id);
         
-        if(isThere){
-            toast.info("Item Already in the cart")
-            return; 
-        }
-
         if(cart) {
+            const isThere = cart?.products.find(p => p.product === _id);
+        
+            if(isThere){
+                toast.info("Item Already in the cart")
+                return; 
+            }
             dispatch(addCartItem(cart._id,{product: _id,quantity: 1}));
         }
         else {
@@ -93,6 +95,8 @@ const Product4 = () => {
             }
             if(resRev.success){
                 setReviews(resRev.reviews);
+                const allRatings = resRev.reviews.reduce((a, b) => a + b.rating, 0);
+                setAvrageRatings(allRatings/resRev.reviews.length);
             }
         })();
     }, [productId]);
@@ -110,18 +114,18 @@ const Product4 = () => {
                         <div className=" flex flex-row space-x-3">
                            
                             {
-                                new Array(Math.trunc(rating)).fill('').map((r,i) => <AiFillStar key={i} size={28}/>)
+                                new Array(Math.trunc(agrageRatings)).fill('').map((r,i) => <AiFillStar key={i} size={28}/>)
                             }
                            
                             {
                                 isFloat && <BsStarHalf className="" size={28}/>
                             }
                             {
-                                isFloat? new Array(Math.ceil(5-rating)-1).fill('').map((r,i)=><AiOutlineStar key={i} size={28}/>):new Array(Math.ceil(5-rating)).fill('').map((r,i)=><AiOutlineStar key={i} size={28}/>)
+                                isFloat? new Array(Math.ceil(5-agrageRatings)-1).fill('').map((r,i)=><AiOutlineStar key={i} size={28}/>):new Array(Math.ceil(5-agrageRatings)).fill('').map((r,i)=><AiOutlineStar key={i} size={28}/>)
                             }
                             
                         </div>
-                        <p className="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 font-normal text-base leading-4 text-gray-700 hover:underline hover:text-gray-800 duration-100 cursor-pointer">22 reviews</p>
+                        <p className="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 font-normal text-base leading-4 text-gray-700 hover:underline hover:text-gray-800 duration-100 cursor-pointer">{reviews?.length} {reviews?.length >9 ? "reviews":"review"}</p>
                     </div>
 
                     <p className=" font-normal text-base leading-6 text-gray-600 mt-7">{product?.description}</p>
@@ -143,7 +147,7 @@ const Product4 = () => {
                         <hr className=" bg-gray-200 w-full mt-4" />
                     </div>
 
-                    <button onClick={()=>handleAddToCart(product?._id)} className="focus:outline-none focus:ring-2 hover:bg-black focus:ring-offset-2 focus:ring-gray-800 font-medium text-base leading-4 text-white bg-gray-800 w-full py-5 lg:mt-12 mt-6">Add to shopping bag</button>
+                    <button onClick={()=>handleAddToCart(product?._id)} className="focus:outline-none focus:ring-2 hover:bg-brandbg2Hover focus:ring-offset-2 focus:ring-gray-800 font-medium text-base leading-4 text-white bg-brandbg2 w-full py-5 lg:mt-12 mt-6">Add to shopping bag</button>
                 </div>
 
                 {/* <!-- Preview Images Div For larger Screen--> */}
@@ -187,8 +191,7 @@ const Product4 = () => {
             <ReviewForm reviewData={reviewData} setReviewData={setReviewData}/>
         </Modal>
         {/* <RatingStats/> */}
-        <div onClick={()=>setRatingModal(true)}>Add Review</div>
-        <ProductReview reviews={reviews}/>
+        <ProductReview reviews={reviews} setRatingModal={setRatingModal}/>
         </>
     );
 };

@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {MdOutlinePostAdd} from "react-icons/md";
-import { Tooltip as ReactTooltip } from 'react-tooltip';
+import ReactTooltip from "../../components/Tooltip"; 
 import {AiOutlineEye} from "react-icons/ai";
 import {RiDeleteBin7Line} from "react-icons/ri";
 import {CiEdit} from "react-icons/ci";

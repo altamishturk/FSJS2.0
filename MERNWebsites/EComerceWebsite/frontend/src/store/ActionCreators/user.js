@@ -67,7 +67,7 @@ export const getAllUsers = () => async (dispatch) =>{
     try {
         const res = await fatchRequest(`${domainName}/users`,"GET")
         if(res.success){
-            dispatch({type:GET_ALL_USERS,payload:res})
+            dispatch({type:GET_ALL_USERS,payload:res.users})
         }
         else{
             toast.error(res.message);

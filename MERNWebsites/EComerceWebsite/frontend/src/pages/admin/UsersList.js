@@ -7,7 +7,7 @@ import { AiOutlineEye } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import { CiEdit } from 'react-icons/ci';
 import { RiDeleteBin7Line } from 'react-icons/ri';
-import { Tooltip as ReactTooltip } from 'react-tooltip';
+import ReactTooltip from "../../components/Tooltip"; 
 
 function UsersList() {
     const dispatch = useDispatch();
@@ -116,14 +116,10 @@ function User({user,handleDelete}){
                 </div>
                 <ReactTooltip
                     anchorId="view-user"
-                    place="top"
-                    variant="info"
                     content="View User"
                 />
                 <ReactTooltip
                     anchorId="edit-user"
-                    place="top"
-                    variant="info"
                     content="Edit User"
                 />
                 <ReactTooltip

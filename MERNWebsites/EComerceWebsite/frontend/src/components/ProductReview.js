@@ -1,31 +1,44 @@
 import React from "react";
+import {FaUser} from "react-icons/fa";
+import {MdAddCircle} from "react-icons/md";
+import  timeSince from "../utils/timeSince";
+import ReactTooltip from "./Tooltip";
 
-export default function ProductReview({reviews}) {
+export default function ProductReview({reviews,setRatingModal}) {
     // console.log(reviews);
     return (
-        <div className="py-12 px-4 md:px-6 2xl:px-0 2xl:container 2xl:mx-auto flex justify-center items-center">
-            <div className="flex flex-col justify-start items-start w-full space-y-8">
-                <div className="flex justify-start items-start">
-                    <p className="text-3xl lg:text-4xl font-semibold leading-7 lg:leading-9 text-gray-800">Reviews</p>
+        <>
+          <div className="py-12 px-4 md:px-6 2xl:px-0 2xl:container 2xl:mx-auto flex justify-center items-center">
+                <div className="flex flex-col justify-start items-start w-full space-y-8">
+                    <div className="flex justify-between items-center w-full">
+                        <p className="text-3xl lg:text-4xl font-semibold leading-7 lg:leading-9 text-gray-800">Reviews</p>
+                        <MdAddCircle onClick={()=>setRatingModal(true)} id="share-review" size={38} fill={`rgb(21,94,117)`} className="hover:cursor-pointer"/>
+                    </div>
+                    <div className="w-full flex justify-start items-start flex-col bg-gray-50 p-8">
+                        
+                    {
+                        reviews && reviews.map((review,i)=>{
+                            return <Review key={i} divder={reviews.length === i?true:false} review={review}/>
+                        })
+                    }
+                    </div>
                 </div>
-                <div className="w-full flex justify-start items-start flex-col bg-gray-50 p-8">
-                    
-                   {
-                    reviews && reviews.map((review,i)=>{
-                        return <Review key={i} divder={reviews.length === 1?true:false} review={review}/>
-                    })
-                   }
-                  
-                    
-                </div>
-            </div>
-        </div>
+          </div>
+          <ReactTooltip
+          anchorId="share-review"
+          place="top"
+          variant="info"
+          content="Share Review"
+          />
+        </>
     );
 };
 
 
 
 function Review({divder,review}) {
+  
+
  
     return (
         <>
@@ -57,11 +70,14 @@ function Review({divder,review}) {
                         </div>
                         <div className="mt-6 flex justify-start items-center flex-row space-x-2.5">
                             <div>
-                                <img src="https://i.ibb.co/QcqyrVG/Mask-Group.png" alt="girl-avatar" />
+                                {
+                                    review?.user.profilePic? (<img src={review.user.profilePic.url} className="w-16 h-16 rounded-full" alt="girl-avatar" />):<FaUser/> 
+                                }
+                                
                             </div>
                             <div className="flex flex-col justify-start items-start space-y-2">
-                                <p className="text-base font-medium leading-none text-gray-800">Anna Kendrick</p>
-                                <p className="text-sm leading-none text-gray-600">14 July 2021</p>
+                                <p className="text-base font-medium leading-none text-gray-800">{review?.user?.name}</p>
+                                <p className="text-sm leading-none text-gray-600">{timeSince(new Date(review.createdAt))} ago</p>
                             </div>
                         </div>
          </div>
