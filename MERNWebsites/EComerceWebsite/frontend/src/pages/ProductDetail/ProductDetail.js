@@ -1,7 +1,6 @@
 import React, { useState,useEffect,useMemo } from "react";
 import ProductReview from "../../components/ProductReview";
 import {useParams} from "react-router-dom";
-import {currency} from "../../Constants/constants";
 import {getOneProduct} from "../../store/ActionCreators/product";
 import {useSelector,useDispatch} from "react-redux";
 import {addCartItem, createCart} from "../../store/ActionCreators/cart";
@@ -14,7 +13,7 @@ import { BsStarHalf} from "react-icons/bs";
 import ReviewForm from "./ReviewForm";
 import Modal from "../../components/Modal";
 import { creatteReview, getReviewsByProductId } from "../../store/ActionCreators/review";
-
+import currencyFormeter from "../../utils/formetCurrency";
 
 
 
@@ -29,8 +28,8 @@ const Product4 = () => {
     const [ratingModal, setRatingModal] = useState(false);
     const [reviewData, setReviewData] = useState({rating: 0,comment: "",images: []});
     const [reviews, setReviews] = useState(null);
-    const [agrageRatings, setAvrageRatings] = useState(0);
-    const isFloat = useMemo(()=>(agrageRatings%Math.trunc(agrageRatings))!==0)
+    const [avrageRatings, setAvrageRatings] = useState(0);
+    const isFloat = useMemo(()=>()=>(avrageRatings%Math.trunc(avrageRatings))!==0,[avrageRatings])
     
 
     const addCount = () => {
@@ -87,6 +86,16 @@ const Product4 = () => {
 
 
     useEffect(() => {
+        if(reviews){
+            const allRatings = reviews.reduce((a, b) => a + b.rating, 0);
+            if(allRatings !== 0){
+                setAvrageRatings(allRatings/reviews.length);
+            }
+        }
+    }, [reviews]);
+
+
+    useEffect(() => {
         (async ()=>{
             const resPro = await getOneProduct(productId);
             const resRev = await getReviewsByProductId(productId);
@@ -95,8 +104,6 @@ const Product4 = () => {
             }
             if(resRev.success){
                 setReviews(resRev.reviews);
-                const allRatings = resRev.reviews.reduce((a, b) => a + b.rating, 0);
-                setAvrageRatings(allRatings/resRev.reviews.length);
             }
         })();
     }, [productId]);
@@ -114,14 +121,14 @@ const Product4 = () => {
                         <div className=" flex flex-row space-x-3">
                            
                             {
-                                new Array(Math.trunc(agrageRatings)).fill('').map((r,i) => <AiFillStar key={i} size={28}/>)
+                                new Array(Math.trunc(avrageRatings)).fill('').map((r,i) => <AiFillStar key={i} size={28}/>)
                             }
                            
                             {
                                 isFloat && <BsStarHalf className="" size={28}/>
                             }
                             {
-                                isFloat? new Array(Math.ceil(5-agrageRatings)-1).fill('').map((r,i)=><AiOutlineStar key={i} size={28}/>):new Array(Math.ceil(5-agrageRatings)).fill('').map((r,i)=><AiOutlineStar key={i} size={28}/>)
+                                isFloat? new Array(Math.ceil(5-avrageRatings)-1).fill('').map((r,i)=><AiOutlineStar key={i} size={28}/>):new Array(Math.ceil(5-avrageRatings)).fill('').map((r,i)=><AiOutlineStar key={i} size={28}/>)
                             }
                             
                         </div>
@@ -129,7 +136,7 @@ const Product4 = () => {
                     </div>
 
                     <p className=" font-normal text-base leading-6 text-gray-600 mt-7">{product?.description}</p>
-                    <p className=" font-semibold lg:text-2xl text-xl lg:leading-6 leading-5 mt-6 ">{currency}{product?.price}</p>
+                    <p className=" font-semibold lg:text-2xl text-xl lg:leading-6 leading-5 mt-6 ">{currencyFormeter(product?.price)}</p>
 
                     <div className="lg:mt-11 mt-10">
                         <div className="flex flex-row justify-between">

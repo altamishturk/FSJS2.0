@@ -20,7 +20,7 @@ export function cart(state=null,action){
         case REMOVE_CART_ITEM:
             return {
                 ...state,
-                products: state.products.filter(p=> p.product !== action.payload)
+                products: state.products.filter(p=> p.product._id !== action.payload)
             }    
     
         default:

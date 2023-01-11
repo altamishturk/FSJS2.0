@@ -17,7 +17,7 @@ exports.getAll = bigPromice(async (req, res) => {
 // Get a single cart
 exports.getById = bigPromice(async(req, res) => {
 
-  const cart = await Cart.findById(req.params.cartId);
+  const cart = await Cart.findById(req.params.cartId).populate("product");
 
   res.status(200).json({
     success: true,
@@ -30,7 +30,7 @@ exports.getById = bigPromice(async(req, res) => {
 // Get a single cart by user id 
 exports.getByUserId = bigPromice(async (req, res) => {
  
-  const cart = await Cart.findOne({user: req.params.userId});
+  const cart = await Cart.findOne({user: req.params.userId}).populate("products.product");
 
   res.status(200).json({
     success: true,
@@ -44,12 +44,15 @@ exports.getByUserId = bigPromice(async (req, res) => {
 // add cart item 
 exports.addCartItem = bigPromice(async (req, res) => {
 
-    const cart = await Cart.findById(req.params.cartId);
+    let cart = await Cart.findById(req.params.cartId);
 
     
     cart.products.push(req.body);
     
     await cart.save();
+
+    
+    cart = await Cart.findById(req.params.cartId).populate("products.product");
 
     res.status(200).json({
       success: true,
@@ -66,9 +69,9 @@ exports.removeCartItem = bigPromice(async (req, res) => {
 
     cart.products = cart.products.filter(p => p.product.toString() !== req.params.productId)
 
-    console.log(cart.products.length);
-
     await cart.save();
+
+    // cart.populate("products.product")
 
     res.status(200).json({
       success: true,
@@ -81,9 +84,11 @@ exports.removeCartItem = bigPromice(async (req, res) => {
 // Create a new cart
 exports.create = bigPromice(async(req, res) => {
 
-  const cart = new Cart(req.body);
+  let cart = new Cart(req.body);
 
   await cart.save();
+
+  cart = await Cart.findOne({user:req.body.user}).populate("products.product");
 
   res.status(201).json({
     success: true,

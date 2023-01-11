@@ -1,15 +1,29 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import {useDispatch,useSelector} from "react-redux";
-import { currency } from "../Constants/constants";
 import {removeCartItem} from "../store/ActionCreators/cart";
+import currencyFormeter from "../utils/formetCurrency";
+import {useNavigate} from "react-router-dom";
 
 export default function Cart({show,setShow}) {
     const dispatch = useDispatch();
     const cart = useSelector(state => state.cart);
+    const [totalAmount, setTotalAmount] = useState(0);
+    const [tax, setTax] = useState(0);
+    const [shipping, setShipping] = useState(0);
+    const navigator = useNavigate();
 
     const handleRemove =(productId)=>{
         dispatch(removeCartItem(cart._id,productId));
     }
+
+    useEffect(()=>{
+        if(cart?.products?.length > 0){
+            const totalAmt = cart.products.reduce((a,b)=> a + b.product.price,0);
+            setTotalAmount(totalAmt);
+            setTax(10);
+            setShipping(100);
+        }
+    },[cart])
     
     return (
         <>
@@ -30,7 +44,7 @@ export default function Cart({show,setShow}) {
                                     <p className="text-5xl font-black leading-10 text-gray-800 pt-3">Bag</p>
                                     {
                                         cart && cart.products.map((product,i)=>{
-                                            return <CartItem key={i} product={product} handleRemove={handleRemove}/>
+                                            return <CartItem key={i} p={product} handleRemove={handleRemove}/>
                                         })
                                     }
                                 </div>
@@ -40,23 +54,23 @@ export default function Cart({show,setShow}) {
                                             <p className="text-4xl font-black leading-9 text-gray-800">Summary</p>
                                             <div className="flex items-center justify-between pt-16">
                                                 <p className="text-base leading-none text-gray-800">Subtotal</p>
-                                                <p className="text-base leading-none text-gray-800">$9,000</p>
+                                                <p className="text-base leading-none text-gray-800">{currencyFormeter(totalAmount)}</p>
                                             </div>
                                             <div className="flex items-center justify-between pt-5">
                                                 <p className="text-base leading-none text-gray-800">Shipping</p>
-                                                <p className="text-base leading-none text-gray-800">$30</p>
+                                                <p className="text-base leading-none text-gray-800">{currencyFormeter(shipping)}</p>
                                             </div>
                                             <div className="flex items-center justify-between pt-5">
                                                 <p className="text-base leading-none text-gray-800">Tax</p>
-                                                <p className="text-base leading-none text-gray-800">$35</p>
+                                                <p className="text-base leading-none text-gray-800">{currencyFormeter(tax)}</p>
                                             </div>
                                         </div>
                                         <div>
                                             <div className="flex items-center pb-6 justify-between lg:pt-5 pt-20">
                                                 <p className="text-2xl leading-normal text-gray-800">Total</p>
-                                                <p className="text-2xl font-bold leading-normal text-right text-gray-800">$10,240</p>
+                                                <p className="text-2xl font-bold leading-normal text-right text-gray-800">{currencyFormeter(totalAmount+shipping+tax)}</p>
                                             </div>
-                                            <button onClick={() => setShow(!show)} className="text-base leading-none w-full py-5 bg-gray-800 border-gray-800 border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-white">
+                                            <button onClick={() => {navigator('/checkout',{state: cart.products});setShow(!show);}} className="text-base leading-none w-full py-5 bg-gray-800 border-gray-800 border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-white">
                                                 Checkout
                                             </button>
                                         </div>
@@ -89,24 +103,31 @@ export default function Cart({show,setShow}) {
 }
 
 
-function CartItem({product,handleRemove}){
-
-
+function CartItem({p,handleRemove}){
+    const [qty, setQty] = useState(0);
+    const {product,quantity} = p;
+    
+    useEffect(() => {
+        setQty(quantity);
+    }, [quantity]);
     // console.log(product);
     return (
         <>
     <div className="md:flex items-center mt-14 py-8 border-t border-gray-200">
                                         <div className="w-1/4">
-                                            <img src="https://cdn.tuk.dev/assets/templates/e-commerce-kit/bestSeller3.png" alt="img" className="w-full h-full object-center object-cover" />
+                                            {
+                                                product.images && <img src={product?.images[0].url} alt="product"/>
+                                            }
                                         </div>
                                         <div className="md:pl-3 md:w-3/4">
                                             <p className="text-xs leading-3 text-gray-800 md:pt-0 pt-4">RF293</p>
                                             <div className="flex items-center justify-between w-full pt-1">
-                                                <p className="text-base font-black leading-none text-gray-800">North wolf bag</p>
-                                                <select className="py-2 px-1 border border-gray-200 mr-6 focus:outline-none">
-                                                    <option>01</option>
-                                                    <option>02</option>
-                                                    <option>03</option>
+                                                <p className="text-base font-black leading-none text-gray-800">{product.name}</p>
+                                                <select value={qty} onChange={(e)=>setQty(e.target.value)} className="py-2 px-1 border border-gray-200 mr-6 focus:outline-none">
+                                                    {
+                                                        [...Array.from(Array(10).keys())].map((i) => <option key={i+1} value={i+1}>{i+1}</option>)
+                                                    }
+                                                    
                                                 </select>
                                             </div>
                                             <p className="text-xs leading-3 text-gray-600 pt-2">Height: 10 inches</p>
@@ -115,9 +136,9 @@ function CartItem({product,handleRemove}){
                                             <div className="flex items-center justify-between pt-5 pr-6">
                                                 <div className="flex itemms-center">
                                                     <p className="text-xs leading-3 underline text-gray-800 cursor-pointer">Add to favorites</p>
-                                                    <p onClick={()=>handleRemove(product.product)} className="text-xs leading-3 underline text-red-500 pl-5 cursor-pointer">Remove</p>
+                                                    <p onClick={()=>handleRemove(product._id)} className="text-xs leading-3 underline text-red-500 pl-5 cursor-pointer">Remove</p>
                                                 </div>
-                                                <p className="text-base font-black leading-none text-gray-800">{currency}{product.price}</p>
+                                                <p className="text-base font-black leading-none text-gray-800">{currencyFormeter(product.price)}</p>
                                             </div>
                                         </div>
                                     </div>

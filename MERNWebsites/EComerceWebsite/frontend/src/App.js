@@ -21,6 +21,7 @@ import {useEffect} from "react";
 import {useDispatch} from "react-redux";
 import {getAllProducts} from "./store/ActionCreators/product";
 import {getLoggedInUser} from "./store/ActionCreators/user";
+import StripeCheckout from "./pages/Stripe/StripeCheckout"; 
 
 
 
@@ -45,7 +46,8 @@ function App() {
             <Route excet path="/contact" element={<><Navbar/><ContactUs /><Footer /></>} />
             <Route excet path="/products" element={<><Navbar/><Products /><Footer /></>} />
             <Route excet path="/product/:productId" element={<><Navbar/><ProductDetail/><Footer /></>} />
-            <Route excet path="/product/checkout" element={<><Navbar/><Checkout /><Footer /></>} />
+            <Route excet path="/checkout" element={<><Navbar/><Checkout /><Footer /></>} />
+            <Route excet path="/stripe/checkout" element={<><Navbar/><StripeCheckout/><Footer /></>} />
              {/* ptivate routes  */}
             <Route excet path="/" element={<><PrivateRoute/></>} >
               {/* admin routes  */}

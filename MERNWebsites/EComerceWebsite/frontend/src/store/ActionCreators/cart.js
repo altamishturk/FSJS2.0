@@ -49,7 +49,8 @@ export const addCartItem = (cartId,product) => async (dispatch) =>{
         const res = await fatchRequest(`${domainName}/carts/add/${cartId}`,"PUT",product)
         if(res.success){
             toast.success("Item Added Successfully!");
-            const temp = res.cart.products.find(p => p.product === product.product)
+            // console.log(res);
+            const temp = res.cart.products.find(p => p.product._id === product.product)
             dispatch({type: ADD_CART_ITEM,payload: temp})
         }
         else{
@@ -70,7 +71,7 @@ export const removeCartItem = (cartId,productId) => async (dispatch) =>{
     try {
         const res = await fatchRequest(`${domainName}/carts/remove/${cartId}/${productId}`,"PUT",{})
         
-        // console.log(res);
+        // console.log(productId);
         if(res.success){
             toast.success("Product removed Successfully!");
             dispatch({type: REMOVE_CART_ITEM, payload:productId});

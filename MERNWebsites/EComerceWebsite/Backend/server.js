@@ -97,6 +97,7 @@ const orderRoutes = require('./routes/order');
 const categoryRoutes = require('./routes/category');
 const reviewRoutes = require('./routes/review');
 const cartRoutes = require('./routes/cart');
+const paymentRoutes = require('./routes/payment');
 
 // Define routes
 app.use('/api/v1/auth', authRoutes);
@@ -106,6 +107,7 @@ app.use('/api/v1/orders', orderRoutes);
 app.use('/api/v1/categories', categoryRoutes);
 app.use('/api/v1/reviews', reviewRoutes);
 app.use('/api/v1/carts', cartRoutes);
+app.use('/api/v1/payments', paymentRoutes);
 
 
 // error handler middleware

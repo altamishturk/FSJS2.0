@@ -1,10 +1,10 @@
 import React from "react";
-import { currency } from "../../Constants/constants";
 import { Tooltip as ReactTooltip } from 'react-tooltip';
 import {useSelector,useDispatch} from "react-redux";
 import {addCartItem, createCart} from "../../store/ActionCreators/cart";
 import {useNavigate} from "react-router-dom";
 import { toast } from "react-toastify";
+import currencyFormeter from "../../utils/formetCurrency";
 
 export default function Product({product}) {
     const navigator = useNavigate();
@@ -20,14 +20,15 @@ export default function Product({product}) {
             return navigator("/login");
         }
 
-        const isThere = cart.products.find(p => p.product === _id);
-        
-        if(isThere){
-            toast.info("Item Already in the cart")
-            return; 
-        }
 
         if(cart) {
+            const isThere = cart.products.find(p => p.product._id === _id);
+            
+            if(isThere){
+                toast.info("Item Already in the cart")
+                return; 
+            }
+            
             dispatch(addCartItem(cart._id,{product: _id,quantity: 1}));
         }
         else {
@@ -64,7 +65,7 @@ export default function Product({product}) {
                                     <p className="text-lg font-medium leading-none text-gray-800">{product.name}</p>
                                 </div>
                                 <div>
-                                    <p className="text-lg leading-none text-right text-gray-600">{product.price} <span className="text-sm">{currency}</span></p>
+                                    <p className="text-lg leading-none text-right text-gray-600">{currencyFormeter(product.price)}</p>
                                 </div>
                             </div>
                         </div>
