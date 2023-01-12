@@ -6,7 +6,7 @@ import fecthRequest from "../../utils/fatchRequest";
 
 export default function Checkout() {
     const location = useLocation();
-    const navigator = useNavigate();
+    // const navigator = useNavigate();
     const [totalItems, setTotalItems] = useState(0);
     const [totalCharges, setTotalCharges] = useState(0);
     const [shippingCharges, setShippingCharges] = useState(0);
