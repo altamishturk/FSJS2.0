@@ -4,11 +4,11 @@ import {ADD_CART_ITEM, CREATE_CART, GET_CART, REMOVE_CART_ITEM} from "../../Cons
 import {toast} from "react-toastify";
 
 
-export const getCart = (userId) => async (dispatch) =>{
+export const getCart = () => async (dispatch) =>{
 
     try {
-        
-        const res = await fatchRequest(`${domainName}/carts/user/${userId}`,"GET")
+        const res = await fatchRequest(`${domainName}/carts/user/id`,"GET")
+        console.log(res);
         if(res.success){
             dispatch({type: GET_CART, payload: res.cart})
         }

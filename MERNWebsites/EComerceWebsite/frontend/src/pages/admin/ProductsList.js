@@ -92,14 +92,14 @@ function Product({product,handleDelete}){
                                         <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3 flex items-center">
                                             {product?.images?.length>0? <img className="rounded-full" src={product.images[0]?.url} width="40" height="40" alt="Alex Shatov"/>:<BiUserCircle size={28}/>}
                                         </div>
-                                        <div className="font-medium text-gray-800">{product.name}</div>
+                                        <div className="font-medium text-gray-800" title={product.name}>{product.name.slice(0,15)}...</div>
                                     </div>
             </td>
             <td className="p-2 whitespace-nowrap">
                 <div className="text-left font-medium text-green-500">{product.price}</div>
             </td>
             <td className="p-2 whitespace-nowrap">
-                <div className="text-left">{product.description}</div>
+                <div className="text-left" title={product.description}>{product.description.slice(0,15)}...</div>
             </td>
             <td className="p-2 whitespace-nowrap">
                 <div className="text-lg text-left">{product.quantity}</div>

@@ -1,4 +1,4 @@
-import {ADD_PRODUCT, DELETE_PRODUCT, GET_ALL_PRODUCTS, UPDATE_PRODUCT} from "../../Constants/actions";
+import {ADD_PRODUCT, DELETE_PRODUCT, GET_ALL_PRODUCTS, UPDATE_PRODUCT,RESET_PRODUCTS} from "../../Constants/actions";
 
 
 
@@ -15,6 +15,9 @@ function product(state=null,action){
             return state.map(product => product._id === action.payload._id? {...product,...action.payload}:product)    
        
         case DELETE_PRODUCT:
+            return state.filter(product => product._id !== action.payload)  
+
+        case RESET_PRODUCTS:
             return state.filter(product => product._id !== action.payload)    
         
             default:

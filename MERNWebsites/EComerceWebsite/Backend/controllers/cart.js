@@ -29,8 +29,8 @@ exports.getById = bigPromice(async(req, res) => {
 
 // Get a single cart by user id 
 exports.getByUserId = bigPromice(async (req, res) => {
- 
-  const cart = await Cart.findOne({user: req.params.userId}).populate("products.product");
+
+  const cart = await Cart.findOne({user: req.user._id}).populate("products.product");
 
   res.status(200).json({
     success: true,

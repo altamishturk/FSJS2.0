@@ -1,12 +1,11 @@
 import React, { useState,useEffect } from "react";
-import {useLocation,useNavigate} from "react-router-dom";
+import {useLocation } from "react-router-dom";
 import currencyFormeter from "../../utils/formetCurrency";
 import ShipingDeatilsForm from "./ShipingDeatilsForm";
 import fecthRequest from "../../utils/fatchRequest";
 
 export default function Checkout() {
     const location = useLocation();
-    // const navigator = useNavigate();
     const [totalItems, setTotalItems] = useState(0);
     const [totalCharges, setTotalCharges] = useState(0);
     const [shippingCharges, setShippingCharges] = useState(0);
@@ -24,13 +23,17 @@ export default function Checkout() {
         state: "",
         email: ""
     });
-
+    const productsIds = location.state.map(p => {return {_id: p.product._id,quantity: p.quantity}});
 
     const handleSubmit = async ()=>{
         // console.log(shippingDeatils);
         // navigator("/stripe/checkout")
-        const res = await fecthRequest("http://localhost:4000/api/v1/payments/stripe","POST",{data: ""});
+        const res = await fecthRequest("http://localhost:4000/api/v1/payments/stripe","POST",{shippingDeatils,productsIds});
         console.log(res);
+        // navigator(res.url);
+        if(res.success){
+            window.location.href = res.url;
+        }
     }
     
 

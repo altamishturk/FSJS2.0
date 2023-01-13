@@ -1,6 +1,6 @@
-import React,{useState} from 'react';
-import { Link } from 'react-router-dom';
-import {useDispatch} from "react-redux";
+import React,{useEffect, useState} from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import {useDispatch, useSelector} from "react-redux";
 import {createUser} from "../store/ActionCreators/user";
 
 function SignUp() {
@@ -8,6 +8,8 @@ function SignUp() {
     const [user, setUser] = useState({firstName: "",lastName:"",email: "",password: ""});
     const [image, setImage] = useState("");
     const [imageUrl, setImageUrl] = useState(null);
+    const loggedInUser = useSelector(state => state.loggedInUser);
+    const navigator = useNavigate();
 
     const handleChnange = (e)=>{
         setUser(prev =>{
@@ -39,6 +41,12 @@ function SignUp() {
         // console.log(temp);
         dispatch(createUser(temp));
     }
+
+    useEffect(() => {
+        if(loggedInUser){
+            navigator("/")
+        }
+    }, [loggedInUser,navigator]);
 
   return (
     <div className="mx-auto container py-16 xl:px-20 lg:px-12 sm:px-6 px-4">

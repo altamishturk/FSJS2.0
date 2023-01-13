@@ -1,4 +1,4 @@
-import {UPDATE_USER,GET_ALL_USERS} from "../../Constants/actions";
+import {UPDATE_USER,GET_ALL_USERS, RESET_USERS} from "../../Constants/actions";
 
 
 
@@ -10,6 +10,9 @@ export function users(state=null,action){
 
         case UPDATE_USER:
             return state.map(product => product._id === action.payload._id? {...product,...action.payload}:product)    
+    
+        case RESET_USERS:
+            return null  
     
         default:
             return state;

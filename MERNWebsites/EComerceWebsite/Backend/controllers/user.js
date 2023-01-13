@@ -48,9 +48,10 @@ exports.createUser = bigPromice(async (req, res) => {
     const user = new User(req.body);
     
     // Use the Cloudinary uploader to upload the image
-    const img = await cloudinary.uploader.upload(req.body.profilePic,{folder:"e-comerce-website-(completed)"});
+    // const img = await cloudinary.uploader.upload(req.body.profilePic,{folder:"e-comerce-website-(completed)"});
   
-    user.profilePic = {url: img.url,publicId: img.public_id}
+    // user.profilePic = {url: img.url,publicId: img.public_id}
+
 
     await user.save();
 

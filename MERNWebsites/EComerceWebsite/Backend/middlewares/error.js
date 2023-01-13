@@ -1,7 +1,5 @@
 const errorMIddleware = (error,req,res,next)=>{
 
-    console.log(error);
-
     error.code = error.code || 500;
     error.message = error.message || "internal Server Error";
 

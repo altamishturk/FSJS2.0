@@ -19,7 +19,8 @@ function sendToken(req,res) {
     res.cookie('token', token, {
         maxAge: 1000 * 60 * 60 * 24 * 7,  // 1 week
         httpOnly: true,
-        secure: true
+        secure: true,
+        exp: Math.floor(Date.now() / 1000) + 86400
       });
 
     req.user.password = undefined;  

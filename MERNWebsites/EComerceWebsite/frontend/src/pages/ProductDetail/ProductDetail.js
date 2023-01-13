@@ -29,7 +29,7 @@ const Product4 = () => {
     const [reviewData, setReviewData] = useState({rating: 0,comment: "",images: []});
     const [reviews, setReviews] = useState(null);
     const [avrageRatings, setAvrageRatings] = useState(0);
-    const isFloat = useMemo(()=>()=>(avrageRatings%Math.trunc(avrageRatings))!==0,[avrageRatings])
+    const isFloat = useMemo(()=>(avrageRatings%Math.trunc(avrageRatings))!==0,[avrageRatings])
     
 
     const addCount = () => {
@@ -88,6 +88,7 @@ const Product4 = () => {
     useEffect(() => {
         if(reviews){
             const allRatings = reviews.reduce((a, b) => a + b.rating, 0);
+            // console.log(allRatings/reviews.length);
             if(allRatings !== 0){
                 setAvrageRatings(allRatings/reviews.length);
             }
@@ -119,16 +120,15 @@ const Product4 = () => {
 
                     <div className=" flex flex-row justify-between  mt-5">
                         <div className=" flex flex-row space-x-3">
-                           
                             {
                                 new Array(Math.trunc(avrageRatings)).fill('').map((r,i) => <AiFillStar key={i} size={28}/>)
                             }
                            
                             {
-                                isFloat && <BsStarHalf className="" size={28}/>
+                                avrageRatings !== 0 && isFloat && <BsStarHalf className="" size={28}/>
                             }
                             {
-                                isFloat? new Array(Math.ceil(5-avrageRatings)-1).fill('').map((r,i)=><AiOutlineStar key={i} size={28}/>):new Array(Math.ceil(5-avrageRatings)).fill('').map((r,i)=><AiOutlineStar key={i} size={28}/>)
+                                isFloat? new Array((Math.ceil(5-avrageRatings))).fill('').map((r,i)=><AiOutlineStar key={i} size={28}/>):new Array(Math.ceil(5-avrageRatings)).fill('').map((r,i)=><AiOutlineStar key={i} size={28}/>)
                             }
                             
                         </div>

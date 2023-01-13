@@ -6,7 +6,7 @@ const {isLoggedIn} = require("../middlewares/auth");
 // Define the review routes
 router.get('/', getAll);
 router.get('/:cartId', getById);
-router.get('/user/:userId', getByUserId);
+router.get('/user/:userId', isLoggedIn,getByUserId);
 router.post('/', isLoggedIn,create);
 router.put('/:cartId', isLoggedIn,update);
 router.put('/add/:cartId', isLoggedIn,addCartItem);

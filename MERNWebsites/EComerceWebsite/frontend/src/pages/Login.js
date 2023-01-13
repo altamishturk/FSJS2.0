@@ -1,12 +1,14 @@
-import React,{useState} from 'react';
-import { Link } from 'react-router-dom';
-import {useDispatch} from "react-redux";
+import React,{useState,useEffect} from 'react';
+import { Link,useNavigate } from 'react-router-dom';
+import {useDispatch, useSelector} from "react-redux";
 import {loginUser} from "../store/ActionCreators/auth";
 
 function Login() {
     const dispatch = useDispatch();
+    const loggedInUser = useSelector(state => state.loggedInUser);
+    const navigator = useNavigate();
     const [user, setUser] = useState({email:"",password:""});
-    
+
     const handleChange = (e)=>{
         setUser(prev=>{
             return {
@@ -20,6 +22,13 @@ function Login() {
         e.preventDefault();
         dispatch(loginUser(user));
     }
+
+    
+    useEffect(() => {
+        if(loggedInUser){
+            navigator("/")
+        }
+    }, [loggedInUser,navigator]);
 
   return (
     <>
@@ -80,4 +89,4 @@ function Login() {
   )
 }
 
-export default Login
+export default Login;

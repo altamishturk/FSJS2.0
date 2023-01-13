@@ -1,6 +1,6 @@
 import React, {useState } from "react";
 import { Link } from "react-router-dom";
-import Cart from "../components/Cart";
+import Cart from "../pages/Cart";
 import {useSelector,useDispatch} from "react-redux";
 import {logoutUser} from "../store/ActionCreators/auth";
 

@@ -21,7 +21,8 @@ import {useEffect} from "react";
 import {useDispatch} from "react-redux";
 import {getAllProducts} from "./store/ActionCreators/product";
 import {getLoggedInUser} from "./store/ActionCreators/user";
-import StripeCheckout from "./pages/Stripe/StripeCheckout"; 
+import PaymentFail from "./pages/PaymentFail";
+import PaymentSuccess from "./pages/PaymentSuccess";
 
 
 
@@ -47,7 +48,8 @@ function App() {
             <Route excet path="/products" element={<><Navbar/><Products /><Footer /></>} />
             <Route excet path="/product/:productId" element={<><Navbar/><ProductDetail/><Footer /></>} />
             <Route excet path="/checkout" element={<><Navbar/><Checkout /><Footer /></>} />
-            <Route excet path="/stripe/checkout" element={<><Navbar/><StripeCheckout/><Footer /></>} />
+            <Route excet path="/payment-success" element={<PaymentSuccess/>}/>
+            <Route excet path="/payment-fail" element={<PaymentFail/>}/>
              {/* ptivate routes  */}
             <Route excet path="/" element={<><PrivateRoute/></>} >
               {/* admin routes  */}

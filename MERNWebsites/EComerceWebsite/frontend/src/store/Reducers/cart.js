@@ -1,4 +1,4 @@
-import { ADD_CART_ITEM, CREATE_CART, GET_CART, REMOVE_CART_ITEM } from "../../Constants/actions";
+import { ADD_CART_ITEM, CREATE_CART, GET_CART, REMOVE_CART_ITEM ,RESET_CART} from "../../Constants/actions";
 
 
 
@@ -21,7 +21,10 @@ export function cart(state=null,action){
             return {
                 ...state,
                 products: state.products.filter(p=> p.product._id !== action.payload)
-            }    
+            } 
+
+        case RESET_CART:
+            return null   
     
         default:
             return state;

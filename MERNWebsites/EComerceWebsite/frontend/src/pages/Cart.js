@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from "react";
 import {useDispatch,useSelector} from "react-redux";
-import {removeCartItem} from "../store/ActionCreators/cart";
+import {getCart, removeCartItem} from "../store/ActionCreators/cart";
 import currencyFormeter from "../utils/formetCurrency";
 import {useNavigate} from "react-router-dom";
 
@@ -24,6 +24,12 @@ export default function Cart({show,setShow}) {
             setShipping(100);
         }
     },[cart])
+
+    useEffect(() => {
+        if(!cart){
+            dispatch(getCart());
+        }
+    }, [dispatch,cart]);
     
     return (
         <>

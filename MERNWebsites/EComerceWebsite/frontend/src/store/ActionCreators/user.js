@@ -1,20 +1,22 @@
 import fatchRequest from "../../utils/fatchRequest";
-import {GET_ALL_USERS,LOGIN_USER,UPDATE_USER} from "../../Constants/actions";
+import {GET_ALL_USERS,LOGIN_USER,RESET_CART,UPDATE_USER} from "../../Constants/actions";
 import {toast} from "react-toastify";
 import {domainName} from "../../Constants/constants.js";
 import {getCart} from "./cart"
-
+import setToken from "../../utils/setToken";
 
 export const createUser = (user) => async (dispatch) =>{
 
     try {
         const res = await fatchRequest(`${domainName}/users`,"POST",user);
         if(res.success){
+            toast.success("Account Created And Login Success!");
+            setToken(res.token);
             dispatch({type:LOGIN_USER,payload:res.user});
-            toast.error(res.message);
+            dispatch({type:RESET_CART,payload:""});
         }
         else {
-            toast.success("Account Created And Login Success!");
+            toast.error(res.message);
         }
     } catch (error) {
         
