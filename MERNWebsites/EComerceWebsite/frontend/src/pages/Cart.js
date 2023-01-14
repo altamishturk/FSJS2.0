@@ -2,7 +2,7 @@ import React,{useState,useEffect} from "react";
 import {useDispatch,useSelector} from "react-redux";
 import {getCart, removeCartItem} from "../store/ActionCreators/cart";
 import currencyFormeter from "../utils/formetCurrency";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 export default function Cart({show,setShow}) {
     const dispatch = useDispatch();
@@ -34,18 +34,20 @@ export default function Cart({show,setShow}) {
     return (
         <>
         
-                {show && (
+                
                   <div className="w-full min-h-screen bg-gray-900 fixed top-0 right-0 z-10">
                     <div className="w-full min-h-screen bg-black bg-opacity-90 top-0 left-0 overflow-y-auto overflow-x-hidden fixed z-1000" id="chec-div">
                         <div className="w-full absolute z-10 right-0 h-full overflow-x-hidden transform translate-x-0 transition ease-in-out duration-700" id="checkout">
                             <div className="flex md:flex-row flex-col justify-end" id="cart">
                                 <div className="lg:w-1/2 w-full md:pl-10 pl-4 pr-10 md:pr-4 md:py-12 py-8 bg-white overflow-y-auto overflow-x-hidden h-screen" id="scroll">
-                                    <div className="flex items-center text-gray-500 hover:text-gray-600 cursor-pointer" onClick={() => setShow(!show)}>
+                                    <div className="flex items-center text-gray-500 hover:text-gray-600 cursor-pointer">
+                                        <Link to="/">
                                         <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-chevron-left" width={16} height={16} viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                             <polyline points="15 6 9 12 15 18" />
                                         </svg>
                                         <p className="text-sm pl-2 leading-none">Back</p>
+                                        </Link>
                                     </div>
                                     <p className="text-5xl font-black leading-10 text-gray-800 pt-3">Bag</p>
                                     {
@@ -76,7 +78,7 @@ export default function Cart({show,setShow}) {
                                                 <p className="text-2xl leading-normal text-gray-800">Total</p>
                                                 <p className="text-2xl font-bold leading-normal text-right text-gray-800">{currencyFormeter(totalAmount+shipping+tax)}</p>
                                             </div>
-                                            <button onClick={() => {navigator('/checkout',{state: cart.products});setShow(!show);}} className="text-base leading-none w-full py-5 bg-gray-800 border-gray-800 border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-white">
+                                            <button onClick={() => {navigator('/checkout',{state: cart.products});}} className="text-base leading-none w-full py-5 bg-gray-800 border-gray-800 border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-white">
                                                 Checkout
                                             </button>
                                         </div>
@@ -86,7 +88,7 @@ export default function Cart({show,setShow}) {
                         </div>
                     </div>
                   </div>
-                )}
+                
             <style>
                 {` /* width */
                 #scroll::-webkit-scrollbar {

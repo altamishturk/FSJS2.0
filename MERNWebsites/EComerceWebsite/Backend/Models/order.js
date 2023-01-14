@@ -29,6 +29,10 @@ const orderSchema = new mongoose.Schema({
     default: 'pending',
     enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'],
   },
+  isPaymentDone: {
+    type: String,
+    default: false
+  }
 },{timestamps:true});
 
 const Order = mongoose.model('Order', orderSchema);

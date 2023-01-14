@@ -18,7 +18,7 @@ function product(state=null,action){
             return state.filter(product => product._id !== action.payload)  
 
         case RESET_PRODUCTS:
-            return state.filter(product => product._id !== action.payload)    
+            return null    
         
             default:
             return state;

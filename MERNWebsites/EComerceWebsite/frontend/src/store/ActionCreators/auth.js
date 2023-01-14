@@ -37,10 +37,10 @@ export const logoutUser = () => async (dispatch) =>{
         if(res.success){
             setToken("");
             toast.success("Logout Success!");
-            dispatch({type:LOGOUT_USER,payload:null});
-            dispatch({type:RESET_CART,payload:""});
-            dispatch({type:RESET_USERS,payload:""});
-            dispatch({type:RESET_PRODUCTS,payload:""});
+            dispatch({type: LOGOUT_USER ,payload:null});
+            dispatch({type: RESET_CART ,payload:""});
+            dispatch({type: RESET_USERS ,payload:""});
+            dispatch({type: RESET_PRODUCTS ,payload:""});
         }
         else{
             toast.error(res.message);

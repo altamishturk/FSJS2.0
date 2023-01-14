@@ -2,6 +2,7 @@ const stripe = require('stripe')('sk_test_51K4MH1SCUI6JQcpYuud8rlrUGEhEIHXOTYs81
 const bigPromice = require("../middlewares/bigPromice");
 const Product = require("../Models/product");
 const ShippingDetails = require("../Models/shippingDeatils");
+const Order = require("../Models/order");
 
 
 module.exports.makePaymentThroughStripe = bigPromice(async (req, res) => {
@@ -27,8 +28,11 @@ module.exports.makePaymentThroughStripe = bigPromice(async (req, res) => {
       quantity: getQuantity(p._id.toString()),
     }
   })
-  
-  // console.log(orderedItems);
+
+  const totalPrice = products.reduce((a,b) => a + b.price,0);
+  const t = req.body.productsIds.map(p => {return {product: p._id,quantity: p.quantity}});
+  const order = await Order.create({products: t,user: req.user._id,totalPrice})
+  console.log(order);
 
   const session = await stripe.checkout.sessions.create({
     line_items: orderedItems,
@@ -37,6 +41,8 @@ module.exports.makePaymentThroughStripe = bigPromice(async (req, res) => {
     cancel_url: `http://localhost:3000/payment-fail`,
   });
 
+
+  
 
     const sd = await ShippingDetails.findOne({user: req.user._id});
     if(!sd){
