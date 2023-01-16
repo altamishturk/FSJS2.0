@@ -1,8 +1,29 @@
-import React from 'react';
-import {Link } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import {Link ,useLocation} from "react-router-dom";
 
 
 function PaymentSuccess() {
+  const location = useLocation();
+  const [queryData, setQueryData] = useState({});
+
+
+  useEffect(() => {
+    const str = location.search.replace("?","");
+    let obj = {};
+    str.split("&").forEach(el => {
+      let temp = el.split("=");
+      obj[temp[0]] = temp[1];
+    });
+    setQueryData(obj);
+  }, [location]);
+
+  useEffect(()=>{
+    if(queryData.payment_intent){
+      console.log(queryData);
+    }
+  },[queryData]);
+  
+
   return (
     <div className="bg-gray-100 h-screen flex justify-center items-center">
       <div className="bg-white p-6  mx-4">

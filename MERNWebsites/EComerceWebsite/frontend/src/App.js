@@ -24,6 +24,7 @@ import {getLoggedInUser} from "./store/ActionCreators/user";
 import PaymentFail from "./pages/PaymentFail";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import Cart from "./pages/Cart";
+import Stripe from "./pages/stripe/Stripe"
 
 
 
@@ -49,6 +50,7 @@ function App() {
             <Route excet path="/products" element={<><Navbar/><Products /><Footer /></>} />
             <Route excet path="/product/:productId" element={<><Navbar/><ProductDetail/><Footer /></>} />
             <Route excet path="/checkout" element={<><Navbar/><Checkout /><Footer /></>} />
+            <Route excet path="/payment" element={<><Navbar/><Stripe/><Footer /></>} />
             <Route excet path="/cart" element={<><Cart/></>} />
             <Route excet path="/payment-success" element={<PaymentSuccess/>}/>
             <Route excet path="/payment-fail" element={<PaymentFail/>}/>

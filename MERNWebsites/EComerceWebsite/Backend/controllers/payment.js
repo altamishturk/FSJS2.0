@@ -5,7 +5,7 @@ const ShippingDetails = require("../Models/shippingDeatils");
 const Order = require("../Models/order");
 
 
-module.exports.makePaymentThroughStripe = bigPromice(async (req, res) => {
+module.exports.createCheckoutSessionStripe = bigPromice(async (req, res) => {
 
   const productIds = req.body.productsIds.map(p => p._id);
   let products = await Product.find({_id: {$in: productIds}});
@@ -58,3 +58,46 @@ module.exports.makePaymentThroughStripe = bigPromice(async (req, res) => {
     })
 
 });
+
+
+
+module.exports.createPaymentIntentStripe = bigPromice(async (req, res) => {
+
+
+    const { items } = req.body;
+    const totalPrice = await calculateOrderAmount(items);
+
+    // Create a PaymentIntent with the order amount and currency
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: totalPrice,
+      currency: "inr",
+      automatic_payment_methods: {
+        enabled: true,
+      },
+    });
+
+
+    res.status(200).json({
+        success: true,
+        message: "",
+        clientSecret: paymentIntent.client_secret,
+    })
+
+});
+
+
+async function calculateOrderAmount(items){
+
+  const ids = items.map(i => i._id);
+
+  const products = await Product.find({_id: {$in: ids}});
+
+  let totalamount = 0;
+
+  products.forEach(product => {
+    const pro = items.find(i => i._id === product._id.toString());
+    totalamount += product.price*pro.quantity;
+  })
+
+  return totalamount;
+}
