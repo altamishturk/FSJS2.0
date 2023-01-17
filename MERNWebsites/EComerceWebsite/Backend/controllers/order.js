@@ -1,6 +1,7 @@
 const Order = require('../Models/order');
 const Product = require("../Models/product");
 const bigPromice = require("../middlewares/bigPromice");
+const ShippingDetails = require("../Models/shippingDetails");
 
 // Get all orders
 exports.getAll = bigPromice(async(req, res) => {
@@ -32,7 +33,7 @@ exports.getById = bigPromice(async(req, res) => {
 // Create a new order
 exports.create = bigPromice(async (req, res) => {
 
-    const order = new Order(req.body);
+    const order = new Order({products: req.body.products});
 
     const orderedProductsIds = order.products.map(p => p.product);
     const orderedProduct = await Product.find({_id:{$in: orderedProductsIds}});
@@ -44,6 +45,11 @@ exports.create = bigPromice(async (req, res) => {
     })
 
     order.totalPrice = totalPrice;
+
+    const sd = await ShippingDetails.findOne({user: req.user._id});
+
+    order.shippingDetails = sd._id;
+    order.user = req.user._id;
     
     await order.save();
 

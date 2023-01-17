@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   PaymentElement,
   LinkAuthenticationElement,
@@ -6,47 +6,20 @@ import {
   useElements
 } from "@stripe/react-stripe-js";
 import { useNavigate } from "react-router-dom";
+import {createOrder} from "../../store/ActionCreators/order";
+import {useDispatch} from "react-redux";
 
-export default function CheckoutForm() {
+export default function CheckoutForm({products}) {
   const stripe = useStripe();
   const elements = useElements();
   const navigator = useNavigate();
+  const dispatch = useDispatch();
 
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    if (!stripe) {
-      return;
-    }
-
-    const clientSecret = new URLSearchParams(window.location.search).get(
-      "payment_intent_client_secret"
-    );
-
-    if (!clientSecret) {
-      return;
-    }
-
-    stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-      switch (paymentIntent.status) {
-        case "succeeded":
-          // console.log("payment success");
-          setMessage("Payment succeeded!");
-          break;
-        case "processing":
-          setMessage("Your payment is processing.");
-          break;
-        case "requires_payment_method":
-          setMessage("Your payment was not successful, please try again.");
-          break;
-        default:
-          setMessage("Something went wrong.");
-          break;
-      }
-    });
-  }, [stripe]);
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -70,6 +43,9 @@ export default function CheckoutForm() {
 
 
     if(res.paymentIntent?.status === "succeeded"){
+      let tp = products.map(p => {return {product: p._id,quantity: p.quantity}})
+      dispatch(createOrder({products: tp}));
+      console.log(email);
       navigator("/payment-success");
     }
 

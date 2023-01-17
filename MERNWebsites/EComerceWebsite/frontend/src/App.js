@@ -21,6 +21,7 @@ import {useEffect} from "react";
 import {useDispatch} from "react-redux";
 import {getAllProducts} from "./store/ActionCreators/product";
 import {getLoggedInUser} from "./store/ActionCreators/user";
+import {getAllOrders} from "./store/ActionCreators/order";
 import PaymentFail from "./pages/PaymentFail";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import Cart from "./pages/Cart";
@@ -35,6 +36,7 @@ function App() {
   useEffect(() => {
     dispatch(getLoggedInUser());
     dispatch(getAllProducts());
+    dispatch(getAllOrders());
   }, [dispatch]);
   
   return (
@@ -50,7 +52,7 @@ function App() {
             <Route excet path="/products" element={<><Navbar/><Products /><Footer /></>} />
             <Route excet path="/product/:productId" element={<><Navbar/><ProductDetail/><Footer /></>} />
             <Route excet path="/checkout" element={<><Navbar/><Checkout /><Footer /></>} />
-            <Route excet path="/payment" element={<><Navbar/><Stripe/><Footer /></>} />
+            <Route excet path="/payment/:clientSecret" element={<><Navbar/><Stripe/><Footer /></>} />
             <Route excet path="/cart" element={<><Cart/></>} />
             <Route excet path="/payment-success" element={<PaymentSuccess/>}/>
             <Route excet path="/payment-fail" element={<PaymentFail/>}/>

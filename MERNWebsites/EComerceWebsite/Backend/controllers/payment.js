@@ -1,7 +1,7 @@
 const stripe = require('stripe')('sk_test_51K4MH1SCUI6JQcpYuud8rlrUGEhEIHXOTYs81VSEzLUAccSFa73wO7Ap6qnKil4nLerGLh80zjRf5aLJf1debfyl00uaKP7KQz');
 const bigPromice = require("../middlewares/bigPromice");
 const Product = require("../Models/product");
-const ShippingDetails = require("../Models/shippingDeatils");
+const ShippingDetails = require("../Models/shippingDetails");
 const Order = require("../Models/order");
 
 
@@ -76,6 +76,12 @@ module.exports.createPaymentIntentStripe = bigPromice(async (req, res) => {
       },
     });
 
+
+    const sd = await ShippingDetails.findOne({user: req.user._id});
+    if(!sd){
+      const shipping = req.body.shippingDetails;
+      await ShippingDetails.create({...shipping,fullName: `${shipping.firstName} ${shipping.lastName}`,user: req.user._id});
+    }
 
     res.status(200).json({
         success: true,

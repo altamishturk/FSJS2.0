@@ -1,41 +1,35 @@
-import React from 'react'
+import React, { useState } from 'react';
+import {useSelector} from "react-redux";
+import timeSince from "../../utils/timeSince";
 
 function OrdersList() {
+    const orders = useSelector(state => state.orders);
+    const [tableHeaders] = useState(["Name","Amount","Date","Status","Actions"]);
+
   return (
     <>
             <div className="w-full bg-white shadow-lg rounded-sm border border-gray-200 mt-10">
                 <header className="px-5 py-4 border-b border-gray-100">
-                    <h2 className="font-semibold text-gray-800">Customers</h2>
+                    <h2 className="font-semibold text-gray-800">Orders</h2>
                 </header>
                 <div className="p-3">
                     <div className="overflow-x-auto">
                         <table className="table-auto w-full">
                             <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
                                 <tr>
-                                    <th className="p-2 whitespace-nowrap">
-                                        <div className="font-semibold text-left">Name</div>
-                                    </th>
-                                    <th className="p-2 whitespace-nowrap">
-                                        <div className="font-semibold text-left">Email</div>
-                                    </th>
-                                    <th className="p-2 whitespace-nowrap">
-                                        <div className="font-semibold text-left">Spent</div>
-                                    </th>
-                                    <th className="p-2 whitespace-nowrap">
-                                        <div className="font-semibold text-center">Country</div>
-                                    </th>
-                                    <th className="p-2 whitespace-nowrap">
-                                        <div className="font-semibold text-center">Actions</div>
-                                    </th>
+                                   {
+                                        tableHeaders.map(item =>{
+                                            return <th className="p-2 whitespace-nowrap" key={item}>
+                                                        <div className="font-semibold text-left">{item}</div>
+                                                    </th>
+                                        })
+                                    }
                                 </tr>
                             </thead>
                             <tbody className="text-sm divide-y divide-gray-100">
-                            <Order/>
-                            <Order/>
-                            <Order/>
-                            <Order/>
-                            <Order/>
-                            <Order/>
+                             {
+                                orders && orders.map((order,i) => <Order key={i} order={order}/>)
+                             }
                             </tbody>
                         </table>
                     </div>
@@ -49,24 +43,26 @@ export default OrdersList;
 
 
 
-function Order(){
+function Order({order}){
+
+    // console.log(order);
 
     return (
         <tr>
                                 <td className="p-2 whitespace-nowrap">
                                     <div className="flex items-center">
                                         <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img className="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg" width="40" height="40" alt="Alex Shatov"/></div>
-                                        <div className="font-medium text-gray-800">Alex Shatov</div>
+                                        <div className="font-medium text-gray-800">{order.user?.name}</div>
                                     </div>
                                 </td>
                                 <td className="p-2 whitespace-nowrap">
-                                    <div className="text-left">alexshatov@gmail.com</div>
+                                    <div className="text-left text-green-500">{order.totalPrice}</div>
                                 </td>
                                 <td className="p-2 whitespace-nowrap">
-                                    <div className="text-left font-medium text-green-500">$2,890.66</div>
+                                    <div className="text-left font-medium ">{timeSince(new Date(order.createdAt))}</div>
                                 </td>
                                 <td className="p-2 whitespace-nowrap">
-                                    <div className="text-lg text-center">??</div>
+                                    <div className="text-left font-medium ">{order.status}</div>
                                 </td>
                                 <td className="py-3 px-6 text-center">
                                     <div className="flex item-center justify-center">

@@ -29,9 +29,9 @@ const orderSchema = new mongoose.Schema({
     default: 'pending',
     enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'],
   },
-  isPaymentDone: {
-    type: String,
-    default: false
+  shippingDetails: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Product',
   }
 },{timestamps:true});
 

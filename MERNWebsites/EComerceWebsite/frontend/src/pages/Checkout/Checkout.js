@@ -2,7 +2,7 @@ import React, { useState,useEffect } from "react";
 import {useLocation,useNavigate } from "react-router-dom";
 import currencyFormeter from "../../utils/formetCurrency";
 import ShipingDeatilsForm from "./ShipingDeatilsForm";
-// import fecthRequest from "../../utils/fatchRequest";
+import fetchRequest from "../../utils/fatchRequest";
 
 export default function Checkout() {
     const location = useLocation();
@@ -11,7 +11,7 @@ export default function Checkout() {
     const [totalCharges, setTotalCharges] = useState(0);
     const [shippingCharges, setShippingCharges] = useState(0);
     const [tax, setTax] = useState(0);
-    const [shippingDeatils, setShippingDeatils] = useState({
+    const [shippingDetails, setShippingDetails] = useState({
         firstName: "",
         lastName: "",
         address1: "",
@@ -27,15 +27,11 @@ export default function Checkout() {
     const productsIds = location.state.map(p => {return {_id: p.product._id,quantity: p.quantity}});
 
     const handleSubmit = async ()=>{
-        // // console.log(shippingDeatils);
-        // // navigator("/stripe/checkout")
-        // const res = await fecthRequest("http://localhost:4000/api/v1/payments/stripe","POST",{shippingDeatils,productsIds});
-        // console.log(res);
-        // // navigator(res.url);
-        // if(res.success){
-        //     window.location.href = res.url;
-        // }
-        navigator('/payment',{state: productsIds})
+        const url = "http://localhost:4000/api/v1/payments/stripe/create-payment-intent";
+        const res = await fetchRequest(url,"POST",{ items: productsIds,shippingDetails })
+        if(res.success){
+            navigator(`/payment/${res.clientSecret}`,{state: productsIds});
+        }
     }
     
 
@@ -68,7 +64,7 @@ export default function Checkout() {
                         <div className="mt-12">
                             <p className="text-xl font-semibold leading-5 text-gray-800">Shipping Details</p>
                         </div>
-                        <ShipingDeatilsForm setShippingDeatils={setShippingDeatils} shippingDeatils={shippingDeatils}/>
+                        <ShipingDeatilsForm setShippingDetails={setShippingDetails} shippingDetails={shippingDetails}/>
                         <button onClick={handleSubmit} className="focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 mt-8 text-base font-medium focus:ring-2 focus:ring-ocus:ring-gray-800 leading-4 hover:bg-black py-4 w-full md:w-4/12 lg:w-full text-white bg-gray-800">Proceed to payment</button>
                         <div className="mt-4 flex justify-start items-center w-full">
                             <a href="/" className="text-base leading-4 underline focus:outline-none focus:text-gray-500  hover:text-gray-800 text-gray-600">
