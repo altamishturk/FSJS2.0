@@ -55,7 +55,7 @@ function Order({order}){
                                         <div className="font-medium text-gray-800">{order.user?.name}</div>
                                     </div>
                                 </td>
-                                <td className="p-2 whitespace-nowrap">
+                                <td className="p-2 whitespace-nowrap ">
                                     <div className="text-left text-green-500">{order.totalPrice}</div>
                                 </td>
                                 <td className="p-2 whitespace-nowrap">
