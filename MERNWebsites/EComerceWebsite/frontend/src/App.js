@@ -25,7 +25,8 @@ import {getAllOrders} from "./store/ActionCreators/order";
 import PaymentFail from "./pages/PaymentFail";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import Cart from "./pages/Cart";
-import Stripe from "./pages/stripe/Stripe"
+import Stripe from "./pages/stripe/Stripe";
+import ProfilePage from "./pages/Profile";
 
 
 
@@ -56,6 +57,7 @@ function App() {
             <Route excet path="/cart" element={<><Cart/></>} />
             <Route excet path="/payment-success" element={<PaymentSuccess/>}/>
             <Route excet path="/payment-fail" element={<PaymentFail/>}/>
+            <Route excet path="/profile" element={<><Navbar/><ProfilePage/><Footer /></>}/>
              {/* ptivate routes  */}
             <Route excet path="/" element={<><PrivateRoute/></>} >
               {/* admin routes  */}
