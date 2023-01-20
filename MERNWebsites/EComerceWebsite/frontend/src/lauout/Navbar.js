@@ -53,6 +53,7 @@ export default function Navbar() {
     
     const handleProfileClick =()=>{
         navigator("/profile");
+        
     }
 
     return (
