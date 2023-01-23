@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {createUser} from "../store/ActionCreators/user";
 
 function SignUp() {
-    const dispatch = useDispatch();
+    const dispatch =  useDispatch();
     const [user, setUser] = useState({firstName: "",lastName:"",email: "",password: ""});
     const [image, setImage] = useState("");
     const [imageUrl, setImageUrl] = useState(null);
@@ -49,7 +49,7 @@ function SignUp() {
     }, [loggedInUser,navigator]);
 
   return (
-    <div className="mx-auto container py-16 xl:px-20 lg:px-12 sm:px-6 px-4">
+    <div className="mx-auto container py-16 xl:px-20 lg:px-12 sm:px-6 px-4 ">
             <div className="w-full max-w-md mx-auto my-10 p-4 rounded-md shadow sm:p-8 bg-gray-100 text-gray-900">
                     <h2 className="mb-3 text-3xl font-semibold text-center">Create Accout</h2>
                     <p className="text-sm text-center text-gray-400">Already have account?
