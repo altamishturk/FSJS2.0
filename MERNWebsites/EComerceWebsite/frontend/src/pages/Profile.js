@@ -19,7 +19,7 @@ function Profile() {
                     <img 
                     alt="profile" 
                     src={loggedInUser.profilePic?.url} 
-                    className="shadow-xl rounded-full align-middle border-none absolute left-[42%] w-[150px] h-[150px] -m-16 -ml-20 lg:-ml-16 "/>
+                    className="shadow-xl  rounded-full align-middle border-none absolute left-[42%] w-[150px] h-[150px] -m-16 -ml-20 lg:-ml-16 "/>
                 </div>
                 </div>
                 <div className="w-full px-4 text-center">
