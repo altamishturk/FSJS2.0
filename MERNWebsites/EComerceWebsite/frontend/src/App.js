@@ -1,8 +1,6 @@
 import "./App.css";
-import Navbar from "./lauout/Navbar";
 import Home from "./pages/Home/Home";
 import AboutUs from "./pages/AboutUs/AboutUs.js";
-import Footer from "./lauout/Footer";
 import ContactUs from "./pages/ContactUs/ContactUs.js";
 import Checkout from "./pages/Checkout/Checkout";
 import ProductDetail from "./pages/ProductDetail/ProductDetail";
@@ -25,9 +23,9 @@ import {getAllOrders} from "./store/ActionCreators/order";
 import PaymentFail from "./pages/PaymentFail";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import Cart from "./pages/Cart";
-import Stripe from "./pages/stripe/Stripe";
+import Stripe from "./pages/Checkout/Stripe";
 import ProfilePage from "./pages/Profile";
-
+import Layout from "./components/Layout";
 
 
 function App() {
@@ -45,23 +43,31 @@ function App() {
       <div className="app">
         <BrowserRouter>
           <Routes>
-            <Route excet path="/" element={<><Navbar/><Home /><Footer /></>} />
-            <Route excet path="/login" element={<><Navbar/><Login /><Footer /></>} />
-            <Route excet path="/signup" element={<><Navbar/><SignUp /><Footer /></>} />
-            <Route excet path="/about" element={<><Navbar/><AboutUs /><Footer /></>} />
-            <Route excet path="/contact" element={<><Navbar/><ContactUs /><Footer /></>} />
-            <Route excet path="/products" element={<><Navbar/><Products /><Footer /></>} />
-            <Route excet path="/product/:productId" element={<><Navbar/><ProductDetail/><Footer /></>} />
-            <Route excet path="/checkout" element={<><Navbar/><Checkout /><Footer /></>} />
-            <Route excet path="/payment/:clientSecret" element={<><Navbar/><Stripe/><Footer /></>} />
-            <Route excet path="/cart" element={<><Cart/></>} />
-            <Route excet path="/payment-success" element={<PaymentSuccess/>}/>
-            <Route excet path="/payment-fail" element={<PaymentFail/>}/>
-            <Route excet path="/profile" element={<><Navbar/><ProfilePage/><Footer /></>}/>
-             {/* ptivate routes  */}
-            <Route excet path="/" element={<><PrivateRoute/></>} >
+            {/* public routes  */}
+            <Route excet path="/" element={<Layout item={Home}/>}/>
+            <Route excet path="/login" element={<Layout item={Login}/>} />
+            <Route excet path="/signup" element={<Layout item={SignUp}/>} />
+            <Route excet path="/about" element={<Layout item={AboutUs}/>} />
+            <Route excet path="/contact" element={<Layout item={ContactUs}/>} />
+            <Route excet path="/products" element={<Layout item={Products}/>} />
+           
+            
+            {/* private routes  */}
+            <Route excet path="/" element={<PrivateRoute/>} >
+               <Route excet path="profile" element={<Layout item={ProfilePage}/>}/>
+               <Route excet path="payment-success" element={<Layout item={PaymentSuccess}/>}/>
+               <Route excet path="payment-fail" element={<Layout item={PaymentFail}/>}/>
+               <Route excet path="product/:productId" element={<Layout item={ProductDetail}/>} />
+               <Route excet path="checkout" element={<Layout item={Checkout}/>} />
+               <Route excet path="payment/:clientSecret" element={<Layout item={Stripe}/>} />
+               <Route excet path="cart" element={<Layout item={Cart}/>} />
+            </Route>
+
+
+             {/* admin routes  */}
+            <Route excet path="/" element={<PrivateRoute isAdmin={true}/>} >
               {/* admin routes  */}
-              <Route path="/admin/dashboard" element={<Admin />}>
+              <Route path="/admin/dashboard" element={<><Admin/></>}>
                 <Route path="" element={<StaticesCards/>}/>
                 <Route path="products" element={<ProductsList/>}/>
                 <Route path="products/add" element={<CreateProduct/>}/>

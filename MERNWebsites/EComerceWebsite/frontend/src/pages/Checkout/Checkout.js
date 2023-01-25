@@ -1,16 +1,11 @@
-import React, { useState,useEffect } from "react";
+import React, { useState } from "react";
 import {useLocation,useNavigate } from "react-router-dom";
-import currencyFormeter from "../../utils/formetCurrency";
-import ShipingDeatilsForm from "./ShipingDeatilsForm";
+// import currencyFormeter from "../../utils/formetCurrency";
 import fetchRequest from "../../utils/fatchRequest";
 
 export default function Checkout() {
     const location = useLocation();
     const navigator = useNavigate();
-    const [totalItems, setTotalItems] = useState(0);
-    const [totalCharges, setTotalCharges] = useState(0);
-    const [shippingCharges, setShippingCharges] = useState(0);
-    const [tax, setTax] = useState(0);
     const [shippingDetails, setShippingDetails] = useState({
         firstName: "",
         lastName: "",
@@ -22,11 +17,14 @@ export default function Checkout() {
         postalCode: "",
         phoneNumber: "",
         state: "",
-        email: ""
+        email: "",
+        saveInfo: "",
+        notes: ""
     });
     const productsIds = location.state.map(p => {return {_id: p.product._id,quantity: p.quantity}});
 
-    const handleSubmit = async ()=>{
+    const handleSubmit = async (e)=>{
+        e.preventDefault();
         const url = "http://localhost:4000/api/v1/payments/stripe/create-payment-intent";
         const res = await fetchRequest(url,"POST",{ items: productsIds,shippingDetails })
         if(res.success){
@@ -34,73 +32,209 @@ export default function Checkout() {
         }
     }
     
-
- 
-
-    useEffect(() => {
-        const products = location.state;
-
-        setTotalItems(products.length);
-        const tc = products.reduce((a,b)=> a+(b.product.price * b.quantity),0)
-        setTotalCharges(tc);
-        setShippingCharges(200);
-        setTax(100);
-        // console.log(location.state);
-    }, [location]);
+   
 
     return (
-        <div className="overflow-y-hidden">
-            <div className="flex justify-center items-center 2xl:container 2xl:mx-auto lg:py-16 md:py-12 py-9 px-4 md:px-6 lg:px-20 xl:px-44 ">
-                <div className="flex w-full sm:w-9/12 lg:w-full flex-col lg:flex-row justify-center items-center lg:space-x-10 2xl:space-x-36 space-y-12 lg:space-y-0">
-                    <div className="flex w-full  flex-col justify-start items-start">
-                        <div className>
-                            <p className="text-3xl lg:text-4xl font-semibold leading-7 lg:leading-9 text-gray-800">Check out</p>
-                        </div>
-                        <div className="mt-2">
-                            <a href="/" className="text-base leading-4 underline  hover:text-gray-800 text-gray-600">
-                                Back to my bag
-                            </a>
-                        </div>
-                        <div className="mt-12">
-                            <p className="text-xl font-semibold leading-5 text-gray-800">Shipping Details</p>
-                        </div>
-                        <ShipingDeatilsForm setShippingDetails={setShippingDetails} shippingDetails={shippingDetails}/>
-                        <button onClick={handleSubmit} className="focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 mt-8 text-base font-medium focus:ring-2 focus:ring-ocus:ring-gray-800 leading-4 hover:bg-black py-4 w-full md:w-4/12 lg:w-full text-white bg-gray-800">Proceed to payment</button>
-                        <div className="mt-4 flex justify-start items-center w-full">
-                            <a href="/" className="text-base leading-4 underline focus:outline-none focus:text-gray-500  hover:text-gray-800 text-gray-600">
-                                Back to my bag
-                            </a>
-                        </div>
-                    </div>
-                    <div className="flex flex-col justify-start items-start bg-gray-50 w-full p-6 md:p-14">
-                        <div>
-                            <h1 className="text-2xl font-semibold leading-6 text-gray-800">Order Summary</h1>
-                        </div>
-                        <div className="flex mt-7 flex-col items-end w-full space-y-6">
-                            <div className="flex justify-between w-full items-center">
-                                <p className="text-lg leading-4 text-gray-600">Total items</p>
-                                <p className="text-lg font-semibold leading-4 text-gray-600">{totalItems}</p>
-                            </div>
-                            <div className="flex justify-between w-full items-center">
-                                <p className="text-lg leading-4 text-gray-600">Total Charges</p>
-                                <p className="text-lg font-semibold leading-4 text-gray-600">{currencyFormeter(totalCharges)}</p>
-                            </div>
-                            <div className="flex justify-between w-full items-center">
-                                <p className="text-lg leading-4 text-gray-600">Shipping charges</p>
-                                <p className="text-lg font-semibold leading-4 text-gray-600">{currencyFormeter(shippingCharges)}</p>
-                            </div>
-                            <div className="flex justify-between w-full items-center">
-                                <p className="text-lg leading-4 text-gray-600">Tax </p>
-                                <p className="text-lg font-semibold leading-4 text-gray-600">{currencyFormeter(tax)}</p>
-                            </div>
-                        </div>
-                        <div className="flex justify-between w-full items-center mt-32">
-                            <p className="text-xl font-semibold leading-4 text-gray-800">Amount To Pay </p>
-                            <p className="text-lg font-semibold leading-4 text-gray-800">{currencyFormeter(tax+shippingCharges+totalCharges)}</p>
-                        </div>
-                    </div>
-                </div>
+        <div class="container p-12 mx-auto">
+        <div class="flex flex-col w-full px-0 mx-auto md:flex-row">
+            <div class="flex flex-col md:w-full">
+                <ShippingAddress handleSubmit={handleSubmit} setShippingDetails={setShippingDetails} shippingDetails={shippingDetails}/>
+            </div>
+            <div class="flex flex-col w-full ml-0 lg:ml-12 lg:w-2/5">
+                <OrderSummery/>
             </div>
         </div>
+    </div>
     );
 }
+
+
+
+function ShippingAddress({handleSubmit,shippingDetails,setShippingDetails}){
+
+    const handleChange = (e)=> {
+        setShippingDetails(prev => {
+            return {
+                ...prev,
+                [e.target.name]: e.target.value
+            }
+        })
+    }
+
+    return (
+        <>
+        <h2 class="mb-4 font-bold md:text-xl text-heading ">Shipping Address
+                </h2>
+                <form onSubmit={(e)=>handleSubmit(e)} class="justify-center w-full mx-auto" method="post">
+                    <div class="">
+                        <div class="space-x-0 lg:flex lg:space-x-4">
+                            <div class="w-full lg:w-1/2">
+                                <label for="firstName" class="block mb-3 text-sm font-semibold text-gray-500">First
+                                    Name</label>
+                                <input 
+                                value={shippingDetails.firstName}
+                                onChange={handleChange}
+                                name="firstName" 
+                                type="text" 
+                                placeholder="First Name"
+                                class="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600"/>
+                            </div>
+                            <div class="w-full lg:w-1/2 ">
+                                <label for="firstName" class="block mb-3 text-sm font-semibold text-gray-500">Last
+                                    Name</label>
+                                <input 
+                                 value={shippingDetails.lastName}
+                                onChange={handleChange}
+                                name="LastName" 
+                                type="text" 
+                                placeholder="Last Name"
+                                class="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600"/>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="w-full">
+                                <label for="Email"
+                                    class="block mb-3 text-sm font-semibold text-gray-500">Email</label>
+                                <input 
+                                 value={shippingDetails.email}
+                                onChange={handleChange}
+                                name="email" 
+                                type="text" 
+                                placeholder="Email"
+                                class="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600"/>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="w-full">
+                                <label for="Address"
+                                    class="block mb-3 text-sm font-semibold text-gray-500">Address</label>
+                                <textarea
+                                onChange={handleChange}
+                                value={shippingDetails.address1}
+                                class="w-full px-4 py-3 text-xs border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600"
+                                name="address1" 
+                                cols="20" 
+                                rows="4" 
+                                placeholder="Address"></textarea>
+                            </div>
+                        </div>
+                        <div class="space-x-0 lg:flex lg:space-x-4">
+                            <div class="w-full lg:w-1/2">
+                                <label for="city"
+                                    class="block mb-3 text-sm font-semibold text-gray-500">City</label>
+                                <input 
+                                onChange={handleChange}
+                                value={shippingDetails.city}
+                                name="city" 
+                                type="text" 
+                                placeholder="City"
+                                class="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600"/>
+                            </div>
+                            <div class="w-full lg:w-1/2 ">
+                                <label for="postcode" class="block mb-3 text-sm font-semibold text-gray-500">
+                                    Postcode</label>
+                                <input 
+                                value={shippingDetails.postalCode}
+                                onChange={handleChange}
+                                name="postalCode" 
+                                type="text" 
+                                placeholder="Post Code"
+                                class="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600"/>
+                            </div>
+                        </div>
+                        <div class="flex items-center mt-4">
+                            <label class="flex items-center text-sm group text-heading">
+                                <input 
+                                value={shippingDetails.saveInfo}
+                                onChange={handleChange}
+                                name="saveInfo"
+                                type="checkbox"
+                                class="w-5 h-5 border border-gray-300 rounded focus:outline-none focus:ring-1"/>
+                                <span class="ml-2">Save this information for next time</span></label>
+                        </div>
+                        <div class="relative pt-3 xl:pt-6"><label for="note"
+                                class="block mb-3 text-sm font-semibold text-gray-500"> Notes
+                                (Optional)</label>
+                                <textarea 
+                                value={shippingDetails.notes}
+                                onChange={handleChange}
+                                name="notes"
+                                class="flex items-center w-full px-4 py-3 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-600"
+                                rows="4" 
+                                placeholder="Notes for delivery"></textarea>
+                        </div>
+                        <div class="mt-4">
+                            <button
+                                class="w-full px-6 py-2 text-white bg-brandbg2 hover:bg-brandbg2Hover">Process</button>
+                        </div>
+                    </div>
+                </form>
+        </>
+    )
+}
+
+
+function OrderSummery(){
+
+    return (
+        <>
+          <div class="pt-12 md:pt-0 2xl:ps-4">
+         <h2 class="text-xl font-bold">Order Summary
+                    </h2>
+                    <div class="mt-8">
+                        <div class="flex flex-col space-y-4">
+                            <div class="flex space-x-4">
+                                <div>
+                                    <img src="https://source.unsplash.com/user/erondu/1600x900" alt="product"
+                                        class="w-60"/>
+                                </div>
+                                <div>
+                                    <h2 class="text-xl font-bold">Title</h2>
+                                    <p class="text-sm">Lorem ipsum dolor sit amet, tet</p>
+                                    <span class="text-red-600">Price</span> $20
+                                </div>
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="flex space-x-4">
+                                <div>
+                                    <img src="https://source.unsplash.com/collection/190727/1600x900" alt="product"
+                                        class="w-60"/>
+                                </div>
+                                <div>
+                                    <h2 class="text-xl font-bold">Title</h2>
+                                    <p class="text-sm">Lorem ipsum dolor sit amet, tet</p>
+                                    <span class="text-red-600">Price</span> $20
+                                </div>
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex p-4 mt-4">
+                        <h2 class="text-xl font-bold">ITEMS 2</h2>
+                    </div>
+                    <div
+                        class="flex items-center w-full py-4 text-sm font-semibold border-b border-gray-300 lg:py-5 lg:px-3 text-heading last:border-b-0 last:text-base last:pb-0">
+                        Subtotal<span class="ml-2">$40.00</span></div>
+                    <div
+                        class="flex items-center w-full py-4 text-sm font-semibold border-b border-gray-300 lg:py-5 lg:px-3 text-heading last:border-b-0 last:text-base last:pb-0">
+                        Shipping Tax<span class="ml-2">$10</span></div>
+                    <div
+                        class="flex items-center w-full py-4 text-sm font-semibold border-b border-gray-300 lg:py-5 lg:px-3 text-heading last:border-b-0 last:text-base last:pb-0">
+                        Total<span class="ml-2">$50.00</span></div>
+            </div>            
+        </>
+    )
+}
+
