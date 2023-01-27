@@ -23,7 +23,6 @@ import {getAllOrders} from "./store/ActionCreators/order";
 import PaymentFail from "./pages/PaymentFail";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import Cart from "./pages/Cart";
-import Stripe from "./pages/Checkout/Stripe";
 import ProfilePage from "./pages/Profile";
 import Layout from "./components/Layout";
 
@@ -59,7 +58,6 @@ function App() {
                <Route excet path="payment-fail" element={<Layout item={PaymentFail}/>}/>
                <Route excet path="product/:productId" element={<Layout item={ProductDetail}/>} />
                <Route excet path="checkout" element={<Layout item={Checkout}/>} />
-               <Route excet path="payment/:clientSecret" element={<Layout item={Stripe}/>} />
                <Route excet path="cart" element={<Layout item={Cart}/>} />
             </Route>
 

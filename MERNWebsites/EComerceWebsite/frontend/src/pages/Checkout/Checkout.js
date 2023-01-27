@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import {useLocation,useNavigate } from "react-router-dom";
 import currencyFormeter from "../../utils/formetCurrency";
 import fetchRequest from "../../utils/fatchRequest";
 import {useSelector} from "react-redux";
+import Payment from "./Stripe"; 
 
 export default function Checkout() {
     const cart = useSelector(state => state.cart);
-    const location = useLocation();
-    const navigator = useNavigate();
+    const [productsToBuy, setProductsToBuy] = useState(cart?.products);
     const [shippingDetails, setShippingDetails] = useState({
         firstName: "",
         lastName: "",
@@ -23,14 +22,16 @@ export default function Checkout() {
         saveInfo: "",
         notes: ""
     });
-    const productsIds = location.state.map(p => {return {_id: p.product._id,quantity: p.quantity}});
-
+    const productsIds = productsToBuy.map(p => {return {_id: p.product._id,quantity: p.quantity}});
+    const [displayPaymentPage, setDisplayPaymentPage] = useState(false);
+    const [clientSecret, setClientSecret] = useState("");
     const handleSubmit = async (e)=>{
         e.preventDefault();
         const url = "http://localhost:4000/api/v1/payments/stripe/create-payment-intent";
         const res = await fetchRequest(url,"POST",{ items: productsIds,shippingDetails })
         if(res.success){
-            navigator(`/payment/${res.clientSecret}`,{state: productsIds});
+            setClientSecret(res.clientSecret);
+            setDisplayPaymentPage(true);
         }
     }
     
@@ -39,12 +40,16 @@ export default function Checkout() {
     return (
         <div class="container p-12 mx-auto">
         <div class="flex flex-col w-full px-0 mx-auto md:flex-row">
-            <div class="flex flex-col md:w-full">
+            {
+              displayPaymentPage?  <><Payment clientSecret={clientSecret}/></>:<>
+              <div class="flex flex-col md:w-full">
                 <ShippingAddress handleSubmit={handleSubmit} setShippingDetails={setShippingDetails} shippingDetails={shippingDetails}/>
             </div>
             <div class="flex flex-col w-full ml-0 lg:ml-12 lg:w-2/5">
-                <OrderSummery products={cart.products}/>
+                <OrderSummery products={productsToBuy} setProductsToBuy={setProductsToBuy}/>
             </div>
+              </>
+            }
         </div>
     </div>
     );
@@ -176,7 +181,15 @@ function ShippingAddress({handleSubmit,shippingDetails,setShippingDetails}){
 }
 
 
-function OrderSummery({products}){
+function OrderSummery({products,setProductsToBuy}){
+    const subTotal = products.reduce((a,b)=>a+b.product.price,0);
+    const shippingCharge = 10;
+
+    const handleRemoveProduct =(_id)=> {
+        setProductsToBuy(prev => {
+            return prev.filter(product => product.product._id !== _id);
+        })
+    }
 
     return (
         <>
@@ -200,7 +213,7 @@ function OrderSummery({products}){
                                                 <span class="text-red-600">Price</span> {currencyFormeter(product.product?.price)}
                                             </div>
                                             <div>
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
+                                                <svg onClick={()=>handleRemoveProduct(product.product._id)} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
                                                     viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                         d="M6 18L18 6M6 6l12 12" />
@@ -218,13 +231,13 @@ function OrderSummery({products}){
                     </div>
                     <div
                         class="flex items-center w-full py-4 text-sm font-semibold border-b border-gray-300 lg:py-5 lg:px-3 text-heading last:border-b-0 last:text-base last:pb-0">
-                        Subtotal<span class="ml-2">$40.00</span></div>
+                        Subtotal<span class="ml-2">{currencyFormeter(subTotal)}</span></div>
                     <div
                         class="flex items-center w-full py-4 text-sm font-semibold border-b border-gray-300 lg:py-5 lg:px-3 text-heading last:border-b-0 last:text-base last:pb-0">
-                        Shipping Tax<span class="ml-2">$10</span></div>
+                        Shipping Charge<span class="ml-2">{currencyFormeter(shippingCharge)}</span></div>
                     <div
                         class="flex items-center w-full py-4 text-sm font-semibold border-b border-gray-300 lg:py-5 lg:px-3 text-heading last:border-b-0 last:text-base last:pb-0">
-                        Total<span class="ml-2">$50.00</span></div>
+                        Total<span class="ml-2">{currencyFormeter(subTotal+shippingCharge)}</span></div>
             </div>            
         </>
     )

@@ -10,16 +10,15 @@ import {
 import { useNavigate } from "react-router-dom";
 import {createOrder} from "../../store/ActionCreators/order";
 import {useDispatch} from "react-redux";
-import { useLocation ,useParams} from "react-router-dom";
+import { useLocation} from "react-router-dom";
 
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
 // This is your test publishable API key.
 const stripePromise = loadStripe("pk_test_51K4MH1SCUI6JQcpYq4nzDexHPPsZuBVTMZOPIcijhghtJx4UTggvcwIqBHuu9VWEi9Py4v04bFEXFXpWnFMfdddd00ISTPKSfL");
 
-export default function Chechout() {
+export default function Chechout({clientSecret}) {
   const location = useLocation();
-  const {clientSecret} = useParams();
 
 
   const appearance = {
