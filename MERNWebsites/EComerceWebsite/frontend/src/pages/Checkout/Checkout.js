@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import {useLocation,useNavigate } from "react-router-dom";
-// import currencyFormeter from "../../utils/formetCurrency";
+import currencyFormeter from "../../utils/formetCurrency";
 import fetchRequest from "../../utils/fatchRequest";
+import {useSelector} from "react-redux";
 
 export default function Checkout() {
+    const cart = useSelector(state => state.cart);
     const location = useLocation();
     const navigator = useNavigate();
     const [shippingDetails, setShippingDetails] = useState({
@@ -41,7 +43,7 @@ export default function Checkout() {
                 <ShippingAddress handleSubmit={handleSubmit} setShippingDetails={setShippingDetails} shippingDetails={shippingDetails}/>
             </div>
             <div class="flex flex-col w-full ml-0 lg:ml-12 lg:w-2/5">
-                <OrderSummery/>
+                <OrderSummery products={cart.products}/>
             </div>
         </div>
     </div>
@@ -174,7 +176,7 @@ function ShippingAddress({handleSubmit,shippingDetails,setShippingDetails}){
 }
 
 
-function OrderSummery(){
+function OrderSummery({products}){
 
     return (
         <>
@@ -183,42 +185,32 @@ function OrderSummery(){
                     </h2>
                     <div class="mt-8">
                         <div class="flex flex-col space-y-4">
-                            <div class="flex space-x-4">
-                                <div>
-                                    <img src="https://source.unsplash.com/user/erondu/1600x900" alt="product"
-                                        class="w-60"/>
-                                </div>
-                                <div>
-                                    <h2 class="text-xl font-bold">Title</h2>
-                                    <p class="text-sm">Lorem ipsum dolor sit amet, tet</p>
-                                    <span class="text-red-600">Price</span> $20
-                                </div>
-                                <div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="flex space-x-4">
-                                <div>
-                                    <img src="https://source.unsplash.com/collection/190727/1600x900" alt="product"
-                                        class="w-60"/>
-                                </div>
-                                <div>
-                                    <h2 class="text-xl font-bold">Title</h2>
-                                    <p class="text-sm">Lorem ipsum dolor sit amet, tet</p>
-                                    <span class="text-red-600">Price</span> $20
-                                </div>
-                                <div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                </div>
-                            </div>
+                            {
+                                products.map((product,i) => {
+                                    const desc = product.product?.description;
+                                    return <>
+                                    <div class="flex space-x-4" key={i}>
+                                            <div>
+                                                <img src={product.product?.images[0].url} alt="product"
+                                                    class="w-60"/>
+                                            </div>
+                                            <div>
+                                                <h2 class="text-xl font-bold">{product.product?.name}</h2>
+                                                <p class="text-sm">{desc.slice(0,37)}...</p>
+                                                <span class="text-red-600">Price</span> {currencyFormeter(product.product?.price)}
+                                            </div>
+                                            <div>
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
+                                                    viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M6 18L18 6M6 6l12 12" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </>
+                                })
+                            }
+                            
                         </div>
                     </div>
                     <div class="flex p-4 mt-4">
