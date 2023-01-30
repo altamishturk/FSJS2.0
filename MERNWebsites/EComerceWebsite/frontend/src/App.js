@@ -25,6 +25,7 @@ import PaymentSuccess from "./pages/PaymentSuccess";
 import Cart from "./pages/Cart";
 import ProfilePage from "./pages/Profile";
 import Layout from "./components/Layout";
+import MyOrders from "./pages/MyOrders/MyOrders";
 
 
 function App() {
@@ -59,6 +60,7 @@ function App() {
                <Route excet path="product/:productId" element={<Layout item={ProductDetail}/>} />
                <Route excet path="checkout" element={<Layout item={Checkout}/>} />
                <Route excet path="cart" element={<Layout item={Cart}/>} />
+               <Route excet path="my-orders" element={<Layout item={MyOrders}/>} />
             </Route>
 
 

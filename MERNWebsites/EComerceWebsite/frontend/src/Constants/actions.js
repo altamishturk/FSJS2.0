@@ -30,5 +30,11 @@ export const UPDATE_ORDER = "UPDATE_ORDER";
 export const DELETE_ORDER = "DELETE_ORDER"; 
 export const RESET_ORDERS = "RESET_ORDERS"; 
 
+// MY ORDERS 
+export const RESET_MY_ORDERS = "RESET_MY_ORDERS"; 
+export const GET_MY_ORDERS = "GET_MY_ORDERS"; 
+export const ADD_MY_ORDER = "ADD_MY_ORDER"; 
+export const UPDATE_MY_ORDER = "UPDATE_MY_ORDER"; 
+export const DELETE_MY_ORDER = "DELETE_MY_ORDER"; 
 
 

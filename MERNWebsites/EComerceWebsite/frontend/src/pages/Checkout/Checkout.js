@@ -41,13 +41,13 @@ export default function Checkout() {
         <div class="container p-12 mx-auto">
         <div class="flex flex-col w-full px-0 mx-auto md:flex-row">
             {
-              displayPaymentPage?  <><Payment clientSecret={clientSecret}/></>:<>
+              displayPaymentPage?  <><Payment clientSecret={clientSecret} products={productsToBuy}/></>:<>
               <div class="flex flex-col md:w-full">
                 <ShippingAddress handleSubmit={handleSubmit} setShippingDetails={setShippingDetails} shippingDetails={shippingDetails}/>
-            </div>
-            <div class="flex flex-col w-full ml-0 lg:ml-12 lg:w-2/5">
-                <OrderSummery products={productsToBuy} setProductsToBuy={setProductsToBuy}/>
-            </div>
+               </div>
+               <div class="flex flex-col w-full ml-0 lg:ml-12 lg:w-2/5">
+                   <OrderSummery products={productsToBuy} setProductsToBuy={setProductsToBuy}/>
+               </div>
               </>
             }
         </div>

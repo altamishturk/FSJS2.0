@@ -17,6 +17,20 @@ exports.getAll = bigPromice(async(req, res) => {
   
 });
 
+// Get my orders
+exports.getMyOrders = bigPromice(async(req, res) => {
+
+  const orders = await Order.find({user: req.user._id}).populate("products.product");
+
+  res.status(200).json({
+    success: true,
+    message: "___",
+    orders
+  })
+ 
+  
+});
+
 // Get a single order
 exports.getById = bigPromice(async(req, res) => {
 

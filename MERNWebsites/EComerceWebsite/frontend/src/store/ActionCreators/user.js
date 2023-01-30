@@ -3,6 +3,7 @@ import {GET_ALL_USERS,LOGIN_USER,RESET_CART,UPDATE_USER} from "../../Constants/a
 import {toast} from "react-toastify";
 import {domainName} from "../../Constants/constants.js";
 import {getCart} from "./cart"
+import {getMyOrders} from "./myOrders"
 import setToken from "../../utils/setToken";
 
 export const createUser = (user) => async (dispatch) =>{
@@ -52,6 +53,7 @@ export const getLoggedInUser = () => async (dispatch) =>{
         if(res.success){
             dispatch({type:LOGIN_USER,payload:res.user})
             dispatch(getCart(res.user._id));
+            dispatch(getMyOrders());
         }
         else {
             toast.error(res.message);

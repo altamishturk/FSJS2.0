@@ -3,6 +3,7 @@ import usersReducer from "./user";
 import authReducer from "./auth";
 import cartReducer from "./cart";
 import orderReducer from "./order";
+import myOrders from "./myOrders";
 
 
 const rootReducer = {
@@ -11,6 +12,7 @@ const rootReducer = {
     loggedInUser: authReducer,
     cart: cartReducer,
     orders: orderReducer,
+    myOrders: myOrders
 };
 
 

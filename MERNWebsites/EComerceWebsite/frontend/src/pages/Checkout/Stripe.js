@@ -10,17 +10,15 @@ import {
 import { useNavigate } from "react-router-dom";
 import {createOrder} from "../../store/ActionCreators/order";
 import {useDispatch} from "react-redux";
-import { useLocation} from "react-router-dom";
+import currencyFormeter from "../../utils/formetCurrency";
 
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
 // This is your test publishable API key.
 const stripePromise = loadStripe("pk_test_51K4MH1SCUI6JQcpYq4nzDexHPPsZuBVTMZOPIcijhghtJx4UTggvcwIqBHuu9VWEi9Py4v04bFEXFXpWnFMfdddd00ISTPKSfL");
 
-export default function Chechout({clientSecret}) {
-  const location = useLocation();
-
-
+export default function Chechout({clientSecret,products}) {
+ 
   const appearance = {
     theme: 'stripe',
   };
@@ -46,7 +44,7 @@ export default function Chechout({clientSecret}) {
                 stripe={stripePromise}
                 options={options}
               >
-                <CheckoutForm products={location.state}/>
+                <CheckoutForm products={products}/>
               </Elements>
             )}
           </div>
@@ -67,6 +65,8 @@ function CheckoutForm({products}) {
   const elements = useElements();
   const navigator = useNavigate();
   const dispatch = useDispatch();
+  const subTotal = products.reduce((a,b)=>a+b.product.price,0);
+  const shippingCharge = 10;
 
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState(null);
@@ -131,7 +131,7 @@ function CheckoutForm({products}) {
          onChange={(e) => setEmail(e.target.value)}
        />
       <PaymentElement options={paymentElementOptions}/>
-      <button class="w-full mt-5 p-2 bg-brandbg2 text-white rounded-md ">Pay Now</button>
+      <button class="w-full mt-5 p-2 bg-brandbg2 text-white rounded-md ">Pay Now {currencyFormeter(subTotal+shippingCharge)}</button>
        {/* Show any error or success messages */}
        {message && <div id="payment-message">{message}</div>}
     </form>
