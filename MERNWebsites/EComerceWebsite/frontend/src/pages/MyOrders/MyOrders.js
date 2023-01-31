@@ -1,12 +1,22 @@
-import React from 'react';
-import {useSelector} from "react-redux";
+import React, { useEffect } from 'react';
+import {useDispatch, useSelector} from "react-redux";
 import currencyFormet from "../../utils/formetCurrency";
 import timeSince from "../../utils/timeSince";
+import {getMyOrders} from "../../store/ActionCreators/myOrders"
+import CardSkeleton from "../../components/CardSkeleton";
 
 
 function MyOrders() {
 
-  const myOrders = useSelector(state => state.myOrders);  
+  const dispatch = useDispatch();
+  const myOrders = useSelector(state => state.myOrders); 
+  
+  
+  useEffect(() => {
+    if(!myOrders){
+      dispatch(getMyOrders());
+    }
+  }, [dispatch,myOrders]);
 
 
   return (
@@ -26,6 +36,9 @@ function MyOrders() {
                             return ""
                           }
                         })
+                      }
+                      {
+                        !myOrders && <CardSkeleton/>
                       }
                     </div>
                 </div>
