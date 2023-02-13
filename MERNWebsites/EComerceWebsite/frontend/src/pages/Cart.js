@@ -35,7 +35,7 @@ export default function Cart({show,setShow}) {
         <>
         
                 
-                  <div className="w-full min-h-screen bg-gray-900 fixed top-0 right-0 z-10">
+                  <div className="w-full  min-h-screen bg-gray-900 fixed top-0 right-0 z-10">
                     <div className="w-full min-h-screen bg-black bg-opacity-90 top-0 left-0 overflow-y-auto overflow-x-hidden fixed z-1000" id="chec-div">
                         <div className="w-full absolute z-10 right-0 h-full overflow-x-hidden transform translate-x-0 transition ease-in-out duration-700" id="checkout">
                             <div className="flex md:flex-row flex-col justify-end" id="cart">
