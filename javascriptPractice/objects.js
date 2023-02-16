@@ -35,3 +35,5 @@ const obj3 = {
 // console.log(obj3);
 // obj3.setName().setName().setName();
 // console.log(obj3);
+
+
