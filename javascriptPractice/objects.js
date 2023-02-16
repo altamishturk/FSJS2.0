@@ -8,7 +8,7 @@ Object.defineProperty(obj1, "name",{
 });
 
 Object.defineProperty(obj1, "myname",{
-    value: "myaltamish",
+    value: "myaltamish ",
     enumerable: true
 });
 
