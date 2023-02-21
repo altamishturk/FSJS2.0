@@ -71,5 +71,48 @@
         </form>
       </div>
     </main>
+
+    <script>
+      //  output elements 
+      const outputForm = document.querySelector(".mainLeft form");
+      const outputName = outputForm.querySelector(".enterName");
+      const outputEmail = outputForm.querySelector(".enterMail");
+      const outputMessage = outputForm.querySelector(".enterMessage");
+      const inputReset = outputForm.querySelector("button");
+      
+
+      //  input elements 
+      const inputForm = document.querySelector(".mainRight form");
+      const inputName = inputForm.querySelector(".userName");
+      const inputEmail = inputForm.querySelector(".userEmail");
+      const inputMessage = inputForm.querySelector(".userMessage");
+      const inputSubmit = inputForm.querySelector("button");
+
+
+      function submitInput(params) {
+        outputName.value = inputName.value;
+        outputEmail.value = inputEmail.value;
+        outputMessage.value = inputMessage.value;
+      }
+
+      function reset(params) {
+        outputName.value = "";
+        outputEmail.value = "";
+        outputMessage.value = "";
+        inputName.value = "";
+        inputEmail.value = "";
+        inputMessage.value = "";
+      }
+
+      inputSubmit.addEventListener("click",()=> {
+        submitInput();
+      });
+
+      inputReset.addEventListener("click",()=> {
+        reset();
+      });
+
+      
+    </script>
   </body>
 </html>
