@@ -33,11 +33,25 @@
             <p class="old-price">$169.99</p>
           </div>
           <button class="add-to-cart">
-            <img src="/images/icon-cart.svg" />Add to Cart
+            <img src="./images/icon-cart.svg" />Add to Cart
           </button>
         </div>
       </div>
     </div>
     <span class="title"></span>
+    <script>
+      function firstAssignment(){
+        const title = document.querySelector(".caption .title");
+        title.style.color = "red";
+      }
+      // firstAssignment();
+
+      function secondAssignment(){
+        const addToCartBtn = document.querySelector(".caption .add-to-cart");
+        addToCartBtn.style.backgroundColor = "red";
+      }
+      secondAssignment();
+
+    </script>
   </body>
 </html>

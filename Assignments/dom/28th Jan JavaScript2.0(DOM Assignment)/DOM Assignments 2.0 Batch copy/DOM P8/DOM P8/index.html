@@ -136,5 +136,33 @@
         </div>
       </section>
     </main>
+
+    <script>
+
+      function firstAssignment(){
+        const aside = document.querySelector(".new");
+        aside.style.overflowY = "scroll"
+        const asideps = aside.querySelectorAll("p");
+        asideps.forEach(asidep => {
+          asidep.style.marginBottom = "50px"
+        });
+      }
+      // firstAssignment()
+      
+      function secondAssignment(){
+        document.body.style.background = "none";
+      }
+      // secondAssignment()
+
+      function thirdAssignment(){
+        const navBar = document.querySelector("#navbarTogglerDemo01");
+        const toggleBtn = document.querySelector(".navbar-toggler");
+        toggleBtn.click();
+        navBar.style.display = "block";
+      }
+      thirdAssignment();
+
+
+    </script>
   </body>
 </html>
