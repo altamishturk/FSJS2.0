@@ -58,7 +58,7 @@ function Home() {
           todos && <>
           {
             todos.map(todo => {
-              return <div key={todo} className='flex w-[600px] max-w-[100%] bg-green-100 rounded'>
+              return <div key={todo} className='flex  w-[600px] max-w-[100%] bg-green-100 rounded'>
                           <div className='flex-1  p-2'>{todo}</div>
                           <div><button onClick={()=>handleDeleteTODO(todo)} className='bg-red-500 h-full px-5 rounded text-white'>Delete</button></div>
                       </div>
