@@ -1,4 +1,4 @@
-import React, {  useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import rock from "../assits/rock.svg";
 import paper from "../assits/paper.svg";
 import scissor from "../assits/scissor.svg";
@@ -31,31 +31,32 @@ function Home() {
       if(comp){
         setComputerScore(prev => prev+1);
       }
-
-      if((totalTurns+1) === 10){
-        if((totalTurns+1)/2 < yourScore){
-          setWin("You Win!");
-          winAudio.play();
-        }
-        else if(yourScore === computerScore){
-          setWin("Tie!");
-        }
-        else {
-          loseAudio.play();
-          setWin("Computer Win!");
-        }
-        setTimeout(() => {
-          setWin("");
-          setYourScore(0);
-          setComputerScore(0);
-          setTotalTurns(0);
-        }, 2000);
-      }
-
       setTimeout(() => {
         setClicked(()=>false);
       }, 200);
   }
+
+  useEffect(() => {
+    if(totalTurns === 10){
+      if(totalTurns/2 < yourScore){
+        setWin("You Win!");
+        winAudio.play();
+      }
+      else if(yourScore === computerScore){
+        setWin("Tie!");
+      }
+      else {
+        loseAudio.play();
+        setWin("Computer Win!");
+      }
+      setTimeout(() => {
+        setWin("");
+        setYourScore(0);
+        setComputerScore(0);
+        setTotalTurns(0);
+      }, 2000);
+    }
+  }, [yourScore,computerScore,totalTurns]);
 
   const onSelect = (name)=> {
     if(clicked){
@@ -92,7 +93,7 @@ function Home() {
            )) 
           }
         </div>
-        <div className='text-[25px] flex flex-col md:flex-row px-2 gap-10 justify-center mt-10'><div className='text-cneter'>Your Score: {yourScore}</div><div className='text-cneter'>Computer's Score: {computerScore}</div><div className='text-cneter'>Total Score: {totalTurns}</div></div>
+        <div className='text-[25px] flex flex-col md:flex-row px-2 gap-10 justify-center mt-10'><div className='text-cneter'>Your Score: {yourScore}</div><div className='text-cneter'>Computer's Score: {computerScore}</div><div className='text-cneter'>Remaning Score: {10-totalTurns}</div></div>
         <div className='text-[60px] text-green-500 text-center mt-10'>{win}</div>
       </div>
     </div>
