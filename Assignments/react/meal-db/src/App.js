@@ -132,7 +132,7 @@ function Meal({meal,index}){
       {
         show && <>
           <div className="flex items-center justify-center overflow-y-scroll fixed w-full h-full top-0 left-0 bg-black/80"> 
-            <div className="flex flex-col m-2 mt-[200px]  bg-white border border-gray-200 rounded-lg shadow  md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+            <div className="flex flex-col m-2 mt-[290px]  bg-white border border-gray-200 rounded-lg shadow  md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
                 <div className="w-full h-10 flex justify-end">
                   <img onClick={()=>setShow(false)} src={Cross} alt="cross" className="w-10 h-10 cursor-pointer"/>
                 </div>
