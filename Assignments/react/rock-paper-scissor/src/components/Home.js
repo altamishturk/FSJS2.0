@@ -84,7 +84,7 @@ function Home() {
   return (
     <div className='bg-gray-800 text-white'>
       <div className='container mx-auto min-h-[100vh]'>
-        <h1 className='text-center text-[50px] mb-2'>Rock Paper Scissor Game</h1>
+        <h1 className='text-center text-[50px] mb-2 pt-10'>Rock Paper Scissor Game</h1>
         <p className='text-center mb-10'>Please click one of them to play</p>
         <div className='flex gap-10 justify-center items-center px-2'>
           {

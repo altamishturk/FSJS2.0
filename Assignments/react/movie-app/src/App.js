@@ -21,22 +21,32 @@ function App() {
   }
 
   const getMovie = async () => {
-    setWait(true);
-    const key = "8736c4fe";
-    const res = await fetch(`http://www.omdbapi.com/?apikey=${key}&t=${searchStr}`);
-    const data = await res.json();
-    setWait(false);
-    if(data.Response !== "False"){
-      setMovie(data);
-      setSearchStr("");
-    }
-    else{
-      setMovie(null);
-      setError(data.Error);
+    try {
+      setWait(true);
+      const key = "8736c4fe";
+      const res = await fetch(`https://www.omdbapi.com/?apikey=${key}&t=${searchStr}`);
+      const data = await res.json();
+      
+      if(data.Response !== "False"){
+        setMovie(data);
+      }
+      else{
+        setMovie(null);
+        setError(data.Error);
+        setTimeout(() => {
+          setError("");
+        }, 2000);
+      }
+    } catch (error) {
+      setError("Not Found");
       setTimeout(() => {
         setError("");
       }, 2000);
+    } finally {
+      setWait(false);
+      setSearchStr("");
     }
+    
   }
 
   return (

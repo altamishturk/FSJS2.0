@@ -4,14 +4,25 @@ function App() {
 
   const [searchStr, setSearchStr] = useState("");
   const [pokemon, setPokemon] = useState(null);
-
+  const [error, setError] = useState("");
+  const [wait, setWait] = useState(false);
 
   const getPokemons = async () => {
-    const res = await fetch(`https://pokeapi.co/api/v2/berry/${searchStr}`);
-    const data = await res.json();
-    console.log(data);
-    setPokemon(data);
-    setSearchStr("");
+    try {
+      setWait(true);
+      const res = await fetch(`https://pokeapi.co/api/v2/berry/${searchStr}`);
+      const data = await res.json();
+      setPokemon(data);
+    } catch (error) {
+      setError("Not Found");
+      setPokemon(null);
+      setTimeout(() => {
+        setError("");
+      }, 2000);
+    } finally {
+      setWait(false);
+      setSearchStr("");
+    }
   }
 
   return (
@@ -23,6 +34,12 @@ function App() {
           <button onClick={getPokemons} className="bg-green-500 py-2 px-5">Search</button>
         </div>
 
+       {
+         error && <h1 className="text-[40px] text-center mt-10">{error}</h1>
+       }
+       {
+         wait && <h1 className="text-[40px] text-center mt-10">Please Wait...</h1>
+       }
        {
         pokemon && <div className="mt-10">
                       <p className="text-[30px]"><span className="font-bold text-green-600">Name:</span> <span>{pokemon?.name}</span></p>
@@ -38,10 +55,10 @@ function App() {
                       <p className="text-[30px]"><span className="font-bold text-green-600">Flavors:</span> <span className="">{
                         pokemon?.flavors?.map((f,i) => {
                           if(i === 0){
-                            return <span>{f?.flavor?.name}</span>
+                            return <span key={i}>{f?.flavor?.name}</span>
                           }
                           else{
-                            return <span>,{f?.flavor?.name}</span>
+                            return <span key={i}>,{f?.flavor?.name}</span>
                           }
                         })
                         }</span></p>

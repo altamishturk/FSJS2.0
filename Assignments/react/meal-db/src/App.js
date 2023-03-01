@@ -1,21 +1,37 @@
 import {useState,useEffect} from "react";
+import Cross from "./cross-23.svg";
 
 function App() {
 
   const [meals, setMeals] = useState([]);
   const [categories, setCategories] = useState([]);
   const [mealStr, setMealStr] = useState("");
+  const [error, setError] = useState("");
+  const [wait, setWait] = useState(false);
 
   const getMeal = async () => {
-    const res = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${mealStr}`)
-    const data = await res.json();
-    setMeals(data?.meals);
-    setMealStr("");
-    if(data?.meals === null){
+    try {
+      setWait(true);
+      const res = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${mealStr}`)
+      const data = await res.json();
+      setMeals(data?.meals);
+      if(data?.meals === null){
+        setError("Not Found");
+        setTimeout(() => {
+          setError("");
+        }, 2000);
+      }
+
+    } catch (error) {
+      setError("Not Found");
       setTimeout(() => {
-        setMeals([]);
+        setError("");
       }, 2000);
+    } finally {
+      setWait(false);
+      setMealStr("");
     }
+    
   }
 
   useEffect(() => {
@@ -35,12 +51,14 @@ function App() {
           <button onClick={getMeal} className="bg-green-500 py-2 px-5">Search</button>
         </div>
 
+
+
         <div className="mt-14">
           {
-            meals === null && <h3 className="text-center mb-10 text-[25px]">Unable to find recipe search another meal</h3>
+          error && <h1 className="text-[40px] text-center mb-14">{error}</h1>
           }
           {
-            (meals?.length !== 0 && meals !== null) && <h3 className="text-center mb-10">We have found these meals for you click on the button to show recipe..</h3>
+            wait && <h1 className="text-[40px] text-center mb-14">Please Wait...</h1>
           }
           <div className="flex flex-wrap gap-5 justify-center">
             {
@@ -113,16 +131,19 @@ function Meal({meal,index}){
       </div>
       {
         show && <>
-          <div onClick={()=>setShow(false)} className="flex items-center justify-center fixed w-full h-full top-0 left-0 bg-black/70"> 
-            <div class="flex flex-col m-2  bg-white border border-gray-200 rounded-lg shadow  md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-                <img class="h-[300px]" src={meal["strMealThumb"]} alt="recipe"/>
+          <div className="flex items-center justify-center overflow-y-scroll fixed w-full h-full top-0 left-0 bg-black/80"> 
+            <div className="flex flex-col m-2 mt-[200px]  bg-white border border-gray-200 rounded-lg shadow  md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                <div className="w-full h-10 flex justify-end">
+                  <img onClick={()=>setShow(false)} src={Cross} alt="cross" className="w-10 h-10 cursor-pointer"/>
+                </div>
+                <img className="h-[300px]" src={meal["strMealThumb"]} alt="recipe"/>
                 <div className="flex flex-col justify-between p-4 leading-normal">
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{meal["strMeal"]}</h5>
-                    <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">{meal["strCategory"]}</h5>
+                    <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{meal["strMeal"]}</h5>
+                    <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">{meal["strCategory"]}</h5>
                     <p className="mb-2 text-sm font-bold tracking-tight text-gray-900 dark:text-white">{meal["strArea"]}</p>
-                    <p className="mb-2 text-sm tracking-tight text-gray-900 dark:text-white">{meal["strInstructions"].substring(0,300)}</p>
+                    <p className="mb-2 text-sm tracking-tight text-gray-900 dark:text-white">{meal["strInstructions"]}</p>
                     <p className="text-black font-bold">Details: </p>
-                    <div className="h-[50px] overflow-y-scroll border px-5">
+                    <div className="border px-5">
                       {
                         arr && arr.map(key => (
                           <p className="text-black text-[14px]" key={key}><span className="font-bold">{key}</span>: <span>{copyMeal[key]}</span></p>
