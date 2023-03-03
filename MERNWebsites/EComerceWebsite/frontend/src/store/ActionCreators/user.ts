@@ -3,10 +3,37 @@ import {GET_ALL_USERS,LOGIN_USER,RESET_CART,UPDATE_USER} from "../../Constants/a
 import {toast} from "react-toastify";
 import {domainName} from "../../Constants/constants.js";
 import {getCart} from "./cart"
-import {getMyOrders} from "./myOrders"
+import {getMyOrders} from "./myOrders";
 import setToken from "../../utils/setToken";
 
-export const createUser = (user) => async (dispatch) =>{
+
+
+// types 
+type CreateUser = {
+    name?: string,
+    email?: string,
+    password?: string,
+    adress: string,
+    address: string,
+    phone: string,
+    orders: string,
+    profilePic: string,
+}
+
+type UpdateUser = {
+    _id: string,
+    name: string,
+    email: string,
+    password: string,
+    adress: string,
+    address: string,
+    phone: string,
+    orders: string,
+    profilePic: string,
+}
+
+
+export const createUser = (user: CreateUser) => async (dispatch: any) =>{
 
     try {
         const res = await fatchRequest(`${domainName}/users`,"POST",user);
@@ -27,7 +54,7 @@ export const createUser = (user) => async (dispatch) =>{
 }
 
 
-export const updateUser = (user) => async (dispatch) =>{
+export const updateUser = (user: UpdateUser) => async (dispatch: any) =>{
 
     try {
         const res = await fatchRequest(`${domainName}/users/${user._id}`,"PUT",user)
@@ -45,14 +72,14 @@ export const updateUser = (user) => async (dispatch) =>{
 }
 
 
-export const getLoggedInUser = () => async (dispatch) =>{
+export const getLoggedInUser = () => async (dispatch: any) =>{
 
     try {
         const res = await fatchRequest(`${domainName}/users/loggedIn`,"GET")
         // console.log(res);
         if(res.success){
             dispatch({type:LOGIN_USER,payload:res.user})
-            dispatch(getCart(res.user._id));
+            dispatch(getCart());
             dispatch(getMyOrders());
         }
         else {
@@ -66,7 +93,7 @@ export const getLoggedInUser = () => async (dispatch) =>{
 }
 
 
-export const getAllUsers = () => async (dispatch) =>{
+export const getAllUsers = () => async (dispatch: any) =>{
 
     try {
         const res = await fatchRequest(`${domainName}/users`,"GET")

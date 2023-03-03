@@ -3,15 +3,38 @@ import fatchRequest from "../../utils/fatchRequest";
 import {ADD_PRODUCT, DELETE_PRODUCT, GET_ALL_PRODUCTS, UPDATE_PRODUCT} from "../../Constants/actions";
 import {toast} from "react-toastify";
 
+// types 
+type CreateProduct = {
+    name?: string,
+    price?: number,
+    description: string,
+    images: string,
+    quantity?: number,
+    category?: string,
+    brand: string,
+    discountPercentage: number
+}
 
-export const getOneProduct = async (productId) =>{
+type UpdateProduct = {
+    _id: string,
+    name: string,
+    price: number,
+    description: string,
+    images: string,
+    quantity: number,
+    category: string,
+    brand: string,
+    discountPercentage: number
+}
+
+export const getOneProduct = async (productId: string) =>{
 
     const res = await fatchRequest(`${domainName}/products/${productId}`,"GET")
 
     return res;
 }
 
-export const getAllProducts = () => async (dispatch) =>{
+export const getAllProducts = () => async (dispatch: any) =>{
 
     try {
         
@@ -30,11 +53,9 @@ export const getAllProducts = () => async (dispatch) =>{
     // console.log(res);
 }
 
-export const createProduct = (product) => async (dispatch) =>{
+export const createProduct = (product: CreateProduct) => async (dispatch: any) =>{
 
     try {
-        delete product._id;
-        delete product.__v;
         const res = await fatchRequest(`${domainName}/products`,"POST",product)
         
         // console.log(res);
@@ -54,7 +75,7 @@ export const createProduct = (product) => async (dispatch) =>{
     // console.log(res);
 }
 
-export const updateProduct = (product) => async (dispatch) =>{
+export const updateProduct = (product: UpdateProduct) => async (dispatch: any) =>{
 
     try {
         const res = await fatchRequest(`${domainName}/products/${product._id}`,"PUT",product)
@@ -72,7 +93,7 @@ export const updateProduct = (product) => async (dispatch) =>{
     }
 }
 
-export const deleteProduct = (productId) => async (dispatch) =>{
+export const deleteProduct = (productId: string) => async (dispatch: any) =>{
 
     try {
         const res = await fatchRequest(`${domainName}/products/${productId}`,"DELETE",{})

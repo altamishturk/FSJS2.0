@@ -3,15 +3,28 @@ import fatchRequest from "../../utils/fatchRequest";
 import { ADD_ORDER, DELETE_ORDER, GET_ALL_ORDERS, UPDATE_ORDER } from "../../Constants/actions";
 import {toast} from "react-toastify";
 
+// types 
+type CreateOrder = {
+    user?: string,
+    products: [{product?: string,quantity?: number}],
+    totalPrice?: number,
+    status?: string,
+    shippingDetails: string
+}
 
-export const getOneOrder = async (orderId) =>{
+type UpdateOrder = {
+    _id: string,
+    status?: string
+}
+
+export const getOneOrder = async (orderId: string) =>{
 
     const res = await fatchRequest(`${domainName}/orders/${orderId}`,"GET")
 
     return res;
 }
 
-export const getAllOrders = () => async (dispatch) =>{
+export const getAllOrders = () => async (dispatch: any) =>{
 
     try {
         
@@ -30,7 +43,7 @@ export const getAllOrders = () => async (dispatch) =>{
     // console.log(res);
 }
 
-export const createOrder = (order) => async (dispatch) =>{
+export const createOrder = (order: CreateOrder) => async (dispatch: any) =>{
 
     try {
         const res = await fatchRequest(`${domainName}/orders`,"POST",order)
@@ -52,7 +65,7 @@ export const createOrder = (order) => async (dispatch) =>{
     // console.log(res);
 }
 
-export const updateOrder = (order) => async (dispatch) =>{
+export const updateOrder = (order: UpdateOrder) => async (dispatch: any) =>{
 
     try {
         const res = await fatchRequest(`${domainName}/orders/${order._id}`,"PUT",order)
@@ -70,7 +83,7 @@ export const updateOrder = (order) => async (dispatch) =>{
     }
 }
 
-export const deleteOrder = (orderId) => async (dispatch) =>{
+export const deleteOrder = (orderId: string) => async (dispatch: any) =>{
 
     try {
         const res = await fatchRequest(`${domainName}/orders/${orderId}`,"DELETE",{})

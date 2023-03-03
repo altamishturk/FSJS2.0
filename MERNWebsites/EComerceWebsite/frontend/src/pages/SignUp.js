@@ -1,7 +1,7 @@
 import React,{useEffect, useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
-import {createUser} from "../store/ActionCreators/user";
+import {createUser} from "../store/ActionCreators/user.ts";
 
 function SignUp() {
     const dispatch =  useDispatch();

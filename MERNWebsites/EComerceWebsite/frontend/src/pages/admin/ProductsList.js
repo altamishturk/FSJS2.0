@@ -8,7 +8,7 @@ import {CiEdit} from "react-icons/ci";
 import {BiUserCircle} from "react-icons/bi";
 import { Link } from "react-router-dom";
 import useConfirmAlert from "../../hooks/useConfirmAlert";
-import {deleteProduct} from "../../store/ActionCreators/product";
+import {deleteProduct} from "../../store/ActionCreators/product.ts";
 import Button from "../../components/Button";
 
 function ProductList() {

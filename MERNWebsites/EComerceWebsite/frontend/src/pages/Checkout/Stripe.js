@@ -8,7 +8,7 @@ import {
   useElements
 } from "@stripe/react-stripe-js";
 import { useNavigate } from "react-router-dom";
-import {createOrder} from "../../store/ActionCreators/order";
+import {createOrder} from "../../store/ActionCreators/order.ts";
 import {useDispatch} from "react-redux";
 import currencyFormeter from "../../utils/formetCurrency";
 

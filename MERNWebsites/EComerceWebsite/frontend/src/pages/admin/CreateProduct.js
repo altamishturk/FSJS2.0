@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react';
-import {createProduct,updateProduct} from "../../store/ActionCreators/product";
+import {createProduct,updateProduct} from "../../store/ActionCreators/product.ts";
 import {useDispatch, useSelector} from "react-redux";
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -78,6 +78,8 @@ function CreateProduct() {
             dispatch(updateProduct(temp));
         }
         else {
+            delete temp._id;
+            delete temp.__v;
             dispatch(createProduct(temp));
         }
     }

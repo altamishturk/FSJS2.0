@@ -1,7 +1,7 @@
 import React, { useState,useEffect,useMemo } from "react";
 import ProductReview from "../../components/ProductReview";
 import {useParams} from "react-router-dom";
-import {getOneProduct} from "../../store/ActionCreators/product";
+import {getOneProduct} from "../../store/ActionCreators/product.ts";
 import {useSelector,useDispatch} from "react-redux";
 import {addCartItem, createCart} from "../../store/ActionCreators/cart";
 import {useNavigate} from "react-router-dom";
@@ -12,7 +12,7 @@ import { BsStarHalf} from "react-icons/bs";
 // import MainFeatures from "./MainFeatures";
 import ReviewForm from "./ReviewForm";
 import Modal from "../../components/Modal";
-import { creatteReview, getReviewsByProductId } from "../../store/ActionCreators/review";
+import { creatteReview, getReviewsByProductId } from "../../store/ActionCreators/review.ts";
 import currencyFormeter from "../../utils/formetCurrency";
 
 

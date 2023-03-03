@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from 'react';
-import {getAllUsers} from "../../store/ActionCreators/user";
+import {getAllUsers} from "../../store/ActionCreators/user.ts";
 import {useDispatch,useSelector} from "react-redux";
 import { BiUserCircle } from 'react-icons/bi';
 import Button from '../../components/Button';
