@@ -1,7 +1,7 @@
 import React, {useState } from "react";
 import { Link ,useNavigate} from "react-router-dom";
 import {useSelector,useDispatch} from "react-redux";
-import {logoutUser} from "../store/ActionCreators/auth";
+import {logoutUser} from "../store/ActionCreators/auth.ts";
 import {CgProfile} from "react-icons/cg";
 import {AiOutlineShoppingCart} from "react-icons/ai";
 import {BsCardChecklist} from "react-icons/bs";
