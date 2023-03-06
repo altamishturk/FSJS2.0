@@ -1,5 +1,5 @@
 import "./App.css";
-import Home from "./pages/Home/Home";
+import Home from "./pages/Home/Home.js";
 import AboutUs from "./pages/AboutUs/AboutUs.js";
 import ContactUs from "./pages/ContactUs/ContactUs.js";
 import Checkout from "./pages/Checkout/Checkout";
