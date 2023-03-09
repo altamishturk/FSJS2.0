@@ -3,7 +3,7 @@ import React from 'react'
 function CardSkeleton() {
   return (
     <div>
-        <div className="mx-auto bg-white rounded shadow-lg w-96 rounded-2xl">
+        <div className=" mx-auto bg-white rounded shadow-lg w-96 rounded-2xl">
     <div className="h-48 p-3 overflow-hidden bg-gray-200 animate-pulse">
     </div>
     <div className="p-3 h-">
