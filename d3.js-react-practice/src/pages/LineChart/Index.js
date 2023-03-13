@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import {csv,scaleBand,scaleLinear,max, axisLeft, axisBottom} from "d3";
+import {csv,scaleBand,scaleLinear,max} from "d3";
 
 const url = "https://gist.githubusercontent.com/curran/0ac4077c7fc6390f5dd33bf5c06cb5ff/raw/605c54080c7a93a417a3cea93fd52e7550e76500/UN_Population_2019.csv"
 const width = 600;
 const height = 500;
-const margin = {top: 20,left:20,right:20,bottom:20};
+const margin = {top: 20,left:80,right:50,bottom:120};
 const innerWidth = width - margin.left - margin.right;
 const innerHeight = height - margin.top - margin.bottom;
 
@@ -38,15 +38,23 @@ function Index() {
   return (
     <div className="flex items-center justify-center w-[100vw] h-[100vh]">
       <svg ref={svg} width={width} height={height}>
-        <g transform={`translate(${margin.left+margin.right},0)`}>
+        <g transform={`translate(${margin.left},${margin.top})`}>
           {
-            data.map(d => <rect key={d.country} x={Xscale(d.country)} y={innerHeight-Yscale(d["2020"])} width={Xscale.bandwidth()} height={Yscale(d["2020"])}/>)
+            data.map(d => <rect key={d.country} fill="#A77B06" x={Xscale(d.country)} y={innerHeight-Yscale(d["2020"])} width={Xscale.bandwidth()} height={Yscale(d["2020"])}/>)
           }
           {
             XaxisTicks.map(val => {
               return <g key={val} transform={`translate(${Xscale(val)},0)`}>
-                <line stroke="black" stroke-width = "3" y2={innerHeight} width={1} height={innerHeight}/>
-                <text y={innerHeight+20} transform="rotate(45)">{val}</text>
+                <line stroke="#ccc" strokeWidth = "1" y2={innerHeight} width={1} height={innerHeight}/>
+                <text y={innerHeight+20} transform="translate(230,70)rotate(35)">{val}</text>
+              </g>
+            })
+          }
+          {
+            YaxisTicks.map(val => {
+              return <g key={val} transform={`translate(0,${(innerHeight-Yscale(val))})`}>
+                <line stroke="black" strokeWidth = "1" x1={-10} y1={-1} y2={-1} width={10} height={1}/>
+                <text x={-80}>{val}</text>
               </g>
             })
           }
