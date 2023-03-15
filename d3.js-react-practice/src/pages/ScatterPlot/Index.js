@@ -1,6 +1,6 @@
 import { extent, scaleLinear, scaleTime } from 'd3';
 import React from 'react';
-import Line from './Line';
+import Circles from './Circles';
 import useData from './useData';
 import Xaxis from './Xaxis';
 import Yaxis from './Yaxis';
@@ -37,11 +37,11 @@ function Index() {
         <g transform={`translate(${margin.left},${margin.top})`}>
           <Xaxis xScale={xScale} innerHeight={innerHeight} offSetBottom={offSetBottom}/>
           <Yaxis yScale={yScale} innerWidth={innerWidth} offSetLeft={offSetLeft}/> 
-          <Line xScale={xScale} yScale={yScale} data={data}/>
-           {/* label x axis  */}
-           <text x={(innerWidth/2)-30} y={innerHeight+80} className="text-[25px] font-bold">Time</text>
-            {/* label y axis  */}
-            <text transform={`translate(-${innerWidth/2.2} ,275)rotate(-90)`} y={innerHeight/2} className="text-[25px] font-bold">Temperature</text>
+          <Circles xScale={xScale} yScale={yScale} data={data}/>
+          {/* label x axis  */}
+          <text x={(innerWidth/2)-30} y={innerHeight+80} className="text-[25px] font-bold">Time</text>
+          {/* label y axis  */}
+          <text transform={`translate(-${innerWidth/2.2} ,275)rotate(-90)`} y={innerHeight/2} className="text-[25px] font-bold">Temperature</text>
         </g>
       </svg>
     </div>
