@@ -16,6 +16,7 @@ function Bars({data,Xscale,Yscale,innerHeight}) {
         width={Xscale(d["2020"])}
         height={Yscale.bandwidth()}
         />
+        
       })
     }
     </>
