@@ -5,6 +5,7 @@ import {addCartItem, createCart} from "../../store/ActionCreators/cart";
 import {useNavigate} from "react-router-dom";
 import { toast } from "react-toastify";
 import currencyFormeter from "../../utils/formetCurrency";
+import productImagePlaceholder from "../../assets/woocommerce-placeholder.png";
 
 export default function Product({product}) {
     const navigator = useNavigate();
@@ -44,7 +45,7 @@ export default function Product({product}) {
                         <div className="relative">
                             {
                                 product.images && (
-                                    <img id={`view-product-detail-${product._id}`} onClick={()=>navigator(`/product/${product._id}`)} className="lg:block hidden hover:cursor-pointer w-[300px] h-[300px]" src={product.images[0]?.url} alt="headphones" />
+                                    <img id={`view-product-detail-${product._id}`} onClick={()=>navigator(`/product/${product._id}`)} className="lg:block hidden hover:cursor-pointer w-[300px] h-[300px]" src={product.images[0]?.url || productImagePlaceholder} alt="headphones" />
                                 )
                             }
                    

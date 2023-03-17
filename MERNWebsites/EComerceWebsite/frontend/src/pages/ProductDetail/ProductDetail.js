@@ -8,13 +8,11 @@ import {useNavigate} from "react-router-dom";
 import { toast } from "react-toastify";
 import {AiFillStar,AiOutlineStar} from "react-icons/ai";
 import { BsStarHalf} from "react-icons/bs";
-// import RatingStats from "./RatingStats";
-// import MainFeatures from "./MainFeatures";
 import ReviewForm from "./ReviewForm";
 import Modal from "../../components/Modal";
 import { creatteReview, getReviewsByProductId } from "../../store/ActionCreators/review.ts";
 import currencyFormeter from "../../utils/formetCurrency";
-
+import productImagePlaceHolder from "../../assets/woocommerce-placeholder.png"
 
 
 const Product4 = () => {
@@ -159,27 +157,17 @@ const Product4 = () => {
 
                 {/* <!-- Preview Images Div For larger Screen--> */}
                 <div className=" w-full sm:w-96 md:w-8/12  lg:w-6/12 flex lg:flex-row flex-col lg:gap-8 sm:gap-6 gap-4">
-                    <div className=" w-full lg:w-8/12 bg-gray-100 flex justify-center items-center">
-                            {
-                                product?.images[0]? <img src={product.images[0].url} alt="product" />:""
-                            }
+                    <div className="border w-full lg:w-8/12 bg-gray-100 flex justify-center items-center">
+                             <img src={product?.images[0]?.url || productImagePlaceHolder} alt="product" />
                     </div>
-                    <div className=" w-full lg:w-4/12 grid lg:grid-cols-1 sm:grid-cols-4 grid-cols-2 gap-6">
-                        <div className="bg-gray-100 flex justify-center items-center py-4">
-                            {
-                                product?.images[1]? <img src={product.images[1].url} alt="product" />:""
-                            }
-                        </div>
-                        <div className="bg-gray-100 flex justify-center items-center py-4">
-                            {
-                                product?.images[2]? <img src={product.images[2].url} alt="product" />:""
-                            }
-                        </div>
-                        <div className="bg-gray-100 flex justify-center items-center py-4">
-                            {
-                                product?.images[3]? <img src={product.images[3].url} alt="product" />:""
-                            }
-                        </div>
+                    <div className="w-full lg:w-4/12 grid lg:grid-cols-1 sm:grid-cols-4 grid-cols-2 gap-6">
+                        {
+                            new Array(3).fill(1).map((item,i)=> (
+                                <div key={i} className="h-[100px] bg-gray-100 flex justify-center items-center">
+                                    <img src={product?.images[i+1]?.url || productImagePlaceHolder} alt="product" className="w-[100%] h-[100%]" />
+                                </div>
+                            ))
+                        }
                     </div>
                 </div>
             </div>
