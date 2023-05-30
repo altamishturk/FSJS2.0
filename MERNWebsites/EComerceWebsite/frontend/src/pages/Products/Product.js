@@ -13,7 +13,7 @@ export default function Product({product}) {
           className="hover:cursor-pointer group relative" onClick={()=>navigator(`/product/${product._id}`)}>
             <div  className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75 lg:aspect-none lg:h-80">
               <img
-                src={`${product?.images[1]?.url}`}
+                src={`${product?.images? product?.images[1]?.url:""}`}
                 alt="product"
                 className=" h-full w-full object-cover object-center lg:h-full lg:w-full"
               />

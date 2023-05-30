@@ -3,7 +3,7 @@ import React from "react";
 
 function ContactUs() {
     return (
-        <div className="container mx-auto pt-16">
+        <div className="container mx-auto py-16">
             <div className="lg:flex">
                 <div className="xl:w-2/5 lg:w-2/5 bg-indigo-700 py-16 xl:rounded-bl rounded-tl rounded-tr xl:rounded-tr-none">
                     <div className="xl:w-5/6 xl:px-0 px-8 mx-auto">
@@ -39,7 +39,7 @@ function ContactUs() {
                         </a>
                     </div>
                 </div>
-                <div className="xl:w-3/5 lg:w-3/5 bg-gray-200 h-full pt-5 pb-5 xl:pr-5 xl:pl-0 rounded-tr rounded-br">
+                <div className="xl:w-3/5 lg:w-3/5 bg-gray-200 h-[594px] pt-5 pb-5 xl:pr-5 xl:pl-0 rounded-tr rounded-br">
                     <form id="contact" className="bg-white py-4 px-8 rounded-tr rounded-br">
                         <h1 className="text-4xl text-gray-800 font-extrabold mb-6">Enter Details</h1>
                         <div className="block xl:flex w-full flex-wrap justify-between mb-6">

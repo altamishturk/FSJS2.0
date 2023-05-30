@@ -124,7 +124,7 @@ function CartItem({p,handleRemove}){
     <div className="md:flex items-center mt-14 py-8 border-t border-gray-200">
                                         <div className="w-1/4">
                                             {
-                                                product.images && <img src={product?.images[0].url} alt="product"/>
+                                                product.images && <img src={product?.images[0]?.url} alt="product"/>
                                             }
                                         </div>
                                         <div className="md:pl-3 md:w-3/4">

@@ -45,7 +45,7 @@ function SideBar({show}) {
 	  <aside className={`w-[300px] ${show? "block":"hidden"} bg-brandbg2 text-white`}>
 		<div>
 			<div className="-mx-6 px-6 py-4">
-				<h2 className='text-center'>E-Comm</h2>
+				<h2 className='text-center'>A-Store</h2>
 			</div>
 
 			<div className="mt-8 text-center">
